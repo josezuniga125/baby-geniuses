@@ -23,4 +23,39 @@
 	padding: 2px;
 }
 
+.amount-title {
+	font-size: 24px;
+}
+
+.rectangle {
+	margin: auto;
+	height: 250px;
+	width: 300px;
+	border: 2px;
+	border: 2px solid #000;
+	position: relative;
+}
+
+#clear-btn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: lightgrey;
+}
+
+.btn-save-spend {
+	width: 140px !important;
+}
+
+#notes {
+	width: 220px;
+	margin-left: 10px;
+}
+
+#notes-label {
+	width: 50px;
+	margin-left: 20px;
+	margin-top: 5px;
+	font-size: 18px;
+}
 

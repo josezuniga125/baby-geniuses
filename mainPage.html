@@ -30,6 +30,7 @@ $(document).on('click', "#one-dollar", function(evt)
 
 <body>
 
+<br>
 <div class="container">
   <div class="row">
     <div class="col-md-4" id="firstColumn">
@@ -54,6 +55,28 @@ $(document).on('click', "#one-dollar", function(evt)
         <td id="quarter"><img src="Quarter.png" alt="Quarter" style="height: 100%; width: 100%; object-fit: contain"></td>
       </tr>
       </table>
+
+      <!-- Clickable box -->
+      <div class="amount-title text-center">Amount</div>
+      <div class="rectangle">
+        <button class="btn btn-default btn-sm" id="clear-btn" type="button">Clear</button>
+      </div>
+
+      <br>
+      <!-- Notes -->
+      <form>
+        <div class="row">
+          <label id="notes-label">Notes:</label>
+          <input type="text" class="form-control" id="notes" placeholder="Allowence">
+        </div>
+      </form>
+
+      <br>
+      <!-- Buttons below -->
+      <div class="text-center">
+        <button class="btn btn-success btn-lg btn-save-spend" type="button">Save</button>
+        <button class="btn btn-danger btn-lg btn-save-spend" type="button">Spend</button>
+      </div>
 
       </div>
   </div>

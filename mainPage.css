@@ -1,0 +1,26 @@
+/* Your css code here! */
+
+.table{
+	background-color: white;
+	text-align: center;
+	table-layout: auto;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 10px;
+}
+
+.dollars td{
+	border: none;
+	padding: 2px;
+	width: 150px;
+	height: 75px;
+}
+
+.coins td{
+	border: none;
+	height: 75px;
+	width: 75px;
+	padding: 2px;
+}
+
+

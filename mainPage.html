@@ -39,20 +39,20 @@ $(document).on('click', "#one-dollar", function(evt)
       <!-- Money Table-->
       <table class="table">
       <tr class="dollars">
-        <td id="one-dollar"><img src="One.jpg" alt="One Dollar Bill" style="height: 100%; width: 100%; object-fit: contain"></td>
-        <td id="five-dollar"><img src="Five.jpg" alt="Five Dollar Bill" style="height: 100%; width: 100%; object-fit: contain"></td>
+        <td id="one-dollar"><img src="One.jpg" alt="One Dollar Bill" style="height: auto; width: 100%; object-fit: contain"></td>
+        <td id="five-dollar"><img src="Five.jpg" alt="Five Dollar Bill" style="height: auto; width: 100%; object-fit: contain"></td>
       </tr>
       <tr class="dollars">
-        <td id="ten-dollar"><img src="Ten.jpg" alt="Ten Dollar Bill" style="height: 100%; width: 100%; object-fit: contain"></td>
-        <td id="twenty-dollar"><img src="Twenty.jpg" alt="Twenty Dollar Bill" style="height: 100%; width: 100%; object-fit: contain"></td>
+        <td id="ten-dollar"><img src="Ten.jpg" alt="Ten Dollar Bill" style="height: auto; width: 100%; object-fit: contain"></td>
+        <td id="twenty-dollar"><img src="Twenty.jpg" alt="Twenty Dollar Bill" style="height: auto; width: 100%; object-fit: contain"></td>
       </tr>
       </table>
       <table class="table">
       <tr class="coins">
-        <td id="penny"><img src="Penny.png" alt="Penny" style="height: 100%; width: 100%; object-fit: contain"></td>
-        <td id="nickel"><img src="Nickel.png" alt="Nickel" style="height: 100%; width: 100%; object-fit: contain"></td>
-        <td id="dime"><img src="Dime.png" alt="Dime" style="height: 100%; width: 100%; object-fit: contain"></td>
-        <td id="quarter"><img src="Quarter.png" alt="Quarter" style="height: 100%; width: 100%; object-fit: contain"></td>
+        <td id="penny"><img src="Penny.png" alt="Penny" style="height: auto; width: 100%; object-fit: contain"></td>
+        <td id="nickel"><img src="Nickel.png" alt="Nickel" style="height: auto; width: 100%; object-fit: contain"></td>
+        <td id="dime"><img src="Dime.png" alt="Dime" style="height: auto; width: 100%; object-fit: contain"></td>
+        <td id="quarter"><img src="Quarter.png" alt="Quarter" style="height: auto; width: 100%; object-fit: contain"></td>
       </tr>
       </table>
 
@@ -84,14 +84,23 @@ $(document).on('click', "#one-dollar", function(evt)
     <div class="col-md-4" id="mainColumn">
 
       <!-- Column 2 Code Here -->
-      Pig
+      <img id="thought-cloud" src="ThoughtCloud.png" alt="Thought Cloud">
+      <div class="thought-text text-center">Click me for
+      <br> your wishlist!</div>
+
+      <img id="piggy-image" src="piggy.jpg" alt="Piggy Bank" style="height: auto; width: 100%; object-fit: contain">
+
+      <div class="text-center">
+        <div class="total-title">Total: $10.00</div>
+        <button class="btn btn-default btn-lg" id="undo-btn" type="button">Undo</button>
+      </div>
 
     </div>
 
     <div class="col-md-4" id="lastColumn">
 
       <!-- Column 3 Code Here -->
-      History
+      <div class="history-title text-center">History</div>
 
     </div>
   </div> <!-- class="row" -->

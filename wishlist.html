@@ -1,7 +1,9 @@
 <!doctype html>
 <html>
 <head>
+    <!-- Load style sheets -->
     <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
     <link rel="stylesheet" href="wishlist.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -9,13 +11,32 @@
 </head>
 
 <body>
-<div class="container">
 
-    <div class="container" id="wishlistContainer">
-        <img id="basketball" src="wishlist-icons/basketball.png">
-        <img id="teddyBear" src="wishlist-icons/teddy-bear.png">
+<div class="container">
+  <div class="row">
+
+    <div class="col-md-2" id="firstColumn">
+       <img id="wishListPiggy" src="piggy.jpg" onclick="window.location.href='mainPage.html'">
+       <img id="trashCan" src="trashcan.png">
     </div>
 
+    <div class="col-md-8" id="mainColumn">
+
+      <div class="container" id="wishlistContainer">
+          <img id="basketball" src="wishlist-icons/basketball.png">
+          <img id="teddyBear" src="wishlist-icons/teddy-bear.png">
+          <img id="rollerSkates" src="wishlist-icons/skates.png">
+          <img id="wishListThoughtBubble" src = "wishListThoughtBubble.jpg">
+      </div>
+      <div class="totalAmount"> TOTAL: $10.00 </div>
+
+    </div>
+
+    <div class="col-md-2" id="lastColumn">
+      <img id="wishListPlusSign" src="plusSign.gif" style="height: auto; width: 100%; object-fit: contain">
+    </div>
+
+  </div> <!-- class="row" -->
 </div> <!-- class="container" -->
 
 </body>

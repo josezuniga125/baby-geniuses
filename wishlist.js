@@ -5,12 +5,16 @@ var WISHLIST_WIDTH = 1000; // px
 var ITEM_SIZE = 100;
 
 // Absolute position of basketball item:
-var BASKETBALL_X = 600;
+var BASKETBALL_X = 500;
 var BASKETBALL_Y = 200;
 
 // Absolute position of teddy-bear item:
 var TEDDY_BEAR_X = 200;
 var TEDDY_BEAR_Y = 300;
+
+// Absolute position of roller-skates item:
+var ROLLER_SKATES_X = 400;
+var ROLLER_SKATES_Y = 320;
 
 
 /* Global Variables */
@@ -66,6 +70,10 @@ function getItemFromPosition(x, y) {
       y >= TEDDY_BEAR_Y && y < TEDDY_BEAR_Y + ITEM_SIZE) {
     return "teddyBear";
   }
+  if (x >= ROLLER_SKATES_X && x < ROLLER_SKATES_X + ITEM_SIZE &&
+      y >= ROLLER_SKATES_Y && y < ROLLER_SKATES_Y + ITEM_SIZE) {
+    return "rollerSkates";
+  }
   return "none";
 }
 
@@ -108,6 +116,10 @@ $(document).on('mousedown', "#wishlistContainer", function(evt)
     case "teddyBear":
       initialDragItemX = TEDDY_BEAR_X;
       initialDragItemY = TEDDY_BEAR_Y;
+      return;
+    case "rollerSkates":
+      initialDragItemX = ROLLER_SKATES_X;
+      initialDragItemY = ROLLER_SKATES_Y;
     case "none":
       return;
   }
@@ -170,6 +182,11 @@ $(document).on('mouseup', function(evt)
     });
     return;
   }
+
+  /*
+   * TODO: Include logic for what happens when item is dragged
+   * and released onto either the trash can or shopping cart.
+   */
 
   // Return to initial position
   $("#" + dragItemID).css({

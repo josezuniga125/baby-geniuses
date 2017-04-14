@@ -1,19 +1,19 @@
+
 #wishlistContainer {
   height: 600px;
-  width: 1000px;
+  width: 800px;
   position: absolute;
   left: 0;
   right: 0;
   margin: auto;
   z-index: 1;
-  border: solid;
 }
 
 #basketball {
   height: 100px;
   width: 100px;
   position: absolute;
-  left: 600px;
+  left: 500px;
   top: 200px;
 }
 
@@ -23,5 +23,40 @@
   position: absolute;
   left: 200px;
   top: 300px;
-  z-index: 10;
+}
+
+#rollerSkates {
+  height: 100px;
+  width: 100px;
+  position: absolute;
+  left: 400px;
+  top: 320px;
+}
+
+#trashCan{
+  height: auto;
+  width: 100%;
+  object-fit: contain;
+  margin-top: 300px;
+}
+
+#wishListThoughtBubble {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  z-index: "-1";
+}
+
+#wishListPiggy {
+  height: auto;
+  width: 100%;
+  object-fit: contain;
+}
+
+.totalAmount {
+	font-size: 50px;
+	font-weight: bold;
+	/*text-align: center;*/
+  margin-top: 600px;
+	margin-left: 200px;
 }

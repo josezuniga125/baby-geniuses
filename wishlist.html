@@ -1,8 +1,44 @@
 <!doctype html>
 <html>
 <head>
+
+    <!-- Load style sheets -->
+    <link rel="stylesheet" href=
+      "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.css">
     <link rel="stylesheet" href="wishlist.css">
+
     <script src="wishlist.js"></script>
+
+
+    <div class = "container">
+      <div class="row">
+
+        <div class="col-md-1" id="firstColumn">
+             <img id="wishListPiggy" src = "piggy.jpg" style="height: auto; width: 100%; object-fit: contain" 
+                 onclick= "window.location.href='mainPage.html'">
+
+             <img id="trashCan" src = "trashcan.png" style="height: auto; width: 100%; object-fit: contain">
+
+        </div>
+
+        <div class="col-md-10" id="mainColumn">
+
+          <div class = "wishBubble">
+            <img id="wishListThoughtBubble" src = "wishListThoughtBubble.jpg" style="height: 70%; width: 80%; object-fit: contain">
+          </div>
+
+          <div class="totalAmount"> TOTAL: $ 10.00
+          </div>
+
+        </div>
+
+        <div class="col-md-1" id="lastColumn">
+          <img id="wishListPlusSign" src = "plusSign.gif" style="height: auto; width: 100%; object-fit: contain">
+        </div>
+
+      </div>
+    </div>
+
 </head>
 <body>
 </body>

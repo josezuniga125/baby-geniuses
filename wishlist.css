@@ -1,0 +1,27 @@
+#wishlistContainer {
+  height: 600px;
+  width: 1000px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: 1;
+  border: solid;
+}
+
+#basketball {
+  height: 100px;
+  width: 100px;
+  position: absolute;
+  left: 600px;
+  top: 200px;
+}
+
+#teddyBear {
+  height: 100px;
+  width: 100px;
+  position: absolute;
+  left: 200px;
+  top: 300px;
+  z-index: 10;
+}

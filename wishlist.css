@@ -1,13 +1,40 @@
 
-.totalAmount {
-	font-size: 50px;
-	font-weight: bold;
-	/*text-align: center;*/
-	margin-left:200px;
+#wishlistContainer {
+  height: 600px;
+  width: 800px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: 1;
 }
 
+#basketball {
+  height: 100px;
+  width: 100px;
+  position: absolute;
+  left: 500px;
+  top: 200px;
+}
+
+#teddyBear {
+  height: 100px;
+  width: 100px;
+  position: absolute;
+  left: 200px;
+  top: 300px;
+}
+
+#rollerSkates {
+  height: 100px;
+  width: 100px;
+  position: absolute;
+  left: 400px;
+  top: 320px;
+}
 
 #trashCan{
+<<<<<<< HEAD
     margin-top:500px;
 }
 
@@ -83,4 +110,31 @@
     background-color: pink;
     color: white;
     text-align: center;
+=======
+  height: auto;
+  width: 100%;
+  object-fit: contain;
+  margin-top: 300px;
+}
+
+#wishListThoughtBubble {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+  z-index: "-1";
+}
+
+#wishListPiggy {
+  height: auto;
+  width: 100%;
+  object-fit: contain;
+}
+
+.totalAmount {
+	font-size: 50px;
+	font-weight: bold;
+	/*text-align: center;*/
+  margin-top: 600px;
+	margin-left: 200px;
+>>>>>>> 8dab35c404baa3f8863ddaac8cddfd0b76af185d
 }

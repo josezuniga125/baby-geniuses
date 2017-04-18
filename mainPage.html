@@ -118,6 +118,15 @@ $(document).on('click', "#spend-btn", function(evt)
   total-=amount;
   document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);
   document.getElementById("undo-btn").disabled = false;
+
+  historyID += 1;
+  var inputText = $("#notes");
+  var notes = $(inputText).val();
+
+  var history_item = "<div class='history-item' id='item_" + historyID + "' style='color: green'><div class='history-text'> + $" + amount + " " + notes + "</div><button class='btn btn-default btn-sm undo-history-btn' id='" + historyID + "' type='button'>X</button></div>";
+  $('#history-items').prepend(history_item);
+
+  $("#notes").val("");
 });
 
 $(document).on('click', "#clear-btn", function(evt)

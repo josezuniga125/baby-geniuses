@@ -36,12 +36,25 @@
 	position: relative;
 }
 
+.running-total {
+	position: absolute;
+	bottom: 0;
+    left: 0;
+    z-index: 100;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: darkgrey;
+    margin: 5px;
+
+}
+
 #clear-btn {
     position: absolute;
     bottom: 0;
     right: 0;
     background-color: darkgrey;
     z-index: 10000;
+    font-weight: bold;
 }
 
 .btn-save-spend {
@@ -118,4 +131,3 @@
     border-radius: 25px;
     background-color: white;
 }
->>>>>>> 783898ea1b91e2e8d6fa90894ea34e838449708a

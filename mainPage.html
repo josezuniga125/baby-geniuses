@@ -19,10 +19,176 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
 <script>
-$(document).on('click', "#one-dollar", function(evt)
+
+var previousTotal = 0.0;
+var total = 10.0;
+var runningTotal = 0.0;
+var historyID = 0;
+
+var dragged;
+
+
+/* events fired on the draggable target */
+document.addEventListener("drag", function( event ) {
+  event.dataTransfer.setData("text", event.currentTarget.id);
+  console.log(event.currentTarget.id);
+}, false);
+
+document.addEventListener("dragstart", function( event ) {
+    // store a ref. on the dragged elem
+    dragged = event.target;
+    clone = event.target.cloneNode(true);
+    // make it half transparent
+    event.target.style.opacity = .5;
+    console.log(event.target.id);
+
+}, false);
+
+document.addEventListener("dragend", function( event ) {
+    // reset the transparency
+    event.target.style.opacity = "";
+}, false);
+
+/* events fired on the drop targets */
+document.addEventListener("dragover", function( event ) {
+    // prevent default to allow drop
+    event.preventDefault();
+}, false);
+
+document.addEventListener("dragenter", function( event ) {
+    // highlight potential drop target when the draggable element enters it
+    if ( event.target.className == "dropzone" ) {
+        event.target.style.background = "lightgrey";
+    }
+
+}, false);
+
+document.addEventListener("dragleave", function( event ) {
+    // reset background of potential drop target when the draggable element leaves it
+    if ( event.target.className == "dropzone" ) {
+        event.target.style.background = "";
+    }
+
+}, false);
+
+document.addEventListener("drop", function( event ) {
+    // prevent default action (open as link for some elements)
+    event.preventDefault();
+    // move dragged elem to the selected drop target
+    if ( event.target.className == "dropzone" ) {
+        event.target.style.background = "";
+        clone.setAttribute('max-width', '10%');
+        clone.setAttribute('height', '10%');
+        event.target.appendChild(clone);
+
+        var id = event.dataTransfer.getData("Text");
+        console.log(id);
+
+        if (clone.id == "one-dollar") {
+          runningTotal += 1;
+          document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
+        } else if (clone.id == "five-dollar") {
+          runningTotal += 5;
+          document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
+        } else if (clone.id == "ten-dollar") {
+          runningTotal += 10;
+          document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
+        } else if (clone.id == "twenty-dollar") {
+          runningTotal += 20;
+          document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
+        } else if (clone.id == "penny") {
+          runningTotal += 0.01;
+          document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
+        } else if (clone.id == "nickel") {
+          runningTotal += 0.05;
+          document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
+        } else if (clone.id == "dime") {
+          runningTotal += 0.1;
+          document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
+        } else if (clone.id == "quarter") {
+          runningTotal += 0.25;
+          document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
+        }
+
+
+    }
+}, false);
+
+
+$(document).on('click', "#undo-btn", function(evt)
 {
-  console.log("one Dollar");
+  total=previousTotal;
+  previousTotal=0;
+  document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);
+  document.getElementById("undo-btn").disabled = true;
+
+  // Update history
+  var ID = "#item_" + historyID;
+  $(ID).remove();
+
 });
+
+$(document).on('click', "#save-btn", function(evt)
+{
+  // Update total
+  amount = 5.00;
+  previousTotal=total;
+  total+=amount;
+  document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);
+  document.getElementById("undo-btn").disabled = false;
+
+  runningTotal = 0;
+  document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
+
+  // Add item to history
+  historyID += 1;
+  var inputText = $("#notes");
+  var notes = $(inputText).val();
+
+  var history_item = "<div class='history-item' id='item_" + historyID + "' style='color: green'><div class='history-text'> + $" + amount + " " + notes + "</div><button class='btn btn-default btn-sm undo-history-btn' id='" + historyID + "' type='button'>X</button></div>";
+  $('#history-items').prepend(history_item);
+
+  $("#notes").val("");
+});
+
+$(document).on('click', "#spend-btn", function(evt)
+{
+  // Update total
+  amount = 5.00;
+  previousTotal=total;
+  total-=amount;
+  document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);
+  document.getElementById("undo-btn").disabled = false;
+
+  runningTotal = 0;
+  document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
+   // Add item to history
+  historyID += 1;
+  var inputText = $("#notes");
+  var notes = $(inputText).val();
+
+  var history_item = "<div class='history-item' id='item_" + historyID + "' style='color: red'><div class='history-text'> - $" + amount + " " + notes + "</div><button class='btn btn-default btn-sm undo-history-btn' id='" + historyID + "' type='button'>X</button></div>";
+  $('#history-items').prepend(history_item);
+
+  $("#notes").val("");
+});
+
+$(document).on('click', "#clear-btn", function(evt)
+{
+  $("#dropzone").remove(".coins");
+  console.log("clear pressed");
+
+  runningTotal = 0;
+  document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
+
+});
+
+$(document).on('click', ".undo-history-btn", function(evt)
+{
+  var ID = "#item_" + this.id;
+  $(ID).remove();
+});
+
 </script>
 
 
@@ -39,26 +205,27 @@ $(document).on('click', "#one-dollar", function(evt)
       <!-- Money Table-->
       <table class="table">
       <tr class="dollars">
-        <td id="one-dollar"><img src="One.jpg" alt="One Dollar Bill" style="height: auto; width: 100%; object-fit: contain"></td>
-        <td id="five-dollar"><img src="Five.jpg" alt="Five Dollar Bill" style="height: auto; width: 100%; object-fit: contain"></td>
+        <td draggable="true"><img id="one-dollar" src="One.jpg" alt="One Dollar Bill" style="height: auto; width: 100%; object-fit: contain"></td>
+        <td draggable="true"><img id="five-dollar" src="Five.jpg" alt="Five Dollar Bill" style="height: auto; width: 100%; object-fit: contain"></td>
       </tr>
       <tr class="dollars">
-        <td id="ten-dollar"><img src="Ten.jpg" alt="Ten Dollar Bill" style="height: auto; width: 100%; object-fit: contain"></td>
-        <td id="twenty-dollar"><img src="Twenty.jpg" alt="Twenty Dollar Bill" style="height: auto; width: 100%; object-fit: contain"></td>
+        <td draggable="true"><img id="ten-dollar" src="Ten.jpg" alt="Ten Dollar Bill" style="height: auto; width: 100%; object-fit: contain"></td>
+        <td draggable="true"><img id="twenty-dollar" src="Twenty.jpg" alt="Twenty Dollar Bill" style="height: auto; width: 100%; object-fit: contain"></td>
       </tr>
       </table>
       <table class="table">
       <tr class="coins">
-        <td id="penny"><img src="Penny.png" alt="Penny" style="height: auto; width: 100%; object-fit: contain"></td>
-        <td id="nickel"><img src="Nickel.png" alt="Nickel" style="height: auto; width: 100%; object-fit: contain"></td>
-        <td id="dime"><img src="Dime.png" alt="Dime" style="height: auto; width: 100%; object-fit: contain"></td>
-        <td id="quarter"><img src="Quarter.png" alt="Quarter" style="height: auto; width: 100%; object-fit: contain"></td>
+        <td draggable="true"><img id="penny" src="Penny.png" alt="Penny" style="height: auto; width: 100%; object-fit: contain"></td>
+        <td draggable="true"><img id="nickel" src="Nickel.png" alt="Nickel" style="height: auto; width: 100%; object-fit: contain"></td>
+        <td draggable="true"><img id="dime" src="Dime.png" alt="Dime" style="height: auto; width: 100%; object-fit: contain"></td>
+        <td draggable="true"><img id="quarter" src="Quarter.png" alt="Quarter" style="height: auto; width: 100%; object-fit: contain"></td>
       </tr>
       </table>
 
       <!-- Clickable box -->
       <div class="amount-title text-center">Amount</div>
-      <div class="rectangle">
+      <div class="dropzone">
+        <div class="running-total" id="running-total">$<script type="text/javascript">document.write(runningTotal.toFixed(2));</script></div>
         <button class="btn btn-default btn-sm" id="clear-btn" type="button">Clear</button>
       </div>
 
@@ -67,15 +234,15 @@ $(document).on('click', "#one-dollar", function(evt)
       <form>
         <div class="row">
           <label id="notes-label">Notes:</label>
-          <input type="text" class="form-control" id="notes" placeholder="Allowence">
+          <input type="text" class="form-control" id="notes" placeholder="Allowance">
         </div>
       </form>
 
       <br>
       <!-- Buttons below -->
       <div class="text-center">
-        <button class="btn btn-success btn-lg btn-save-spend" type="button">Save</button>
-        <button class="btn btn-danger btn-lg btn-save-spend" type="button">Spend</button>
+        <button class="btn btn-success btn-lg btn-save-spend" id="save-btn" type="button">Save</button>
+        <button class="btn btn-danger btn-lg btn-save-spend" id="spend-btn" type="button">Spend</button>
       </div>
 
       </div>
@@ -84,14 +251,13 @@ $(document).on('click', "#one-dollar", function(evt)
     <div class="col-md-4" id="mainColumn">
 
       <!-- Column 2 Code Here -->
-      <img id="thought-cloud" src="ThoughtCloud.png" alt="Thought Cloud">
-      <div class="thought-text text-center">Click me for
-      <br> your wishlist!</div>
+      <img id="thought-cloud" src="ThoughtCloud.png" alt="Thought Cloud" onclick="window.location.href='wishlist.html'">
+      <div class="thought-text text-center" onclick="window.location.href='wishlist.html'">Wishlist</div>
 
       <img id="piggy-image" src="piggy.jpg" alt="Piggy Bank" style="height: auto; width: 100%; object-fit: contain">
 
       <div class="text-center">
-        <div class="total-title">Total: $10.00</div>
+        <div class="total-title" id="total">Total: $<script type="text/javascript">document.write(total.toFixed(2));</script></div>
         <button class="btn btn-default btn-lg" id="undo-btn" type="button">Undo</button>
       </div>
 
@@ -101,6 +267,10 @@ $(document).on('click', "#one-dollar", function(evt)
 
       <!-- Column 3 Code Here -->
       <div class="history-title text-center">History</div>
+
+      <div id="history-items">
+
+      </div>
 
     </div>
   </div> <!-- class="row" -->

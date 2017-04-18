@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="wishlist.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <!-- <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> -->
+    <!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script> -->
+
     <script src="wishlist.js"></script>
 </head>
 
@@ -35,9 +38,8 @@
     </div>
 
     <div class="col-md-2" id="lastColumn">
-
       <img id="wishListPlusSign" src = "plusSign.gif" style="height: auto; width: 100%; object-fit: contain">
-
+      <!-- Code for drop down box for adding item -->
       <div id="myModal" class="modal">
       <!-- Modal content -->
         <div class="modal-content">
@@ -60,14 +62,14 @@
 
 </body>
 
+
+
     <script>
         // Get the modal
         var modal = document.getElementById('myModal');
-        console.log(modal);
 
         // Get the button that opens the modal
         var btn = document.getElementById("wishListPlusSign");
-        console.log(btn);
 
         // Get the <span> element that closes the modal
         var span = document.getElementsByClassName("close")[0];
@@ -89,5 +91,7 @@
             }
         }
     </script>
+
+
 
 </html>

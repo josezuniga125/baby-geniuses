@@ -34,8 +34,7 @@
 }
 
 #trashCan{
-<<<<<<< HEAD
-    margin-top:500px;
+    margin-top:350px;
 }
 
 .modal {
@@ -110,7 +109,6 @@
     background-color: pink;
     color: white;
     text-align: center;
-=======
   height: auto;
   width: 100%;
   object-fit: contain;
@@ -136,5 +134,4 @@
 	/*text-align: center;*/
   margin-top: 600px;
 	margin-left: 200px;
->>>>>>> 8dab35c404baa3f8863ddaac8cddfd0b76af185d
 }

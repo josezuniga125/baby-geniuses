@@ -131,6 +131,7 @@ $(document).on('mousemove', function(evt)
 {
   evt.preventDefault();
 
+
   if (isDragging) {
 
     // Reference the wishlist container
@@ -139,6 +140,8 @@ $(document).on('mousemove', function(evt)
     var mousePosition = getMousePosition(container, evt);
     var x = mousePosition.x;
     var y = mousePosition.y;
+
+    console.log(x, y);
 
     var deltaX = x - dragItemX;
     var deltaY = y - dragItemY;
@@ -157,6 +160,7 @@ $(document).on('mousemove', function(evt)
   }
 });
 
+var overTrashCan = false;
 // mouseup anywhere, not necessarily in wishlist container:
 $(document).on('mouseup', function(evt)
 {
@@ -164,6 +168,8 @@ $(document).on('mouseup', function(evt)
   isDragging = false;
 
   $("#" + dragItemID).css({zIndex: "1"});
+  
+
 
   // Reference the wishlist container
   var container = document.getElementById("wishlistContainer");
@@ -172,8 +178,27 @@ $(document).on('mouseup', function(evt)
   var x = mousePosition.x;
   var y = mousePosition.y;
 
+  console.log(x);
+  console.log(y);
+
+
+  
+  $("#trashCan").droppable({
+    over: function(event, ui) {
+      console.log("check");
+      overTrashCan = true;
+      $("#" + dragItemID).remove();
+      console.log("im in mouseover1");
+    }
+  });
+  return;
+
+
+
   if (x < 0 || x > WISHLIST_WIDTH ||
-      y < 0 || y > WISHLIST_HEIGHT) {
+      y < 0 || y > WISHLIST_HEIGHT &&
+      !(overTrashCan)) {
+    console.log("hey");
 
     // Return to initial position
     $("#" + dragItemID).css({
@@ -184,15 +209,24 @@ $(document).on('mouseup', function(evt)
     return;
   }
 
+
+
+
+
+
   /*
    * TODO: Include logic for what happens when item is dragged
    * and released onto either the trash can or shopping cart.
    */
 
   // Return to initial position
+  if (!(overTrashCan)){
   $("#" + dragItemID).css({
     left: initialDragItemX,
     top: initialDragItemY,
     zIndex: "1"
   });
+}
+
+overTrashCan = false;
 });

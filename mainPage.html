@@ -88,6 +88,11 @@ $(document).on('click', "#undo-btn", function(evt)
   previousTotal=0;
   document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);
   document.getElementById("undo-btn").disabled = true;
+
+  // Update history
+  var ID = "#item_" + historyID;
+  $(ID).remove();
+
 });
 
 $(document).on('click', "#save-btn", function(evt)

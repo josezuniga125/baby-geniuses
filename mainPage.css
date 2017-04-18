@@ -13,12 +13,14 @@
 	border: none;
 	padding: 2px;
 	width: 150px;
+	size: absolute;
 }
 
 .coins td{
 	border: none;
 	width: 75px;
 	padding: 2px;
+	size: absolute;
 }
 
 .amount-title {
@@ -39,6 +41,7 @@
     bottom: 0;
     right: 0;
     background-color: darkgrey;
+    z-index: 10000;
 }
 
 .btn-save-spend {
@@ -88,5 +91,6 @@
 	font-size: 50px;
 	font-weight: bolder;
 }
+
 
 

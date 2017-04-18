@@ -25,6 +25,7 @@ var total = 10.0;
 
 var dragged;
 
+
 /* events fired on the draggable target */
 document.addEventListener("drag", function( event ) {
 }, false);
@@ -32,6 +33,7 @@ document.addEventListener("drag", function( event ) {
 document.addEventListener("dragstart", function( event ) {
     // store a ref. on the dragged elem
     dragged = event.target;
+    clone = event.target.cloneNode(true);
     // make it half transparent
     //event.target.style.opacity = .5;
 
@@ -70,18 +72,21 @@ document.addEventListener("drop", function( event ) {
     // move dragged elem to the selected drop target
     if ( event.target.className == "dropzone" ) {
         event.target.style.background = "";
-        //dragged.parentNode.removeChild( dragged );
-        event.target.appendChild(dragged);
+        clone.setAttribute('width', '100%');
+        clone.setAttribute('height', '100%');
+        event.target.appendChild(clone);
+
 
     }
-  
 }, false);
+
 
 $(document).on('click', "#undo-btn", function(evt)
 {
   total=previousTotal;
   previousTotal=0;
   document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);
+  document.getElementById("undo-btn").disabled = true;
 });
 
 $(document).on('click', "#save-btn", function(evt)
@@ -89,6 +94,7 @@ $(document).on('click', "#save-btn", function(evt)
   previousTotal=total;
   total+=5;
   document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);
+  document.getElementById("undo-btn").disabled = false;
 });
 
 $(document).on('click', "#spend-btn", function(evt)
@@ -96,6 +102,13 @@ $(document).on('click', "#spend-btn", function(evt)
   previousTotal=total;
   total-=5;
   document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);
+  document.getElementById("undo-btn").disabled = false;
+});
+
+$(document).on('click', "#clear-btn", function(evt)
+{
+  $("#dropzone").remove(".coins");
+  console.log("clear pressed");
 });
 
 </script>

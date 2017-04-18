@@ -20,6 +20,9 @@
 
 <script>
 
+var previousTotal = 0.0;
+var total = 10.0;
+
 var dragged;
 
 /* events fired on the draggable target */
@@ -67,12 +70,33 @@ document.addEventListener("drop", function( event ) {
     // move dragged elem to the selected drop target
     if ( event.target.className == "dropzone" ) {
         event.target.style.background = "";
-        dragged.parentNode.removeChild( dragged );
+        //dragged.parentNode.removeChild( dragged );
+        event.target.appendChild(dragged);
+
     }
   
 }, false);
 
+$(document).on('click', "#undo-btn", function(evt)
+{
+  total=previousTotal;
+  previousTotal=0;
+  document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);
+});
 
+$(document).on('click', "#save-btn", function(evt)
+{
+  previousTotal=total;
+  total+=5;
+  document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);
+});
+
+$(document).on('click', "#spend-btn", function(evt)
+{
+  previousTotal=total;
+  total-=5;
+  document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);
+});
 
 </script>
 
@@ -125,8 +149,8 @@ document.addEventListener("drop", function( event ) {
       <br>
       <!-- Buttons below -->
       <div class="text-center">
-        <button class="btn btn-success btn-lg btn-save-spend" type="button">Save</button>
-        <button class="btn btn-danger btn-lg btn-save-spend" type="button">Spend</button>
+        <button class="btn btn-success btn-lg btn-save-spend" id="save-btn" type="button">Save</button>
+        <button class="btn btn-danger btn-lg btn-save-spend" id="spend-btn" type="button">Spend</button>
       </div>
 
       </div>
@@ -141,7 +165,7 @@ document.addEventListener("drop", function( event ) {
       <img id="piggy-image" src="piggy.jpg" alt="Piggy Bank" style="height: auto; width: 100%; object-fit: contain">
 
       <div class="text-center">
-        <div class="total-title">Total: $10.00</div>
+        <div class="total-title" id="total">Total: $<script type="text/javascript">document.write(total.toFixed(2));</script></div>
         <button class="btn btn-default btn-lg" id="undo-btn" type="button">Undo</button>
       </div>
 

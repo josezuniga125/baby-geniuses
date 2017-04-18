@@ -21,7 +21,7 @@
 <script>
 
 var previousTotal = 0.0;
-var total = 10.0;
+var total = 0.0;
 var runningTotal = 0.0;
 var historyID = 0;
 
@@ -31,7 +31,6 @@ var dragged;
 /* events fired on the draggable target */
 document.addEventListener("drag", function( event ) {
   event.dataTransfer.setData("text", event.currentTarget.id);
-  console.log(event.currentTarget.id);
 }, false);
 
 document.addEventListener("dragstart", function( event ) {
@@ -47,6 +46,7 @@ document.addEventListener("dragstart", function( event ) {
 document.addEventListener("dragend", function( event ) {
     // reset the transparency
     event.target.style.opacity = "";
+    console.log("DONE");
 }, false);
 
 /* events fired on the drop targets */
@@ -77,37 +77,48 @@ document.addEventListener("drop", function( event ) {
     // move dragged elem to the selected drop target
     if ( event.target.className == "dropzone" ) {
         event.target.style.background = "";
-        clone.setAttribute('max-width', '10%');
-        clone.setAttribute('height', '10%');
-        event.target.appendChild(clone);
+
+        var element = document.getElementById("dragged-money");
+        element.appendChild(clone);
+
+
+        //event.target.appendChild(clone);
 
         var id = event.dataTransfer.getData("Text");
-        console.log(id);
 
         if (clone.id == "one-dollar") {
           runningTotal += 1;
           document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
+          clone.setAttribute('width', '140px');
+
         } else if (clone.id == "five-dollar") {
           runningTotal += 5;
           document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
+          clone.setAttribute('width', '140px');
         } else if (clone.id == "ten-dollar") {
           runningTotal += 10;
           document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
+          clone.setAttribute('width', '140px');
         } else if (clone.id == "twenty-dollar") {
           runningTotal += 20;
           document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
+          clone.setAttribute('width', '140px');
         } else if (clone.id == "penny") {
           runningTotal += 0.01;
           document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
+          clone.setAttribute('width', '50px');
         } else if (clone.id == "nickel") {
           runningTotal += 0.05;
           document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
+          clone.setAttribute('width', '50px');
         } else if (clone.id == "dime") {
           runningTotal += 0.1;
           document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
+          clone.setAttribute('width', '50px');
         } else if (clone.id == "quarter") {
           runningTotal += 0.25;
           document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
+          clone.setAttribute('width', '50px');
         }
 
 
@@ -130,47 +141,58 @@ $(document).on('click', "#undo-btn", function(evt)
 
 $(document).on('click', "#save-btn", function(evt)
 {
-  // Update total
-  amount = 5.00;
-  previousTotal=total;
-  total+=amount;
-  document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);
-  document.getElementById("undo-btn").disabled = false;
+  if (runningTotal > 0) {
+    // Update total
+    amount = runningTotal;
+    previousTotal=total;
+    total+=amount;
+    document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);
+    document.getElementById("undo-btn").disabled = false;
 
-  runningTotal = 0;
-  document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
+    runningTotal = 0;
+    document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
 
-  // Add item to history
-  historyID += 1;
-  var inputText = $("#notes");
-  var notes = $(inputText).val();
+    // Add item to history
+    historyID += 1;
+    var inputText = $("#notes");
+    var notes = $(inputText).val();
 
-  var history_item = "<div class='history-item' id='item_" + historyID + "' style='color: green'><div class='history-text'> + $" + amount + " " + notes + "</div><button class='btn btn-default btn-sm undo-history-btn' id='" + historyID + "' type='button'>X</button></div>";
-  $('#history-items').prepend(history_item);
+    var history_item = "<div class='history-item' id='item_" + historyID + "' style='color: green'><div class='history-text'> + $" + amount + " " + notes + "</div><button class='btn btn-default btn-sm undo-history-btn' id='" + historyID + "' type='button'>X</button></div>";
+    $('#history-items').prepend(history_item);
 
-  $("#notes").val("");
+    $("#notes").val("");
+    $("#dragged-money").remove();
+    $(".dropzone").append("<div class='dragged-money' id='dragged-money'></div>");
+  }
+  
 });
 
 $(document).on('click', "#spend-btn", function(evt)
 {
-  // Update total
-  amount = 5.00;
-  previousTotal=total;
-  total-=amount;
-  document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);
-  document.getElementById("undo-btn").disabled = false;
+  if (runningTotal > 0) {
+    // Update total
+    amount = runningTotal;
+    previousTotal=total;
+    total-=amount;
+    document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);
+    document.getElementById("undo-btn").disabled = false;
 
-  runningTotal = 0;
-  document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
-   // Add item to history
-  historyID += 1;
-  var inputText = $("#notes");
-  var notes = $(inputText).val();
+    runningTotal = 0;
+    document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
 
-  var history_item = "<div class='history-item' id='item_" + historyID + "' style='color: red'><div class='history-text'> - $" + amount + " " + notes + "</div><button class='btn btn-default btn-sm undo-history-btn' id='" + historyID + "' type='button'>X</button></div>";
-  $('#history-items').prepend(history_item);
+     // Add item to history
+    historyID += 1;
+    var inputText = $("#notes");
+    var notes = $(inputText).val();
 
-  $("#notes").val("");
+    var history_item = "<div class='history-item' id='item_" + historyID + "' style='color: red'><div class='history-text'> - $" + amount + " " + notes + "</div><button class='btn btn-default btn-sm undo-history-btn' id='" + historyID + "' type='button'>X</button></div>";
+    $('#history-items').prepend(history_item);
+
+    $("#notes").val("");
+    $("#dragged-money").remove();
+    $(".dropzone").append("<div class='dragged-money' id='dragged-money'></div>");
+  }
+
 });
 
 $(document).on('click', "#clear-btn", function(evt)
@@ -180,6 +202,9 @@ $(document).on('click', "#clear-btn", function(evt)
 
   runningTotal = 0;
   document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
+
+  $("#dragged-money").remove();
+  $(".dropzone").append("<div class='dragged-money' id='dragged-money'></div>");
 
 });
 
@@ -205,20 +230,20 @@ $(document).on('click', ".undo-history-btn", function(evt)
       <!-- Money Table-->
       <table class="table">
       <tr class="dollars">
-        <td draggable="true"><img id="one-dollar" src="One.jpg" alt="One Dollar Bill" style="height: auto; width: 100%; object-fit: contain"></td>
-        <td draggable="true"><img id="five-dollar" src="Five.jpg" alt="Five Dollar Bill" style="height: auto; width: 100%; object-fit: contain"></td>
+        <td draggable="true"><img id="one-dollar" src="One.jpg" alt="One Dollar Bill" style="object-fit: contain" height="auto" width="100%"></td>
+        <td draggable="true"><img id="five-dollar" src="Five.jpg" alt="Five Dollar Bill" style="object-fit: contain" height="auto" width="100%"></td>
       </tr>
       <tr class="dollars">
-        <td draggable="true"><img id="ten-dollar" src="Ten.jpg" alt="Ten Dollar Bill" style="height: auto; width: 100%; object-fit: contain"></td>
-        <td draggable="true"><img id="twenty-dollar" src="Twenty.jpg" alt="Twenty Dollar Bill" style="height: auto; width: 100%; object-fit: contain"></td>
+        <td draggable="true"><img id="ten-dollar" src="Ten.jpg" alt="Ten Dollar Bill" style="object-fit: contain" height="auto" width="100%"></td>
+        <td draggable="true"><img id="twenty-dollar" src="Twenty.jpg" alt="Twenty Dollar Bill" style="object-fit: contain" height="auto" width="100%"></td>
       </tr>
       </table>
       <table class="table">
       <tr class="coins">
-        <td draggable="true"><img id="penny" src="Penny.png" alt="Penny" style="height: auto; width: 100%; object-fit: contain"></td>
-        <td draggable="true"><img id="nickel" src="Nickel.png" alt="Nickel" style="height: auto; width: 100%; object-fit: contain"></td>
-        <td draggable="true"><img id="dime" src="Dime.png" alt="Dime" style="height: auto; width: 100%; object-fit: contain"></td>
-        <td draggable="true"><img id="quarter" src="Quarter.png" alt="Quarter" style="height: auto; width: 100%; object-fit: contain"></td>
+        <td draggable="true"><img id="penny" src="Penny.png" alt="Penny" style="object-fit: contain" height="auto" width="100%"></td>
+        <td draggable="true"><img id="nickel" src="Nickel.png" alt="Nickel" style="object-fit: contain" height="auto" width="100%"></td>
+        <td draggable="true"><img id="dime" src="Dime.png" alt="Dime" style="object-fit: contain" height="auto" width="100%"></td>
+        <td draggable="true"><img id="quarter" src="Quarter.png" alt="Quarter" style="object-fit: contain" height="auto" width="100%"></td>
       </tr>
       </table>
 
@@ -227,6 +252,7 @@ $(document).on('click', ".undo-history-btn", function(evt)
       <div class="dropzone">
         <div class="running-total" id="running-total">$<script type="text/javascript">document.write(runningTotal.toFixed(2));</script></div>
         <button class="btn btn-default btn-sm" id="clear-btn" type="button">Clear</button>
+        <div class='dragged-money' id='dragged-money'></div>
       </div>
 
       <br>

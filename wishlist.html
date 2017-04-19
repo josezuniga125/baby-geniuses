@@ -18,8 +18,8 @@
   <div class="row">
 
     <div class="col-md-2" id="firstColumn">
-       <img id="wishListPiggy" src="piggy.jpg" onclick="window.location.href='mainPage.html'">
-       <img class = "dropZone" id="trashCan" src="trashcan.png" style="height: auto; width: 100%; object-fit: contain">
+       <img draggable="false" id="wishListPiggy" src="piggy.jpg" onclick="window.location.href='mainPage.html'">
+       <img draggable="false" class = "dropZone" id="trashCan" src="trashcan.png" style="height: auto; width: 100%; object-fit: contain">
 
        <!-- HTML Code for the trashcan modal -->
        <div id="myTrashModal" class="modal">
@@ -27,11 +27,11 @@
         <div class="modal-content">
           <div class="modal-header">
             <span class="trashClose">&times;</span>
-              <h2>Buy item and spend the money?</h2>
+              <h2>This item costs $5. Do you want to subtract this amount from your total?</h2>
           </div>
           <div class="trashModal-body">
-            <button type="button" class = "yesButton" onclick="deductFromTotal()">Yes </button>
-            <button type="button" class = "noButton" onclick="hideTrashModal()">No </button>
+            <button type="button" class = "btn btn-default" id = "yesButton" onclick="deductFromTotal()">Yes </button>
+            <button type="button" class = "btn btn-default" id = "noButton" onclick="hideTrashModal()">No </button>
           </div>
        
         </div>
@@ -43,9 +43,9 @@
 
       <div class="container" id="wishlistContainer">
           <img draggable="true" id="basketball" src="wishlist-icons/basketball.png">
-          <img id="teddyBear" src="wishlist-icons/teddy-bear.png">
-          <img id="rollerSkates" src="wishlist-icons/skates.png">
-          <img id="wishListThoughtBubble" src = "wishListThoughtBubble.jpg">
+          <img draggable="true" id="teddyBear" src="wishlist-icons/teddy-bear.png">
+          <img draggable="true" id="rollerSkates" src="wishlist-icons/skates.png">
+          <img draggable="false" id="wishListThoughtBubble" src = "wishListThoughtBubble.jpg">
       </div>
 
       <div class="totalAmount">TOTAL: $10.00</div>
@@ -53,7 +53,7 @@
     </div>
 
     <div class="col-md-2" id="lastColumn">
-      <img id="wishListPlusSign" src = "plusSign.gif" style="height: auto; width: 100%; object-fit: contain">
+      <img draggable="false" id="wishListPlusSign" src = "plusSign.gif" style="height: auto; width: 100%; object-fit: contain">
 
       <!-- Code for drop down box for adding item -->
       <div id="myModal" class="modal">
@@ -64,7 +64,7 @@
               <h2>Add Item to Wishlist</h2>
           </div>
           <div class="modal-body">
-            <!-- Code for adding item details text fields
+            
             <table id="modal-body-detail">
               <tr id="modal-name">
                   <td class="modal-detail-name"> Name: </td>
@@ -75,12 +75,11 @@
                   <td class="modal-detail-input"><input id="modal-amount-input" type="text"></td>
               </tr>
             </table>
-            -->
-            <p>Name: </p>
-            <p>Amount: </p> <!-- add text fields to these two -->
+           
+            
           </div>
           <div class="modal-footer">
-            <h3>Confirm</h3>
+            <button type="button" class = "btn btn-default" id = "confirmButton">Confirm </button>
           </div>
         </div>
       </div>
@@ -173,8 +172,8 @@
         // Get the <span> element that closes the modal
         var trashSpan = document.getElementsByClassName("trashClose")[0];
 
-        var trashNoButton = document.getElementsByClassName("noButton");
-        var trashYesButton = document.getElementsByClassName("yesButton");
+        var trashNoButton = document.getElementById("noButton");
+        var trashYesButton = document.getElementById("yesButton");
 
         function hideTrashModal() {
           trashModal.style.display = "none";

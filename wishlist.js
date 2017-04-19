@@ -1,6 +1,7 @@
 
 /* Constants */
 
+
 var WISHLIST_HEIGHT = 600; // px
 var WISHLIST_WIDTH = 1000; // px
 var ITEM_SIZE = 100;

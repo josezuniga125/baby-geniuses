@@ -82,117 +82,216 @@ function getItemFromPosition(x, y) {
 /* Mouse Listeners */
 
 // mousedown in wishlist container:
-$(document).on('mousedown', "#wishlistContainer", function(evt)
-{
-  evt.preventDefault();
+// $(document).on('mousedown', "#wishlistContainer", function(evt)
+// {
+//   evt.preventDefault();
 
-  // Reference the wishlist container
-  var container = document.getElementById("wishlistContainer");
+//   // Reference the wishlist container
+//   var container = document.getElementById("wishlistContainer");
 
-  // Retrieve mouse coordinates with respect to wishlist
-  var mousePosition = getMousePosition(container, evt);
-  var x = mousePosition.x;
-  var y = mousePosition.y;
+//   // Retrieve mouse coordinates with respect to wishlist
+//   var mousePosition = getMousePosition(container, evt);
+//   var x = mousePosition.x;
+//   var y = mousePosition.y;
 
-  // Check whether user clicked on an item
-  dragItemID = getItemFromPosition(x, y);
+//   // Check whether user clicked on an item
+//   dragItemID = getItemFromPosition(x, y);
 
-  if (dragItemID == 'none') {
-    return;
-  }
+//   if (dragItemID == 'none') {
+//     return;
+//   }
 
-  // Clicked on an item, now dragging
-  isDragging = true;
+//   // Clicked on an item, now dragging
+//   isDragging = true;
 
-  // Record current click
-  dragItemX = x;
-  dragItemY = y;
+//   // Record current click
+//   dragItemX = x;
+//   dragItemY = y;
 
-  // Record initial (x,y) position
-  switch(dragItemID) {
-    case "basketball":
-      initialDragItemX = BASKETBALL_X;
-      initialDragItemY = BASKETBALL_Y;
-      return;
-    case "teddyBear":
-      initialDragItemX = TEDDY_BEAR_X;
-      initialDragItemY = TEDDY_BEAR_Y;
-      return;
-    case "rollerSkates":
-      initialDragItemX = ROLLER_SKATES_X;
-      initialDragItemY = ROLLER_SKATES_Y;
-    case "none":
-      return;
-  }
-});
+//   // Record initial (x,y) position
+//   switch(dragItemID) {
+//     case "basketball":
+//       initialDragItemX = BASKETBALL_X;
+//       initialDragItemY = BASKETBALL_Y;
+//       return;
+//     case "teddyBear":
+//       initialDragItemX = TEDDY_BEAR_X;
+//       initialDragItemY = TEDDY_BEAR_Y;
+//       return;
+//     case "rollerSkates":
+//       initialDragItemX = ROLLER_SKATES_X;
+//       initialDragItemY = ROLLER_SKATES_Y;
+//     case "none":
+//       return;
+//   }
+// });
 
-// mousemove anywhere, not necessarily in wishlist container:
-$(document).on('mousemove', function(evt)
-{
-  evt.preventDefault();
+// // mousemove anywhere, not necessarily in wishlist container:
+// $(document).on('mousemove', function(evt)
+// {
+//   evt.preventDefault();
 
-  if (isDragging) {
 
-    // Reference the wishlist container
-    var container = document.getElementById("wishlistContainer");
+//   if (isDragging) {
 
-    var mousePosition = getMousePosition(container, evt);
-    var x = mousePosition.x;
-    var y = mousePosition.y;
+//     // Reference the wishlist container
+//     var container = document.getElementById("wishlistContainer");
 
-    var deltaX = x - dragItemX;
-    var deltaY = y - dragItemY;
+//     var mousePosition = getMousePosition(container, evt);
+//     var x = mousePosition.x;
+//     var y = mousePosition.y;
 
-    // Reference the item being currently dragged
-    var item = document.getElementById(dragItemID);
+//     console.log(x, y);
 
-    $("#" + dragItemID).css({
-      left: item.offsetLeft + deltaX,
-      top: item.offsetTop + deltaY,
-      zIndex: "100"
-    });
+//     var deltaX = x - dragItemX;
+//     var deltaY = y - dragItemY;
 
-    dragItemX = x;
-    dragItemY = y;
-  }
-});
+//     // Reference the item being currently dragged
+//     var item = document.getElementById(dragItemID);
 
-// mouseup anywhere, not necessarily in wishlist container:
-$(document).on('mouseup', function(evt)
-{
-  evt.preventDefault();
-  isDragging = false;
+//     $("#" + dragItemID).css({
+//       left: item.offsetLeft + deltaX,
+//       top: item.offsetTop + deltaY,
+//       zIndex: "100"
+//     });
 
-  $("#" + dragItemID).css({zIndex: "1"});
+//     dragItemX = x;
+//     dragItemY = y;
+//   }
+// });
 
-  // Reference the wishlist container
-  var container = document.getElementById("wishlistContainer");
 
-  var mousePosition = getMousePosition(container, evt);
-  var x = mousePosition.x;
-  var y = mousePosition.y;
+// // mouseup anywhere, not necessarily in wishlist container:
+// $(document).on('mouseup', function(evt)
+// {
+//   evt.preventDefault();
+//   isDragging = false;
 
-  if (x < 0 || x > WISHLIST_WIDTH ||
-      y < 0 || y > WISHLIST_HEIGHT) {
+//   $("#" + dragItemID).css({zIndex: "1"});
+  
 
-    // Return to initial position
-    $("#" + dragItemID).css({
-      left: initialDragItemX,
-      top: initialDragItemY,
-      zIndex: "1"
-    });
-    return;
-  }
 
-  /*
-   * TODO: Include logic for what happens when item is dragged
-   * and released onto either the trash can or shopping cart.
-   */
+//   // Reference the wishlist container
+//   var container = document.getElementById("wishlistContainer");
 
-  // Return to initial position
-  $("#" + dragItemID).css({
-    left: initialDragItemX,
-    top: initialDragItemY,
-    zIndex: "1"
-  });
-});
+//   var mousePosition = getMousePosition(container, evt);
+//   var x = mousePosition.x;
+//   var y = mousePosition.y;
+
+//   console.log(x);
+//   console.log(y);
+
+
+//   if (x < 0 || x > WISHLIST_WIDTH ||
+//       y < 0 || y > WISHLIST_HEIGHT) {
+//     console.log("hey");
+
+//     // Return to initial position
+//     $("#" + dragItemID).css({
+//       left: initialDragItemX,
+//       top: initialDragItemY,
+//       zIndex: "1"
+//     });
+//     return;
+//   }
+
+
+//   /*
+//    * TODO: Include logic for what happens when item is dragged
+//    * and released onto either the trash can or shopping cart.
+//    */
+
+//   // Return to initial position
+//   $("#" + dragItemID).css({
+//     left: initialDragItemX,
+//     top: initialDragItemY,
+//     zIndex: "1"
+//   });
+
+// });
+
+
+ // var dragged;
+
+ //  /* events fired on the draggable target */
+ //  document.addEventListener("drag", function( event ) {
+ //    event.dataTransfer.setData("text", event.currentTarget.id);
+ //    console.log(event.currentTarget.id);
+ //    console.log("in drag");
+ //  }, false);
+
+ //  document.addEventListener("dragstart", function( event ) {
+ //      // store a ref. on the dragged elem
+ //      dragged = event.target;
+ //      clone = event.target.cloneNode(true);
+ //      // make it half transparent
+ //      event.target.style.opacity = 0;
+ //  }, false);
+
+ //  document.addEventListener("dragend", function( event ) {
+ //      // reset the transparency
+ //      event.target.style.opacity = "";
+ //  }, false);
+
+ //  /* events fired on the drop targets */
+ //  document.addEventListener("dragover", function( event ) {
+ //      // prevent default to allow drop
+ //      event.preventDefault();
+ //  }, false);
+
+ //  document.addEventListener("dragenter", function( event ) {
+ //      // highlight potential drop target when the draggable element enters it
+ //      if ( event.target.className == "dropZone" ) {
+ //          //event.target.style.background = "lightgrey";
+ //      }
+
+ //  }, false);
+
+ //  document.addEventListener("dragleave", function( event ) {
+ //      // reset background of potential drop target when the draggable element leaves it
+ //      if ( event.target.className == "dropZone" ) {
+ //          event.target.style.background = "";
+ //      }
+ //  }, false);
+
+ //  document.addEventListener("drop", function( event ) {
+ //      // prevent default action (open as link for some elements)
+ //      event.preventDefault();
+ //      // move dragged elem to the selected drop target
+ //      if ( event.target.className == "dropZone" ) {
+ //          event.target.style.background = "";
+ //          dragged.parentNode.removeChild( dragged );
+
+
+
+ //      }
+    
+ //  }, false);
+
+
+
+ //  // Get the modal
+ //        var modal = document.getElementById('myModal');
+
+ //        // Get the button that opens the modal
+ //        var btn = document.getElementById("wishListPlusSign");
+
+ //        // Get the <span> element that closes the modal
+ //        var span = document.getElementsByClassName("close")[0];
+
+ //        // When the user clicks the button, open the modal 
+ //        btn.onclick = function() {
+ //            modal.style.display = "block";
+ //        }
+
+ //        // When the user clicks on <span> (x), close the modal
+ //        span.onclick = function() {
+ //            modal.style.display = "none";
+ //        }
+
+ //        // When the user clicks anywhere outside of the modal, close it
+ //        window.onclick = function(event) {
+ //            if (event.target == modal) {
+ //                modal.style.display = "none";
+ //            }
+ //        }

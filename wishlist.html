@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="wishlist.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+   
     <script src="wishlist.js"></script>
 </head>
 
@@ -18,13 +19,30 @@
 
     <div class="col-md-2" id="firstColumn">
        <img id="wishListPiggy" src="piggy.jpg" onclick="window.location.href='mainPage.html'">
-       <img id="trashCan" src="trashcan.png" style="height: auto; width: 100%; object-fit: contain">
+       <img class = "dropZone" id="trashCan" src="trashcan.png" style="height: auto; width: 100%; object-fit: contain">
+
+       <!-- HTML Code for the trashcan modal -->
+       <div id="myTrashModal" class="modal">
+      <!-- Modal content -->
+        <div class="modal-content">
+          <div class="modal-header">
+            <span class="trashClose">&times;</span>
+              <h2>Buy item and spend the money?</h2>
+          </div>
+          <div class="trashModal-body">
+            <button type="button" class = "noButton">Yes </button>
+            <button type="button" class = "yesButton">No </button>
+          </div>
+       
+        </div>
+      </div>
+
     </div>
 
     <div class="col-md-8" id="mainColumn">
 
       <div class="container" id="wishlistContainer">
-          <img id="basketball" src="wishlist-icons/basketball.png">
+          <img draggable="true" id="basketball" src="wishlist-icons/basketball.png">
           <img id="teddyBear" src="wishlist-icons/teddy-bear.png">
           <img id="rollerSkates" src="wishlist-icons/skates.png">
           <img id="wishListThoughtBubble" src = "wishListThoughtBubble.jpg">
@@ -35,9 +53,9 @@
     </div>
 
     <div class="col-md-2" id="lastColumn">
-
       <img id="wishListPlusSign" src = "plusSign.gif" style="height: auto; width: 100%; object-fit: contain">
 
+      <!-- Code for drop down box for adding item -->
       <div id="myModal" class="modal">
       <!-- Modal content -->
         <div class="modal-content">
@@ -47,7 +65,7 @@
           </div>
           <div class="modal-body">
             <p>Name: </p>
-            <p>Label: </p>
+            <p>Amount: </p> <!-- add text fields to these two -->
           </div>
           <div class="modal-footer">
             <h3>Confirm</h3>
@@ -60,14 +78,100 @@
 
 </body>
 
+
     <script>
+
+        //Code for dragging items to the trashcan
+        var dragged;
+
+        /* events fired on the draggable target */
+        document.addEventListener("drag", function( event ) {
+          event.dataTransfer.setData("text", event.currentTarget.id);
+          console.log(event.currentTarget.id);
+          console.log("in drag");
+        }, false);
+
+        document.addEventListener("dragstart", function( event ) {
+            // store a ref. on the dragged elem
+            dragged = event.target;
+            clone = event.target.cloneNode(true);
+            // make it half transparent
+            event.target.style.opacity = 0;
+        }, false);
+
+        document.addEventListener("dragend", function( event ) {
+            // reset the transparency
+            event.target.style.opacity = "";
+        }, false);
+
+        /* events fired on the drop targets */
+        document.addEventListener("dragover", function( event ) {
+            // prevent default to allow drop
+            event.preventDefault();
+        }, false);
+
+        document.addEventListener("dragenter", function( event ) {
+            // highlight potential drop target when the draggable element enters it
+            if ( event.target.className == "dropZone" ) {
+                //event.target.style.background = "lightgrey";
+            }
+
+        }, false);
+
+        document.addEventListener("dragleave", function( event ) {
+            // reset background of potential drop target when the draggable element leaves it
+            if ( event.target.className == "dropZone" ) {
+                event.target.style.background = "";
+            }
+        }, false);
+
+        document.addEventListener("drop", function( event ) {
+            // prevent default action (open as link for some elements)
+            event.preventDefault();
+            // move dragged elem to the selected drop target
+            if (event.target.className == "dropZone" ) {
+              event.target.style.background = "";
+              dragged.parentNode.removeChild( dragged );
+                
+              trashModal.style.display = "block";
+
+              trashSpan.onclick = function() {
+                trashModal.style.display = "none";
+              }
+
+              window.onclick = function(event) {
+                if (event.target == trashModal) {
+                trashModal.style.display = "none";
+                }
+              }
+
+              trashNoButton.onclick = function() { //isnt working right now. still have to give these functionality. Total has to be modifiable and updated when Yes is pressed. Just a default decrease of 5 dollars should be good
+                trashModal.style.display = "none";
+              }
+
+            }
+
+        }, false);
+
+
+
+        //For the trashCan modal
+        //Get the modal
+        var trashModal = document.getElementById('myTrashModal');
+        // Get the <span> element that closes the modal
+        var trashSpan = document.getElementsByClassName("trashClose")[0];
+
+        var trashNoButton = document.getElementsByClassName("noButton");
+        var trashYesButton = document.getElementsByClassName("yesButton");
+
+
+
+        //For the plus sign modal
         // Get the modal
         var modal = document.getElementById('myModal');
-        console.log(modal);
 
         // Get the button that opens the modal
         var btn = document.getElementById("wishListPlusSign");
-        console.log(btn);
 
         // Get the <span> element that closes the modal
         var span = document.getElementsByClassName("close")[0];
@@ -88,6 +192,11 @@
                 modal.style.display = "none";
             }
         }
+
+
     </script>
+
+
+
 
 </html>

@@ -30,8 +30,8 @@
               <h2>Buy item and spend the money?</h2>
           </div>
           <div class="trashModal-body">
-            <button type="button" class = "noButton">Yes </button>
-            <button type="button" class = "yesButton">No </button>
+            <button type="button" class = "yesButton" onclick="deductFromTotal()">Yes </button>
+            <button type="button" class = "noButton" onclick="hideTrashModal()">No </button>
           </div>
        
         </div>
@@ -48,7 +48,7 @@
           <img id="wishListThoughtBubble" src = "wishListThoughtBubble.jpg">
       </div>
 
-      <div class="totalAmount"> TOTAL: $10.00 </div>
+      <div class="totalAmount">TOTAL: $10.00</div>
 
     </div>
 
@@ -64,6 +64,18 @@
               <h2>Add Item to Wishlist</h2>
           </div>
           <div class="modal-body">
+            <!-- Code for adding item details text fields
+            <table id="modal-body-detail">
+              <tr id="modal-name">
+                  <td class="modal-detail-name"> Name: </td>
+                  <td class="modal-detail-input"><input id="modal-name-input" type="text"></td>
+              </tr>
+              <tr id="modal-amount">
+                  <td class="modal-detail-name"> Amount: </td>
+                  <td class="modal-detail-input"><input id="modal-amount-input" type="text"></td>
+              </tr>
+            </table>
+            -->
             <p>Name: </p>
             <p>Amount: </p> <!-- add text fields to these two -->
           </div>
@@ -87,8 +99,8 @@
         /* events fired on the draggable target */
         document.addEventListener("drag", function( event ) {
           event.dataTransfer.setData("text", event.currentTarget.id);
-          console.log(event.currentTarget.id);
-          console.log("in drag");
+          //console.log(event.currentTarget.id);
+          //console.log("in drag");
         }, false);
 
         document.addEventListener("dragstart", function( event ) {
@@ -164,7 +176,20 @@
         var trashNoButton = document.getElementsByClassName("noButton");
         var trashYesButton = document.getElementsByClassName("yesButton");
 
+        function hideTrashModal() {
+          trashModal.style.display = "none";
+        }
 
+        var totalAmount = document.getElementsByClassName('totalAmount')[0];
+
+        function deductFromTotal() {
+          trashModal.style.display = "none";
+          if (totalAmount.innerHTML == "TOTAL: $10.00") {
+            totalAmount.innerHTML = "TOTAL: $5.00";
+            return;
+          }
+          totalAmount.innerHTML = "TOTAL: $0.00";
+        }
 
         //For the plus sign modal
         // Get the modal

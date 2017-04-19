@@ -25,6 +25,7 @@
 
 .amount-title {
 	font-size: 24px;
+	font-weight: bold;
 }
 
 .dropzone {
@@ -43,7 +44,6 @@
     z-index: 100;
     font-size: 20px;
     font-weight: bold;
-    background-color: darkgrey;
     margin: 5px;
 
 }
@@ -55,6 +55,7 @@
     background-color: darkgrey;
     z-index: 10000;
     font-weight: bold;
+    margin: 5px;
 }
 
 .btn-save-spend {
@@ -68,7 +69,7 @@
 
 #notes-label {
 	width: 50px;
-	margin-left: 20px;
+	margin-left: 50px;
 	margin-top: 5px;
 	font-size: 18px;
 }

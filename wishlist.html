@@ -1,3 +1,13 @@
+<!-- Cited sources:
+
+For implementing pop-up modal boxes when purchasing items / adding items:
+- https://www.w3schools.com/howto/howto_css_modals.asp
+
+For implementing drag-and-drop for wishlist items and money assets:
+- https://developer.mozilla.org/en-US/docs/Web/Events/drop
+
+-->
+
 <!doctype html>
 
 <html>
@@ -13,10 +23,7 @@
 
 </head>
 
-   
 <body>
-
-
 
 <div class="container">
   <div class="row">
@@ -25,9 +32,9 @@
        <img draggable="false" id="wishListPiggy" src="piggy.jpg" onclick="window.location.href='mainPage.html'">
        <img draggable="false" class = "dropZone" id="trashCan" src="trashcan.png" style="height: auto; width: 100%; object-fit: contain">
 
-       <!-- HTML Code for the trashcan modal -->
+       <!-- Trashcan modal -->
        <div id="myTrashModal" class="modal">
-      <!-- Modal content -->
+       <!-- Trashcan modal content -->
         <div class="modal-content">
           <div class="modal-header">
             <span class="trashClose">&times;</span>
@@ -59,7 +66,7 @@
     <div class="col-md-2" id="lastColumn">
       <img draggable="false" id="wishListPlusSign" src = "plusSign.gif" style="height: auto; width: 100%; object-fit: contain">
 
-      <!-- Code for drop down box for adding item -->
+      <!-- Drop down box for adding item -->
       <div id="myModal" class="modal">
       <!-- Modal content -->
         <div class="modal-content">
@@ -71,20 +78,24 @@
             
             <table id="modal-body-detail">
               <tr id="modal-name">
-                  <td class="modal-detail-name"> Name: </td>
+                  <td class="modal-detail-name"> Item: </td>
                   <td class="modal-detail-input"><input id="modal-name-input" type="text"></td>
               </tr>
               <tr id="modal-amount">
                   <td class="modal-detail-name"> Amount: </td>
                   <td class="modal-detail-input"><input id="modal-amount-input" type="text"></td>
               </tr>
+              <tr id="modal-icon-text">
+                  <td class="modal-detail-icon"> Icon: </td>
+              </tr>
             </table>
            
-            
           </div>
+
           <div class="modal-footer">
             <button type="button" class = "btn btn-default" id = "confirmButton">Confirm </button>
           </div>
+
         </div>
       </div>
 
@@ -160,7 +171,8 @@
                 }
               }
 
-              trashNoButton.onclick = function() { //isnt working right now. still have to give these functionality. Total has to be modifiable and updated when Yes is pressed. Just a default decrease of 5 dollars should be good
+              // TODO: this has no functionality:
+              trashNoButton.onclick = function() {
                 trashModal.style.display = "none";
               }
 
@@ -168,12 +180,12 @@
 
         }, false);
 
+        /* TrashCan Modal */
 
-
-        //For the trashCan modal
-        //Get the modal
+        // Get the modal:
         var trashModal = document.getElementById('myTrashModal');
-        // Get the <span> element that closes the modal
+
+        // Get the <span> element that closes the modal:
         var trashSpan = document.getElementsByClassName("trashClose")[0];
 
         var trashNoButton = document.getElementById("noButton");
@@ -194,37 +206,34 @@
           totalAmount.innerHTML = "TOTAL: $0.00";
         }
 
-        //For the plus sign modal
-        // Get the modal
+        /* Plus-sign Modal */
+
+        // Get the modal:
         var modal = document.getElementById('myModal');
 
-        // Get the button that opens the modal
+        // Get the button that opens the modal:
         var btn = document.getElementById("wishListPlusSign");
 
-        // Get the <span> element that closes the modal
+        // Get the <span> element that closes the modal:
         var span = document.getElementsByClassName("close")[0];
 
-        // When the user clicks the button, open the modal 
+        // When the user clicks the button, open the modal:
         btn.onclick = function() {
             modal.style.display = "block";
         }
 
-        // When the user clicks on <span> (x), close the modal
+        // When the user clicks on <span> (x), close the modal:
         span.onclick = function() {
             modal.style.display = "none";
         }
 
-        // When the user clicks anywhere outside of the modal, close it
+        // When the user clicks anywhere outside of the modal, close it:
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal.style.display = "none";
             }
         }
-
-
+        
     </script>
-
-
-
 
 </html>

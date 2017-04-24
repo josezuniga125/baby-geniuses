@@ -63,7 +63,7 @@ For implementing drag-and-drop for wishlist items and money assets:
         <div class="modal-content">
           <div class="modal-header">
             <span class="trashClose">&times;</span>
-              <h2>This item costs $5. Do you want to subtract this amount from your total?</h2>
+              <h2>This item costs $5. You currently have X. Do you want to buy or trash this item?</h2>
           </div>
           <div class="trashModal-body">
             <button type="button" class = "btn btn-default" id = "yesButton" onclick="deductFromTotal()">Yes </button>
@@ -78,8 +78,11 @@ For implementing drag-and-drop for wishlist items and money assets:
     <div class="col-md-8" id="mainColumn">
 
       <div class="container" id="wishlistContainer">
+          <span class="pricetag" id="bballTag">basketball $5</span> 
           <img draggable="true" id="basketball" src="wishlist-icons/basketball.png">
+          <span class="pricetag" id="teddyBearTag">teddy bear $5</span>
           <img draggable="true" id="teddyBear" src="wishlist-icons/teddy-bear.png">
+          <span class="pricetag" id="rollerSkatesTag">roller skates $5</span>
           <img draggable="true" id="rollerSkates" src="wishlist-icons/skates.png">
           <img draggable="false" id="wishListThoughtBubble" src = "wishListThoughtBubble.jpg">
       </div>
@@ -131,6 +134,17 @@ For implementing drag-and-drop for wishlist items and money assets:
 
 
     <script>
+
+        //added for coloring of price tags (green when able to buy and gray otherwise)
+        var priceTags = document.getElementsByClassName("pricetag");
+        for (tag = 0; tag < priceTags.length; tag ++){
+          if (total.toFixed(2) >= 5){ // for now 5, but will be replaced by specific price on tag
+            priceTags[tag].style.background = "lightgreen";
+          }
+          else{
+            priceTags[tag].style.background = "#E8EDF0";
+          }
+        }
 
         //Code for dragging items to the trashcan
         var dragged;

@@ -21,6 +21,31 @@ For implementing drag-and-drop for wishlist items and money assets:
    
     <script src="wishlist.js"></script>
 
+    <script>
+
+      // A short jQuery extension to read query parameters from the URL.
+      $.extend({
+        getUrlVars: function() {
+          var vars = [], pair;
+          var pairs = window.location.search.substr(1).split('&');
+          for (var i = 0; i < pairs.length; i++) {
+            pair = pairs[i].split('=');
+            vars.push(pair[0]);
+            vars[pair[0]] = pair[1] &&
+                decodeURIComponent(pair[1].replace(/\+/g, ' '));
+          }
+          return vars;
+        },
+        getUrlVar: function(name) {
+          return $.getUrlVars()[name];
+        }
+      });
+
+      var total = parseFloat($.getUrlVar('total'));
+
+    </script>
+
+
 </head>
 
 <body>
@@ -29,7 +54,7 @@ For implementing drag-and-drop for wishlist items and money assets:
   <div class="row">
 
     <div class="col-md-2" id="firstColumn">
-       <img draggable="false" id="wishListPiggy" src="piggy.jpg" onclick="window.location.href='mainPage.html'">
+       <img draggable="false" id="wishListPiggy" src="piggy.jpg" onclick="window.location.href='mainPage.html?total=' + total.toFixed(2)">
        <img draggable="false" class = "dropZone" id="trashCan" src="trashcan.png" style="height: auto; width: 100%; object-fit: contain">
 
        <!-- Trashcan modal -->
@@ -59,7 +84,7 @@ For implementing drag-and-drop for wishlist items and money assets:
           <img draggable="false" id="wishListThoughtBubble" src = "wishListThoughtBubble.jpg">
       </div>
 
-      <div class="totalAmount" id="total">Total: $5.00</script></div>
+      <div class="totalAmount" id="total">Total: $ <script type="text/javascript">document.write(total.toFixed(2));</script></div>
 
     </div>
 
@@ -109,6 +134,12 @@ For implementing drag-and-drop for wishlist items and money assets:
 
         //Code for dragging items to the trashcan
         var dragged;
+
+        /* initialize the total */
+        $(document).ready(function()
+        {
+          document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);
+        });
 
         /* events fired on the draggable target */
         document.addEventListener("drag", function( event ) {
@@ -195,15 +226,19 @@ For implementing drag-and-drop for wishlist items and money assets:
           trashModal.style.display = "none";
         }
 
-        var totalAmount = document.getElementsByClassName('totalAmount')[0];
-
         function deductFromTotal() {
           trashModal.style.display = "none";
-          if (totalAmount.innerHTML == "TOTAL: $10.00") {
-            totalAmount.innerHTML = "TOTAL: $5.00";
-            return;
+          if ((total - 5.0) > 0) {
+            total = total - 5.0;
           }
-          totalAmount.innerHTML = "TOTAL: $0.00";
+          document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);
+
+          // Fix URL
+          var currentURL = window.location.href;
+          var total_index = currentURL.indexOf("total");
+          var url_total =  currentURL.substring(0,total_index) + "total=" + total;
+          var stateObj = { foo: "" };
+          history.pushState(stateObj, "", url_total);
         }
 
         /* Plus-sign Modal */

@@ -13,24 +13,75 @@
 
 <link rel="stylesheet" href="mainPage.css">
 
-<script src="mainPage.js"></script>
+<script src="wishlist.js"></script>
 
 <!-- Move to another part? -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
 <script>
 
+// A short jQuery extension to read query parameters from the URL.
+$.extend({
+  getUrlVars: function() {
+    var vars = [], pair;
+    var pairs = window.location.search.substr(1).split('&');
+    for (var i = 0; i < pairs.length; i++) {
+      pair = pairs[i].split('=');
+      vars.push(pair[0]);
+      vars[pair[0]] = pair[1] &&
+          decodeURIComponent(pair[1].replace(/\+/g, ' '));
+    }
+    return vars;
+  },
+  getUrlVar: function(name) {
+    return $.getUrlVars()[name];
+  }
+});
+
+
 var previousTotal = 0.0;
 var total = 0.0;
+
+if ($.getUrlVar('total') != undefined) {
+  total = parseFloat($.getUrlVar('total'));
+  setCookie("total_cookie",total);
+}
+
 var runningTotal = 0.0;
 var historyID = 0;
 
-
 var dragged;
 
-window.onload = function() {
-   localStorage.setItem("globalTotal",total);
+/* Cookie Trying */
+function setCookie(cname,cvalue) {
+    document.cookie = cname + "=" + cvalue;
 }
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+function checkCookie() {
+    var total_cookie =getCookie("total_cookie");
+    if (total_cookie != "") {
+        total = parseFloat(total_cookie);
+        document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);        
+    } else {
+       setCookie("total_cookie", 0.0);
+    }
+}
+
 
 /* events fired on the draggable target */
 document.addEventListener("drag", function( event ) {
@@ -48,7 +99,6 @@ document.addEventListener("dragstart", function( event ) {
 document.addEventListener("dragend", function( event ) {
     // reset the transparency
     event.target.style.opacity = "";
-    console.log("DONE");
 }, false);
 
 /* events fired on the drop targets */
@@ -151,6 +201,15 @@ $(document).on('click', "#save-btn", function(evt)
     document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);
     document.getElementById("undo-btn").disabled = false;
 
+    setCookie("total_cookie", total);
+
+    // Fix URL
+    var currentURL = window.location.href;
+    var total_index = currentURL.indexOf("total");
+    var url_total =  currentURL.substring(0,total_index) + "total=" + total;
+    var stateObj = { foo: "" };
+    history.pushState(stateObj, "", url_total);
+
     runningTotal = 0;
     document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
 
@@ -178,6 +237,15 @@ $(document).on('click', "#spend-btn", function(evt)
     total-=amount;
     document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);
     document.getElementById("undo-btn").disabled = false;
+
+    setCookie("total_cookie", total);
+
+    // Fix URL
+    var currentURL = window.location.href;
+    var total_index = currentURL.indexOf("total");
+    var url_total =  currentURL.substring(0,total_index) + "total=" + total;
+    var stateObj = { foo: "" };
+    history.pushState(stateObj, "", url_total);
 
     runningTotal = 0;
     document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
@@ -280,9 +348,9 @@ $(document).on('click', ".undo-history-btn", function(evt)
 
       <!-- Column 2 Code Here -->
       <img id="thought-cloud" src="ThoughtCloud.png" alt="Thought Cloud" onclick="window.location.href='wishlist.html'">
-      <div class="thought-text text-center" onclick="window.location.href='wishlist.html'">Wishlist</div>
+      <div class="thought-text text-center" onclick="window.location.href='wishlist.html?total=' + total.toFixed(2)">Wishlist</div>
 
-      <img id="piggy-image" src="piggy.jpg" alt="Piggy Bank" style="height: auto; width: 100%; object-fit: contain" onclick="window.location.href='wishlist.html'">
+      <img id="piggy-image" src="piggy.jpg" alt="Piggy Bank" style="height: auto; width: 100%; object-fit: contain" onclick="window.location.href='wishlist.html?total=' + total.toFixed(2)">
 
       <div class="text-center">
         <div class="total-title" id="total">Total: $<script type="text/javascript">document.write(total.toFixed(2));</script></div>
@@ -310,4 +378,10 @@ $(document).on('click', ".undo-history-btn", function(evt)
 
 </html>
 
+<script>
+if ($.getUrlVar('total') == undefined)
+{
+  checkCookie();
+}
 
+</script>

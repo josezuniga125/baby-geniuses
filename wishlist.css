@@ -9,6 +9,8 @@
   z-index: 1;
 }
 
+/* Wishlist items */
+
 #basketball {
   height: 100px;
   width: 100px;
@@ -37,6 +39,8 @@
     margin-top:350px;
 }
 
+/* Add Modal */
+
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
@@ -52,13 +56,13 @@
 }
 
 /* Modal Content */
-.modal-content {
+.add-modal-content {
     position: relative;
     background-color: #fefefe;
     margin: auto;
     padding: 0;
     border: 1px solid #888;
-    width: 80%;
+    width: 50%;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
@@ -80,23 +84,46 @@
 /* The Close Button */
 .close {
     color: white;
-    float: right;
-    font-size: 28px;
+    float: left;
+    font-size: 40px;
     font-weight: bold;
-}
+    padding-left: 15px;
+    padding-right: 15px;
+  }
 
 .close:hover,
 .close:focus {
-    color: #000;
+    color: gray;
     text-decoration: none;
     cursor: pointer;
 }
 
-.modal-header {
-    padding: 2px 16px;
+#add-modal-title {
+  margin-top: 5px;
+  margin-right: 50px;
+}
+
+.add-modal-header {
+    padding-top: 10px;
+    padding-bottom: 10px;
     background-color: pink;
     color: white;
     text-align: center;
+}
+
+#add-modal-body-detail {
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.add-modal-detail-name {
+  font-size: 25px;
+  padding: 5px 10px;
+}
+
+.add-modal-detail-input {
+  font-size: 25px;
+  padding: 5px 10px;
 }
 
 .trashModal-body {
@@ -105,20 +132,32 @@
   text-align: center;
 }
 
-.modal-body {
+.add-modal-body {
 	padding: 2px 16px;
 	font-size:30px;
 }
 
-.modal-footer {
+.add-modal-footer {
   padding: 2px 16px;
   background-color: white;
   color: white;
-  text-align: center;
+  text-align: right;
   height: auto;
   width: 100%;
   object-fit: contain;
-  margin-top: 300px;
+  margin-top: 10px;
+}
+
+#add-modal-confirm-button {
+  padding: 5px 15px;
+  margin: 15px 5px;
+  font-size: 30px;
+  background-color: pink;
+  color: white;
+}
+
+#add-modal-icon-loader {
+  font-size: 22px;
 }
 
 #wishListThoughtBubble {

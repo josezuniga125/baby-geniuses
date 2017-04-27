@@ -55,15 +55,15 @@ For implementing drag-and-drop for wishlist items and money assets:
 
     <div class="col-md-2" id="firstColumn">
        <img draggable="false" id="wishListPiggy" src="piggy.jpg" onclick="window.location.href='mainPage.html?total=' + total.toFixed(2)">
-       <img draggable="false" class = "dropZone" id="trashCan" src="trashcan.png" style="height: auto; width: 100%; object-fit: contain">
+       <!-- <img draggable="false" class = "dropZone" id="trashCan" src="trashcan.png" style="height: auto; width: 100%; object-fit: contain"> -->
 
        <!-- Trashcan modal -->
-       <div id="myTrashModal" class="modal">
+       <!-- <div id="myTrashModal" class="modal"> -->
        <!-- Trashcan modal content -->
-        <div class="modal-content">
+        <!-- <div class="modal-content">
           <div class="modal-header">
             <span class="trashClose">&times;</span>
-              <h2>This item costs $5. You currently have X. Do you want to buy or trash this item?</h2>
+              <h2>This item costs $5. You currently have . Do you want to buy or trash this item?</h2>
           </div>
           <div class="trashModal-body">
             <button type="button" class = "btn btn-default" id = "yesButton" onclick="deductFromTotal()">Yes </button>
@@ -71,7 +71,7 @@ For implementing drag-and-drop for wishlist items and money assets:
           </div>
        
         </div>
-      </div>
+      </div> -->
 
     </div>
 
@@ -79,11 +79,11 @@ For implementing drag-and-drop for wishlist items and money assets:
 
       <div class="container" id="wishlistContainer">
           <span class="pricetag" id="bballTag">basketball $5</span> 
-          <img draggable="true" id="basketball" src="wishlist-icons/basketball.png">
+          <img draggable="true" id="basketball" src="wishlist-icons/animated-bball.png">
           <span class="pricetag" id="teddyBearTag">teddy bear $5</span>
-          <img draggable="true" id="teddyBear" src="wishlist-icons/teddy-bear.png">
+          <img draggable="true" id="teddyBear" src="wishlist-icons/animated-teddy.png">
           <span class="pricetag" id="rollerSkatesTag">roller skates $5</span>
-          <img draggable="true" id="rollerSkates" src="wishlist-icons/skates.png">
+          <img draggable="true" id="rollerSkates" src="wishlist-icons/animated-skates.png">
           <img draggable="false" id="wishListThoughtBubble" src = "wishListThoughtBubble.jpg">
       </div>
 
@@ -92,7 +92,8 @@ For implementing drag-and-drop for wishlist items and money assets:
     </div>
 
     <div class="col-md-2" id="lastColumn">
-      <img draggable="false" id="wishListPlusSign" src = "plusSign.gif" style="height: auto; width: 100%; object-fit: contain">
+      <img draggable="false" id="wishListPlusSign" src = "plusSign.gif" style="height: auto; width: 40%; object-fit: contain; 
+                                                                               margin-top: 25px; margin-left: 25px">
 
       <!-- Drop down box for adding item -->
       <div id="add-modal" class="modal">
@@ -107,11 +108,11 @@ For implementing drag-and-drop for wishlist items and money assets:
             <table id="add-modal-body-detail">
               <tr id="add-modal-name">
                   <td class="add-modal-detail-name"> Item: </td>
-                  <td class="add-modal-detail-input"><input id="add-modal-name-input" type="text" placeholder="Name"></td>
+                  <td class="add-modal-detail-input"><input type="text" id="add-modal-name-input" placeholder="Name"></td>
               </tr>
               <tr id="add-modal-amount">
                   <td class="add-modal-detail-name"> Amount: </td>
-                  <td class="add-modal-detail-input"><input id="add-modal-amount-input" type="text" placeholder="$0.00"></td>
+                  <td class="add-modal-detail-input"><input type="text" id="add-modal-amount-input" placeholder="$0.00"></td>
               </tr>
               <tr id="add-modal-icon-text">
                   <td class="add-modal-detail-name"> Icon: </td>
@@ -126,7 +127,7 @@ For implementing drag-and-drop for wishlist items and money assets:
           </div>
 
           <div class="add-modal-footer">
-            <button type="button" class="btn btn-default" id="add-modal-confirm-button"> Confirm </button>
+            <button type="button" class="btn btn-default" id="add-modal-confirm-button" onclick = "confirmButton()"> Confirm </button>
           </div>
 
         </div>
@@ -142,108 +143,112 @@ For implementing drag-and-drop for wishlist items and money assets:
 
         //added for coloring of price tags (green when able to buy and gray otherwise)
         var priceTags = document.getElementsByClassName("pricetag");
+        //var priceTagsBefore = document.getElementsByClassName("pricetag:before");
         for (tag = 0; tag < priceTags.length; tag ++){
           if (total.toFixed(2) >= 5){ // for now 5, but will be replaced by specific price on tag
-            priceTags[tag].style.background = "lightgreen";
+            priceTags[tag].style.background = "#6AE368";
+            priceTags[tag].style.color = "white";
+            
           }
           else{
             priceTags[tag].style.background = "#E8EDF0";
+            priceTags[tag].style.color = "black";
           }
         }
 
         //Code for dragging items to the trashcan
-        var dragged;
+        // var dragged;
 
-        /* initialize the total */
-        $(document).ready(function()
-        {
-          document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);
-        });
+        // /* initialize the total */
+        // $(document).ready(function()
+        // {
+        //   document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);
+        // });
 
-        /* events fired on the draggable target */
-        document.addEventListener("drag", function( event ) {
-          event.dataTransfer.setData("text", event.currentTarget.id);
-          //console.log(event.currentTarget.id);
-          //console.log("in drag");
-        }, false);
+        // /* events fired on the draggable target */
+        // document.addEventListener("drag", function( event ) {
+        //   event.dataTransfer.setData("text", event.currentTarget.id);
+        //   //console.log(event.currentTarget.id);
+        //   //console.log("in drag");
+        // }, false);
 
-        document.addEventListener("dragstart", function( event ) {
-            // store a ref. on the dragged elem
-            dragged = event.target;
-            clone = event.target.cloneNode(true);
-            // make it half transparent
-            event.target.style.opacity = 0;
-        }, false);
+        // document.addEventListener("dragstart", function( event ) {
+        //     // store a ref. on the dragged elem
+        //     dragged = event.target;
+        //     clone = event.target.cloneNode(true);
+        //     // make it half transparent
+        //     event.target.style.opacity = 0;
+        // }, false);
 
-        document.addEventListener("dragend", function( event ) {
-            // reset the transparency
-            event.target.style.opacity = "";
-        }, false);
+        // document.addEventListener("dragend", function( event ) {
+        //     // reset the transparency
+        //     event.target.style.opacity = "";
+        // }, false);
 
-        /* events fired on the drop targets */
-        document.addEventListener("dragover", function( event ) {
-            // prevent default to allow drop
-            event.preventDefault();
-        }, false);
+        // /* events fired on the drop targets */
+        // document.addEventListener("dragover", function( event ) {
+        //     // prevent default to allow drop
+        //     event.preventDefault();
+        // }, false);
 
-        document.addEventListener("dragenter", function( event ) {
-            // highlight potential drop target when the draggable element enters it
-            if ( event.target.className == "dropZone" ) {
-                //event.target.style.background = "lightgrey";
-            }
+        // document.addEventListener("dragenter", function( event ) {
+        //     // highlight potential drop target when the draggable element enters it
+        //     if ( event.target.className == "dropZone" ) {
+        //         //event.target.style.background = "lightgrey";
+        //     }
 
-        }, false);
+        // }, false);
 
-        document.addEventListener("dragleave", function( event ) {
-            // reset background of potential drop target when the draggable element leaves it
-            if ( event.target.className == "dropZone" ) {
-                event.target.style.background = "";
-            }
-        }, false);
+        // document.addEventListener("dragleave", function( event ) {
+        //     // reset background of potential drop target when the draggable element leaves it
+        //     if ( event.target.className == "dropZone" ) {
+        //         event.target.style.background = "";
+        //     }
+        // }, false);
 
-        document.addEventListener("drop", function( event ) {
-            // prevent default action (open as link for some elements)
-            event.preventDefault();
-            // move dragged elem to the selected drop target
-            if (event.target.className == "dropZone" ) {
-              event.target.style.background = "";
-              dragged.parentNode.removeChild( dragged );
+        // document.addEventListener("drop", function( event ) {
+        //     // prevent default action (open as link for some elements)
+        //     event.preventDefault();
+        //     // move dragged elem to the selected drop target
+        //     if (event.target.className == "dropZone" ) {
+        //       event.target.style.background = "";
+        //       dragged.parentNode.removeChild( dragged );
                 
-              trashModal.style.display = "block";
+        //       trashModal.style.display = "block";
 
-              trashSpan.onclick = function() {
-                trashModal.style.display = "none";
-              }
+        //       trashSpan.onclick = function() {
+        //         trashModal.style.display = "none";
+        //       }
 
-              window.onclick = function(event) {
-                if (event.target == trashModal) {
-                trashModal.style.display = "none";
-                }
-              }
+        //       window.onclick = function(event) {
+        //         if (event.target == trashModal) {
+        //         trashModal.style.display = "none";
+        //         }
+        //       }
 
-              // TODO: this has no functionality:
-              trashNoButton.onclick = function() {
-                trashModal.style.display = "none";
-              }
+        //       // TODO: this has no functionality:
+        //       trashNoButton.onclick = function() {
+        //         trashModal.style.display = "none";
+        //       }
 
-            }
+        //     }
 
-        }, false);
+        // }, false);
 
         /* TrashCan Modal */
 
         // Get the modal:
-        var trashModal = document.getElementById('myTrashModal');
+        // var trashModal = document.getElementById('myTrashModal');
 
-        // Get the <span> element that closes the modal:
-        var trashSpan = document.getElementsByClassName("trashClose")[0];
+        // // Get the <span> element that closes the modal:
+        // var trashSpan = document.getElementsByClassName("trashClose")[0];
 
-        var trashNoButton = document.getElementById("noButton");
-        var trashYesButton = document.getElementById("yesButton");
+        // var trashNoButton = document.getElementById("noButton");
+        // var trashYesButton = document.getElementById("yesButton");
 
-        function hideTrashModal() {
-          trashModal.style.display = "none";
-        }
+        // function hideTrashModal() {
+        //   trashModal.style.display = "none";
+        // }
 
         function deductFromTotal() {
           trashModal.style.display = "none";
@@ -293,21 +298,49 @@ For implementing drag-and-drop for wishlist items and money assets:
 
         var imageCanvas = document.getElementById('image-canvas');
         var context = imageCanvas.getContext('2d');
+        var image;
+        var selectedImage;
 
         function handleImage(e) {
           var reader = new FileReader();
           reader.onload = function(event) {
-            var image = new Image();
+            image = new Image();
+            image.className = " wishListItem"; // I gave the images a class, just in case
             image.onload = function() {
-              context.drawImage(image, 0, 0);
+              context.drawImage(image, 0, 0, 50, 50);
             }
             image.src = event.target.result;
           }
           reader.readAsDataURL(e.target.files[0]);
         }
 
+        //this is just for the listener down below, when you click on the image canvas. Might not be necessary.
+        function clickIcon(){
+          selectedImage = image;
+        }
+
+        //functionality for Confirm Button. Right now it can only position new items in one place.
+        function confirmButton(){
+          var nameInput = $("#add-modal-name-input").val(); // getting input from Name and Amount boxes for price tags
+          var amountInput = $("#add-modal-amount-input").val();
+
+          $('#wishlistContainer').append('<img src=" '+ selectedImage.src +' " style="width:'+ 10 +'%;height:auto;position:absolute;'+
+                      'left:' + 300 + 'px;top:'+ 150 +'px" />');
+          $('#wishlistContainer').append('<span class="pricetag" id="giftTag" style ="left:'+375 +'px; top:'+150+'px; background: #E8EDF0">'+ nameInput +' $'+ amountInput+'</span>');
+
+          modal.style.display = "none";// get rid of the modal after clickin confirm
+
+          $("#add-modal-name-input").val("");//clear input boxes
+          $("#add-modal-amount-input").val("");
+
+        }
+
         var imageLoader = document.getElementById('add-modal-icon-loader');
         imageLoader.addEventListener('change', handleImage, false);
+        imageCanvas.addEventListener('click', clickIcon, false);
+
+
+
         
     </script>
 

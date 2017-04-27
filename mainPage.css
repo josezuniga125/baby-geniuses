@@ -102,9 +102,18 @@
 	font-weight: bolder;
 }
 
+.history-header {
+
+}
+
 .history-title {
 	font-size: 50px;
 	font-weight: bolder;
+	margin-right: 60px;
+}
+
+#clear-all-history {
+	margin-bottom: 50px;
 }
 
 #history-items {

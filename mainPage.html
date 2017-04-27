@@ -278,6 +278,17 @@ $(document).on('click', "#clear-btn", function(evt)
 
 });
 
+$(document).on('click', "#clear-all-history", function(evt)
+{
+  var everyChild = document.querySelectorAll("#history-items");
+  console.log("SDF")
+
+  for (var i = 0; i<everyChild.length; i++) {
+    console.log(everyChild[i]);
+    $(everyChild[i]).remove();
+  }
+});
+
 $(document).on('click', ".undo-history-btn", function(evt)
 {
   var ID = "#item_" + this.id;
@@ -362,7 +373,10 @@ $(document).on('click', ".undo-history-btn", function(evt)
     <div class="col-md-4" id="lastColumn">
 
       <!-- Column 3 Code Here -->
-      <div class="history-title text-center">History</div>
+      <div class="history-header">
+        <div class="history-title text-center">History</div>
+        <button class="btn btn-default btn-sm" id="clear-all-history" type="button" style="float: right;">Clear All</button>
+      </div>
 
       <div id="history-items">
 

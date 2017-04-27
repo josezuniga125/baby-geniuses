@@ -242,7 +242,7 @@ For implementing drag-and-drop for wishlist items and money assets:
 
         function deductFromTotal() {
           trashModal.style.display = "none";
-          if ((total - 5.0) > 0) {
+          if ((total - 5.0) >= 0) {
             total = total - 5.0;
           }
           document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);

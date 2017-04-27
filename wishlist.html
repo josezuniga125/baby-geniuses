@@ -84,7 +84,7 @@ For implementing drag-and-drop for wishlist items and money assets:
           <img draggable="true" id="teddyBear" src="wishlist-icons/animated-teddy.png">
           <span class="pricetag" id="rollerSkatesTag">roller skates $5</span>
           <img draggable="true" id="rollerSkates" src="wishlist-icons/animated-skates.png">
-          <img draggable="false" id="wishListThoughtBubble" src = "wishListThoughtBubble.jpg">
+          <img draggable="false" id="wishListThoughtBubble" src = "thought-bubble.png">
       </div>
 
       <div class="totalAmount" id="total">Total: $ <script type="text/javascript">document.write(total.toFixed(2));</script></div>
@@ -93,7 +93,7 @@ For implementing drag-and-drop for wishlist items and money assets:
 
     <div class="col-md-2" id="lastColumn">
       <img draggable="false" id="wishListPlusSign" src = "plusSign.gif" style="height: auto; width: 40%; object-fit: contain; 
-                                                                               margin-top: 25px; margin-left: 25px">
+                                                                               margin-top: 35px; margin-left: 25px">
 
       <!-- Drop down box for adding item -->
       <div id="add-modal" class="modal">
@@ -140,6 +140,10 @@ For implementing drag-and-drop for wishlist items and money assets:
 
 
     <script>
+
+        /* Constants */
+        
+        var ITEM_CAPACITY = 10;
 
         //added for coloring of price tags (green when able to buy and gray otherwise)
         var priceTags = document.getElementsByClassName("pricetag");

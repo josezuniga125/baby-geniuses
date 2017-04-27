@@ -107,6 +107,10 @@
 	font-weight: bolder;
 }
 
+#clear-all-history {
+	margin-left: 10px;
+}
+
 #history-items {
 	height: 500px;
     overflow: scroll;

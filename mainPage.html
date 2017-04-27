@@ -52,7 +52,7 @@ var historyID = 0;
 
 var dragged;
 
-/* Cookie Trying */
+/* Cookies */
 function setCookie(cname,cvalue) {
     document.cookie = cname + "=" + cvalue;
 }
@@ -72,7 +72,7 @@ function getCookie(cname) {
     return "";
 }
 
-function checkCookie() {
+function checkCookieTotal() {
     var total_cookie =getCookie("total_cookie");
     if (total_cookie != "") {
         total = parseFloat(total_cookie);
@@ -120,7 +120,6 @@ document.addEventListener("dragleave", function( event ) {
     if ( event.target.className == "dropzone" ) {
         event.target.style.background = "";
     }
-
 }, false);
 
 document.addEventListener("drop", function( event ) {
@@ -257,7 +256,7 @@ $(document).on('click', "#spend-btn", function(evt)
 
     var history_item = "<div class='history-item' id='item_" + historyID + "' style='color: red'><div class='history-text'> - $" + amount + " " + notes + "</div><button class='btn btn-default btn-sm undo-history-btn' id='" + historyID + "' type='button'>X</button></div>";
     $('#history-items').prepend(history_item);
-
+      
     $("#notes").val("");
     $("#dragged-money").remove();
     $(".dropzone").append("<div class='dragged-money' id='dragged-money'></div>");
@@ -275,6 +274,13 @@ $(document).on('click', "#clear-btn", function(evt)
 
   $("#dragged-money").remove();
   $(".dropzone").append("<div class='dragged-money' id='dragged-money'></div>");
+
+});
+
+$(document).on('click', "#clear-all-history", function(evt)
+{
+  $("#history-items").remove();
+  $("#lastColumn").append("<div id='history-items'></div>");
 
 });
 
@@ -337,8 +343,8 @@ $(document).on('click', ".undo-history-btn", function(evt)
       <br>
       <!-- Buttons below -->
       <div class="text-center">
-        <button class="btn btn-success btn-lg btn-save-spend" id="save-btn" type="button">Save</button>
-        <button class="btn btn-danger btn-lg btn-save-spend" id="spend-btn" type="button">Spend</button>
+        <button type="button" class="btn btn-success btn-lg btn-save-spend" id="save-btn" >Save</button>
+        <button type="button" class="btn btn-danger btn-lg btn-save-spend" id="spend-btn" >Spend</button>
       </div>
 
       </div>
@@ -354,7 +360,7 @@ $(document).on('click', ".undo-history-btn", function(evt)
 
       <div class="text-center">
         <div class="total-title" id="total">Total: $<script type="text/javascript">document.write(total.toFixed(2));</script></div>
-        <button class="btn btn-default btn-lg" id="undo-btn" type="button">Undo</button>
+        <button type="button" class="btn btn-default btn-lg" id="undo-btn">Undo</button>
       </div>
 
     </div>
@@ -362,8 +368,9 @@ $(document).on('click', ".undo-history-btn", function(evt)
     <div class="col-md-4" id="lastColumn">
 
       <!-- Column 3 Code Here -->
-      <div class="history-title text-center">History</div>
-
+      <div class="history-title text-center">History
+      <button type="button" class="btn btn-sm" id="clear-all-history">Clear All</button>
+      </div>
       <div id="history-items">
 
       </div>
@@ -381,7 +388,7 @@ $(document).on('click', ".undo-history-btn", function(evt)
 <script>
 if ($.getUrlVar('total') == undefined)
 {
-  checkCookie();
+  checkCookieTotal();
 }
 
 </script>

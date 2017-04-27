@@ -280,13 +280,9 @@ $(document).on('click', "#clear-btn", function(evt)
 
 $(document).on('click', "#clear-all-history", function(evt)
 {
-  var everyChild = document.querySelectorAll("#history-items");
-  console.log("SDF")
+  $("#history-items").remove();
+  $("#lastColumn").append("<div id='history-items'></div>");
 
-  for (var i = 0; i<everyChild.length; i++) {
-    console.log(everyChild[i]);
-    $(everyChild[i]).remove();
-  }
 });
 
 $(document).on('click', ".undo-history-btn", function(evt)
@@ -348,8 +344,8 @@ $(document).on('click', ".undo-history-btn", function(evt)
       <br>
       <!-- Buttons below -->
       <div class="text-center">
-        <button class="btn btn-success btn-lg btn-save-spend" id="save-btn" type="button">Save</button>
-        <button class="btn btn-danger btn-lg btn-save-spend" id="spend-btn" type="button">Spend</button>
+        <button type="button" class="btn btn-success btn-lg btn-save-spend" id="save-btn" >Save</button>
+        <button type="button" class="btn btn-danger btn-lg btn-save-spend" id="spend-btn" >Spend</button>
       </div>
 
       </div>
@@ -365,7 +361,7 @@ $(document).on('click', ".undo-history-btn", function(evt)
 
       <div class="text-center">
         <div class="total-title" id="total">Total: $<script type="text/javascript">document.write(total.toFixed(2));</script></div>
-        <button class="btn btn-default btn-lg" id="undo-btn" type="button">Undo</button>
+        <button type="button" class="btn btn-default btn-lg" id="undo-btn">Undo</button>
       </div>
 
     </div>
@@ -373,11 +369,9 @@ $(document).on('click', ".undo-history-btn", function(evt)
     <div class="col-md-4" id="lastColumn">
 
       <!-- Column 3 Code Here -->
-      <div class="history-header">
-        <div class="history-title text-center">History</div>
-        <button class="btn btn-default btn-sm" id="clear-all-history" type="button" style="float: right;">Clear All</button>
+      <div class="history-title text-center">History
+      <button type="button" class="btn btn-sm" id="clear-all-history">Clear All</button>
       </div>
-
       <div id="history-items">
 
       </div>

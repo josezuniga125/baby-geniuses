@@ -52,7 +52,7 @@ var historyID = 0;
 
 var dragged;
 
-/* Cookie Trying */
+/* Cookies */
 function setCookie(cname,cvalue) {
     document.cookie = cname + "=" + cvalue;
 }
@@ -72,7 +72,7 @@ function getCookie(cname) {
     return "";
 }
 
-function checkCookie() {
+function checkCookieTotal() {
     var total_cookie =getCookie("total_cookie");
     if (total_cookie != "") {
         total = parseFloat(total_cookie);
@@ -120,7 +120,6 @@ document.addEventListener("dragleave", function( event ) {
     if ( event.target.className == "dropzone" ) {
         event.target.style.background = "";
     }
-
 }, false);
 
 document.addEventListener("drop", function( event ) {
@@ -257,7 +256,7 @@ $(document).on('click', "#spend-btn", function(evt)
 
     var history_item = "<div class='history-item' id='item_" + historyID + "' style='color: red'><div class='history-text'> - $" + amount + " " + notes + "</div><button class='btn btn-default btn-sm undo-history-btn' id='" + historyID + "' type='button'>X</button></div>";
     $('#history-items').prepend(history_item);
-
+      
     $("#notes").val("");
     $("#dragged-money").remove();
     $(".dropzone").append("<div class='dragged-money' id='dragged-money'></div>");
@@ -389,7 +388,7 @@ $(document).on('click', ".undo-history-btn", function(evt)
 <script>
 if ($.getUrlVar('total') == undefined)
 {
-  checkCookie();
+  checkCookieTotal();
 }
 
 </script>

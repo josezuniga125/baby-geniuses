@@ -95,33 +95,38 @@ For implementing drag-and-drop for wishlist items and money assets:
       <img draggable="false" id="wishListPlusSign" src = "plusSign.gif" style="height: auto; width: 100%; object-fit: contain">
 
       <!-- Drop down box for adding item -->
-      <div id="myModal" class="modal">
-      <!-- Modal content -->
-        <div class="modal-content">
-          <div class="modal-header">
-            <span class="close">&times;</span>
-              <h2>Add Item to Wishlist</h2>
+      <div id="add-modal" class="modal">
+      <!-- Add modal content -->
+        <div class="add-modal-content">
+          <div class="add-modal-header">
+            <span id="add-modal-close" class="close">&times;</span>
+            <h2 id="add-modal-title"> Add Item to Wishlist </h2>
           </div>
-          <div class="modal-body">
+          <div class="add-modal-body">
             
-            <table id="modal-body-detail">
-              <tr id="modal-name">
-                  <td class="modal-detail-name"> Item: </td>
-                  <td class="modal-detail-input"><input id="modal-name-input" type="text"></td>
+            <table id="add-modal-body-detail">
+              <tr id="add-modal-name">
+                  <td class="add-modal-detail-name"> Item: </td>
+                  <td class="add-modal-detail-input"><input id="add-modal-name-input" type="text" placeholder="Name"></td>
               </tr>
-              <tr id="modal-amount">
-                  <td class="modal-detail-name"> Amount: </td>
-                  <td class="modal-detail-input"><input id="modal-amount-input" type="text"></td>
+              <tr id="add-modal-amount">
+                  <td class="add-modal-detail-name"> Amount: </td>
+                  <td class="add-modal-detail-input"><input id="add-modal-amount-input" type="text" placeholder="$0.00"></td>
               </tr>
-              <tr id="modal-icon-text">
-                  <td class="modal-detail-icon"> Icon: </td>
+              <tr id="add-modal-icon-text">
+                  <td class="add-modal-detail-name"> Icon: </td>
+                  <td class="add-modal-detail-input"><input type="file" id="add-modal-icon-loader" name="image-loader"></td>
+              </tr>
+              <tr>
+                  <td></td>
+                  <td><canvas class="add-modal-detail-input" id="image-canvas" width="300px" height="300"></canvas></td>
               </tr>
             </table>
            
           </div>
 
-          <div class="modal-footer">
-            <button type="button" class = "btn btn-default" id = "confirmButton">Confirm </button>
+          <div class="add-modal-footer">
+            <button type="button" class="btn btn-default" id="add-modal-confirm-button"> Confirm </button>
           </div>
 
         </div>
@@ -255,10 +260,10 @@ For implementing drag-and-drop for wishlist items and money assets:
           history.pushState(stateObj, "", url_total);
         }
 
-        /* Plus-sign Modal */
+        /* Add Modal */
 
         // Get the modal:
-        var modal = document.getElementById('myModal');
+        var modal = document.getElementById('add-modal');
 
         // Get the button that opens the modal:
         var btn = document.getElementById("wishListPlusSign");
@@ -269,6 +274,7 @@ For implementing drag-and-drop for wishlist items and money assets:
         // When the user clicks the button, open the modal:
         btn.onclick = function() {
             modal.style.display = "block";
+            $('#add-modal-name-input').focus();
         }
 
         // When the user clicks on <span> (x), close the modal:
@@ -282,6 +288,26 @@ For implementing drag-and-drop for wishlist items and money assets:
                 modal.style.display = "none";
             }
         }
+
+        /* Add Modal Image Loader */
+
+        var imageCanvas = document.getElementById('image-canvas');
+        var context = imageCanvas.getContext('2d');
+
+        function handleImage(e) {
+          var reader = new FileReader();
+          reader.onload = function(event) {
+            var image = new Image();
+            image.onload = function() {
+              context.drawImage(image, 0, 0);
+            }
+            image.src = event.target.result;
+          }
+          reader.readAsDataURL(e.target.files[0]);
+        }
+
+        var imageLoader = document.getElementById('add-modal-icon-loader');
+        imageLoader.addEventListener('change', handleImage, false);
         
     </script>
 

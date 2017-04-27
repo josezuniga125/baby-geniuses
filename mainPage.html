@@ -256,10 +256,20 @@ $(document).on('click', "#spend-btn", function(evt)
 
     var history_item = "<div class='history-item' id='item_" + historyID + "' style='color: red'><div class='history-text'> - $" + amount + " " + notes + "</div><button class='btn btn-default btn-sm undo-history-btn' id='" + historyID + "' type='button'>X</button></div>";
     $('#history-items').prepend(history_item);
+
+    if (getCookie("history") != null)
+    {
+      var currentHistory = getCookie("history");
+      var newHistory = currentHistory + "," + history_item;
+      setCookie("history",newHistory);
+    } else {
+      setCookie("history",history_item);
+    }
       
     $("#notes").val("");
     $("#dragged-money").remove();
     $(".dropzone").append("<div class='dragged-money' id='dragged-money'></div>");
+    
   }
 
 });

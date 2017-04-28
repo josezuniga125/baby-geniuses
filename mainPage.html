@@ -44,11 +44,13 @@ var total = 0.0;
 
 if ($.getUrlVar('total') != undefined) {
   total = parseFloat($.getUrlVar('total'));
-  setCookie("total_cookie",total);
+  setCookie("total_cookie",total.toFixed(2));
 }
 
 var runningTotal = 0.0;
+clone_num = 0;
 var historyID = 0;
+checkCookieHistoryID();
 
 var dragged;
 
@@ -72,19 +74,33 @@ function getCookie(cname) {
     return "";
 }
 
+function deleteCookie(cname) {
+  document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
 function checkCookieTotal() {
     var total_cookie =getCookie("total_cookie");
     if (total_cookie != "") {
-        total = parseFloat(total_cookie);
-        document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);        
+      total = parseFloat(total_cookie);
+      document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);        
     } else {
        setCookie("total_cookie", 0.0);
+    }
+}
+
+function checkCookieHistoryID() {
+    var history_id_cookie =getCookie("history_id_cookie");
+    if (history_id_cookie != "") {
+      historyID = parseInt(history_id_cookie);
+    } else {
+      setCookie("history_id_cookie",0);
     }
 }
 
 
 /* events fired on the draggable target */
 document.addEventListener("drag", function( event ) {
+
 }, false);
 
 document.addEventListener("dragstart", function( event ) {
@@ -94,11 +110,14 @@ document.addEventListener("dragstart", function( event ) {
     // make it half transparent
     event.target.style.opacity = .5;
 
+
+
 }, false);
 
 document.addEventListener("dragend", function( event ) {
     // reset the transparency
     event.target.style.opacity = "";
+
 }, false);
 
 /* events fired on the drop targets */
@@ -112,7 +131,6 @@ document.addEventListener("dragenter", function( event ) {
     if ( event.target.className == "dropzone" ) {
         event.target.style.background = "lightgrey";
     }
-
 }, false);
 
 document.addEventListener("dragleave", function( event ) {
@@ -120,6 +138,7 @@ document.addEventListener("dragleave", function( event ) {
     if ( event.target.className == "dropzone" ) {
         event.target.style.background = "";
     }
+
 }, false);
 
 document.addEventListener("drop", function( event ) {
@@ -131,11 +150,6 @@ document.addEventListener("drop", function( event ) {
 
         var element = document.getElementById("dragged-money");
         element.appendChild(clone);
-
-
-        //event.target.appendChild(clone);
-
-        var id = event.dataTransfer.getData("Text");
 
         if (clone.id == "one-dollar") {
           runningTotal += 1;
@@ -172,8 +186,50 @@ document.addEventListener("drop", function( event ) {
           clone.setAttribute('width', '50px');
         }
 
+        clone.id = clone.id + "dragged" + clone_num;
+        clone.className += "dragged";
+        clone_num = clone_num + 1;
 
     }
+    else{
+      if (document.getElementById(clone.id).className == "dragged") {
+        document.getElementById(clone.id).remove();
+      }
+
+      var id_element = clone.id;
+      var index_dragged = id_element.indexOf("dragged");
+
+      var kind = id_element.substring(0,index_dragged);
+
+       if (kind == "one-dollar") {
+          runningTotal -= 1;
+          document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
+        } else if (kind == "five-dollar") {
+          runningTotal -= 5;
+          document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
+        } else if (kind == "ten-dollar") {
+          runningTotal -= 10;
+          document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
+        } else if (kind == "twenty-dollar") {
+          runningTotal -= 20;
+          document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
+        } else if (kind == "penny") {
+          runningTotal -= 0.01;
+          document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
+        } else if (kind == "nickel") {
+          runningTotal -= 0.05;
+          document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
+        } else if (kind == "dime") {
+          runningTotal -= 0.1;
+          document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
+        } else if (kind == "quarter") {
+          runningTotal -= 0.25;
+          document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
+        }
+
+    }
+
+
 }, false);
 
 
@@ -200,7 +256,7 @@ $(document).on('click', "#save-btn", function(evt)
     document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);
     document.getElementById("undo-btn").disabled = false;
 
-    setCookie("total_cookie", total);
+    setCookie("total_cookie", total.toFixed(2));
 
     // Fix URL
     var currentURL = window.location.href;
@@ -213,12 +269,26 @@ $(document).on('click', "#save-btn", function(evt)
     document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
 
     // Add item to history
+    checkCookieHistoryID();
     historyID += 1;
+    setCookie("history_id_cookie",historyID);
+
     var inputText = $("#notes");
     var notes = $(inputText).val();
 
     var history_item = "<div class='history-item' id='item_" + historyID + "' style='color: green'><div class='history-text'> + $" + amount.toFixed(2) + " " + notes + "</div><button class='btn btn-default btn-sm undo-history-btn' id='" + historyID + "' type='button'>X</button></div>";
     $('#history-items').prepend(history_item);
+
+    var new_history = "ID:" + historyID + ",amount:" + amount.toFixed(2) + ",ss:save,notes:" + notes;
+    if (getCookie("history_cookie") != "")
+    {
+      var current_history = getCookie("history_cookie");
+      var history_text = "ID:" + historyID + ",amount:" + amount.toFixed(2) + ",ss:spend,notes:" + notes;
+      new_history = current_history + ";" + history_text;
+    }
+
+    deleteCookie("history_cookie");
+    setCookie("history_cookie",new_history);
 
     $("#notes").val("");
     $("#dragged-money").remove();
@@ -237,7 +307,7 @@ $(document).on('click', "#spend-btn", function(evt)
     document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);
     document.getElementById("undo-btn").disabled = false;
 
-    setCookie("total_cookie", total);
+    setCookie("total_cookie", total.toFixed(2));
 
     // Fix URL
     var currentURL = window.location.href;
@@ -250,16 +320,31 @@ $(document).on('click', "#spend-btn", function(evt)
     document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
 
      // Add item to history
+    checkCookieHistoryID();
     historyID += 1;
+    setCookie("history_id_cookie",historyID);
+
     var inputText = $("#notes");
     var notes = $(inputText).val();
 
     var history_item = "<div class='history-item' id='item_" + historyID + "' style='color: red'><div class='history-text'> - $" + amount + " " + notes + "</div><button class='btn btn-default btn-sm undo-history-btn' id='" + historyID + "' type='button'>X</button></div>";
     $('#history-items').prepend(history_item);
-      
+
+    var new_history = "ID:" + historyID + ",amount:" + amount.toFixed(2) + ",ss:spend,notes:" + notes;
+    if (getCookie("history_cookie") != "")
+    {
+      var current_history = getCookie("history_cookie");
+      var history_text = "ID:" + historyID + ",amount:" + amount.toFixed(2) + ",ss:spend,notes:" + notes;
+      new_history = current_history + ";" + history_text;
+    }
+
+    deleteCookie("history_cookie");
+    setCookie("history_cookie",new_history);
+
     $("#notes").val("");
     $("#dragged-money").remove();
     $(".dropzone").append("<div class='dragged-money' id='dragged-money'></div>");
+    
   }
 
 });
@@ -281,13 +366,26 @@ $(document).on('click', "#clear-all-history", function(evt)
 {
   $("#history-items").remove();
   $("#lastColumn").append("<div id='history-items'></div>");
+  setCookie("history_cookie"," ");
 
 });
 
 $(document).on('click', ".undo-history-btn", function(evt)
 {
   var ID = "#item_" + this.id;
+
+  var old_cookie = getCookie("history_cookie");
+  var history_remove_id = "ID:" + this.id;
+  console.log(history_remove_id);
+  var history_begin_index = old_cookie.indexOf(history_remove_id);
+
+/*  var rest = old_cookie.substring(history_begin_index,old_cookie.length);
+  var history_end_index = rest.indexOf(";");*/
+
+  console.log(history_begin_index);
+
   $(ID).remove();
+
 });
 
 </script>

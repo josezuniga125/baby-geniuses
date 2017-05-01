@@ -41,62 +41,11 @@ $.extend({
 
 var previousTotal = 0.0;
 var total = 0.0;
-
-if ($.getUrlVar('total') != undefined) {
-  total = parseFloat($.getUrlVar('total'));
-  setCookie("total_cookie",total.toFixed(2));
-}
-
 var runningTotal = 0.0;
 clone_num = 0;
 var historyID = 0;
-checkCookieHistoryID();
 
 var dragged;
-
-/* Cookies */
-function setCookie(cname,cvalue) {
-    document.cookie = cname + "=" + cvalue;
-}
-
-function getCookie(cname) {
-    var name = cname + "=";
-    var ca = document.cookie.split(';');
-    for(var i = 0; i < ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return "";
-}
-
-function deleteCookie(cname) {
-  document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-}
-
-function checkCookieTotal() {
-    var total_cookie =getCookie("total_cookie");
-    if (total_cookie != "") {
-      total = parseFloat(total_cookie);
-      document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);        
-    } else {
-       setCookie("total_cookie", 0.0);
-    }
-}
-
-function checkCookieHistoryID() {
-    var history_id_cookie =getCookie("history_id_cookie");
-    if (history_id_cookie != "") {
-      historyID = parseInt(history_id_cookie);
-    } else {
-      setCookie("history_id_cookie",0);
-    }
-}
-
 
 /* events fired on the draggable target */
 document.addEventListener("drag", function( event ) {
@@ -235,7 +184,7 @@ document.addEventListener("drop", function( event ) {
 
 $(document).on('click', "#undo-btn", function(evt)
 {
-  total=previousTotal;
+  total=previousTotal.toFixed(2);
   previousTotal=0;
   document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);
   document.getElementById("undo-btn").disabled = true;
@@ -256,12 +205,10 @@ $(document).on('click', "#save-btn", function(evt)
     document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);
     document.getElementById("undo-btn").disabled = false;
 
-    setCookie("total_cookie", total.toFixed(2));
-
     // Fix URL
     var currentURL = window.location.href;
     var total_index = currentURL.indexOf("total");
-    var url_total =  currentURL.substring(0,total_index) + "total=" + total;
+    var url_total =  currentURL.substring(0,total_index) + "total=" + total.toFixed(2);
     var stateObj = { foo: "" };
     history.pushState(stateObj, "", url_total);
 
@@ -269,26 +216,13 @@ $(document).on('click', "#save-btn", function(evt)
     document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
 
     // Add item to history
-    checkCookieHistoryID();
     historyID += 1;
-    setCookie("history_id_cookie",historyID);
 
     var inputText = $("#notes");
     var notes = $(inputText).val();
 
     var history_item = "<div class='history-item' id='item_" + historyID + "' style='color: green'><div class='history-text'> + $" + amount.toFixed(2) + " " + notes + "</div><button class='btn btn-default btn-sm undo-history-btn' id='" + historyID + "' type='button'>X</button></div>";
     $('#history-items').prepend(history_item);
-
-    var new_history = "ID:" + historyID + ",amount:" + amount.toFixed(2) + ",ss:save,notes:" + notes;
-    if (getCookie("history_cookie") != "")
-    {
-      var current_history = getCookie("history_cookie");
-      var history_text = "ID:" + historyID + ",amount:" + amount.toFixed(2) + ",ss:spend,notes:" + notes;
-      new_history = current_history + ";" + history_text;
-    }
-
-    deleteCookie("history_cookie");
-    setCookie("history_cookie",new_history);
 
     $("#notes").val("");
     $("#dragged-money").remove();
@@ -307,12 +241,10 @@ $(document).on('click', "#spend-btn", function(evt)
     document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);
     document.getElementById("undo-btn").disabled = false;
 
-    setCookie("total_cookie", total.toFixed(2));
-
     // Fix URL
     var currentURL = window.location.href;
     var total_index = currentURL.indexOf("total");
-    var url_total =  currentURL.substring(0,total_index) + "total=" + total;
+    var url_total =  currentURL.substring(0,total_index) + "total=" + total.toFixed(2);
     var stateObj = { foo: "" };
     history.pushState(stateObj, "", url_total);
 
@@ -320,26 +252,12 @@ $(document).on('click', "#spend-btn", function(evt)
     document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
 
      // Add item to history
-    checkCookieHistoryID();
     historyID += 1;
-    setCookie("history_id_cookie",historyID);
-
     var inputText = $("#notes");
     var notes = $(inputText).val();
 
-    var history_item = "<div class='history-item' id='item_" + historyID + "' style='color: red'><div class='history-text'> - $" + amount + " " + notes + "</div><button class='btn btn-default btn-sm undo-history-btn' id='" + historyID + "' type='button'>X</button></div>";
+    var history_item = "<div class='history-item' id='item_" + historyID + "' style='color: red'><div class='history-text'> - $" + amount.toFixed(2) + " " + notes + "</div><button class='btn btn-default btn-sm undo-history-btn' id='" + historyID + "' type='button'>X</button></div>";
     $('#history-items').prepend(history_item);
-
-    var new_history = "ID:" + historyID + ",amount:" + amount.toFixed(2) + ",ss:spend,notes:" + notes;
-    if (getCookie("history_cookie") != "")
-    {
-      var current_history = getCookie("history_cookie");
-      var history_text = "ID:" + historyID + ",amount:" + amount.toFixed(2) + ",ss:spend,notes:" + notes;
-      new_history = current_history + ";" + history_text;
-    }
-
-    deleteCookie("history_cookie");
-    setCookie("history_cookie",new_history);
 
     $("#notes").val("");
     $("#dragged-money").remove();
@@ -366,24 +284,12 @@ $(document).on('click', "#clear-all-history", function(evt)
 {
   $("#history-items").remove();
   $("#lastColumn").append("<div id='history-items'></div>");
-  setCookie("history_cookie"," ");
 
 });
 
 $(document).on('click', ".undo-history-btn", function(evt)
 {
   var ID = "#item_" + this.id;
-
-  var old_cookie = getCookie("history_cookie");
-  var history_remove_id = "ID:" + this.id;
-  console.log(history_remove_id);
-  var history_begin_index = old_cookie.indexOf(history_remove_id);
-
-/*  var rest = old_cookie.substring(history_begin_index,old_cookie.length);
-  var history_end_index = rest.indexOf(";");*/
-
-  console.log(history_begin_index);
-
   $(ID).remove();
 
 });
@@ -482,11 +388,3 @@ $(document).on('click', ".undo-history-btn", function(evt)
 
 
 </html>
-
-<script>
-if ($.getUrlVar('total') == undefined)
-{
-  checkCookieTotal();
-}
-
-</script>

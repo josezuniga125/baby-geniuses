@@ -95,6 +95,7 @@ document.addEventListener("drop", function( event ) {
     event.preventDefault();
     // move dragged elem to the selected drop target
     if ( event.target.className == "dropzone" ) {
+        $('#amount-filler-text').hide();
         event.target.style.background = "";
 
         var element = document.getElementById("dragged-money");
@@ -143,6 +144,11 @@ document.addEventListener("drop", function( event ) {
     else{
       if (document.getElementById(clone.id).className == "dragged") {
         document.getElementById(clone.id).remove();
+
+        var items_in_box = $('.dragged').length;
+        if (items_in_box == 0) {
+          $('#amount-filler-text').show();
+        }
       }
 
       var id_element = clone.id;
@@ -228,7 +234,8 @@ $(document).on('click', "#save-btn", function(evt)
     var history_item = "<div class='history-item' id='item_" + historyID + "' style='color: green'><div class='history-text'> + $" + amount.toFixed(2) + " " + notes + "</div><button class='btn btn-default btn-sm undo-history-btn' id='" + historyID + "' type='button'>X</button></div>";
     $('#history-items').prepend(history_item);
 
-    $('#filler-text').hide();
+    $('#history-filler-text').hide();
+    $('#amount-filler-text').show();
 
     $("#notes").val("");
     $("#dragged-money").remove();
@@ -277,7 +284,8 @@ $(document).on('click', "#spend-btn", function(evt)
     var history_item = "<div class='history-item' id='item_" + historyID + "' style='color: red'><div class='history-text'> - $" + amount.toFixed(2) + " " + notes + "</div><button class='btn btn-default btn-sm undo-history-btn' id='" + historyID + "' type='button'>X</button></div>";
     $('#history-items').prepend(history_item);
 
-    $('#filler-text').hide();
+    $('#history-filler-text').hide();
+    $('#amount-filler-text').show();
 
     $("#notes").val("");
     $("#dragged-money").remove();
@@ -305,6 +313,8 @@ $(document).on('click', "#clear-btn", function(evt)
   $("#dragged-money").remove();
   $(".dropzone").append("<div class='dragged-money' id='dragged-money'></div>");
 
+  $('#amount-filler-text').show();
+
 });
 
 $(document).on('click', "#clear-all-history", function(evt)
@@ -312,10 +322,10 @@ $(document).on('click', "#clear-all-history", function(evt)
   alert("Are you sure you want to clear all?");
 
   $("#history-items").remove();
-  $("<div id='history-items'></div>").insertAfter($("#filler-text"));
+  $("<div id='history-items'></div>").insertAfter($("#history-filler-text"));
 
   document.getElementById("history-items").style.height = "300px";
-  $('#filler-text').show();
+  $('#history-filler-text').show();
 
 });
 
@@ -333,7 +343,7 @@ $(document).on('click', ".undo-history-btn", function(evt)
   }
 
   if (num_history_items == 0) {
-    $('#filler-text').show();
+    $('#history-filler-text').show();
   }
 
 });
@@ -374,6 +384,7 @@ $(document).on('click', ".undo-history-btn", function(evt)
       <!-- Clickable box -->
       <div class="amount-title text-center">Amount:</div>
       <div class="dropzone">
+        <div class="text-center filler-text" id="amount-filler-text">Drag money here or click to type</div>
         <div class="running-total" id="running-total">$<script type="text/javascript">document.write(runningTotal.toFixed(2));</script></div>
         <button class="btn btn-default btn-sm" id="clear-btn" type="button">Clear</button>
         <div class='dragged-money' id='dragged-money'></div>
@@ -417,7 +428,7 @@ $(document).on('click', ".undo-history-btn", function(evt)
 
       <!-- Column 3 Code Here -->
       <div class="text-center history-title">History</div>
-      <div class="text-center" id="filler-text">You have not recorded any transactions. </div>
+      <div class="text-center filler-text" id="history-filler-text">You have not recorded any transactions. </div>
       <div id="history-items">
       </div>
       <div class="text-center">

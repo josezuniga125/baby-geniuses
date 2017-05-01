@@ -37,6 +37,7 @@
 	position: relative;
 	overflow: scroll; 
 	z-index: 3;
+	border-radius: 15px;
 }
 
 .running-total {
@@ -109,7 +110,7 @@
 	font-weight: bolder;
 }
 
-#filler-text {
+.filler-text {
 	margin-top: 10px;
 	color: grey;
 	font-size: 18px;

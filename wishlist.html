@@ -173,21 +173,6 @@ For implementing the popup:
 
         var open_position = 0;
 
-        //added for coloring of price tags (green when able to buy and gray otherwise)
-        var priceTags = document.getElementsByClassName("pricetag");
-        //var priceTagsBefore = document.getElementsByClassName("pricetag:before");
-        for (tag = 0; tag < priceTags.length; tag ++){
-          if (total.toFixed(2) >= 5){ // for now 5, but will be replaced by specific price on tag
-            priceTags[tag].style.background = "#6AE368";
-            priceTags[tag].style.color = "white";
-            
-          }
-          else{
-            priceTags[tag].style.background = "#E8EDF0";
-            priceTags[tag].style.color = "black";
-          }
-        }
-
         function deductFromTotal() {
           trashModal.style.display = "none";
           if ((total - 5.0) >= 0) {
@@ -299,6 +284,7 @@ For implementing the popup:
 
         }
 
+
         function clickDown(e) {
           console.log("popup activate");
           $('#wishlistContainer').append('<span class="popuptext" id="myPopup" style="left:' + positionX + 'px;top:'+ positionY +'>A Simple Popup!</span>');
@@ -306,6 +292,21 @@ For implementing the popup:
         var imageLoader = document.getElementById('add-modal-icon-loader');
         imageLoader.addEventListener('change', handleImage, false);
         imageCanvas.addEventListener('click', clickIcon, false);
+
+        //added for coloring of price tags (green when able to buy and gray otherwise)
+        var priceTags = document.getElementsByClassName("pricetag");
+        //var priceTagsBefore = document.getElementsByClassName("pricetag:before");
+        for (tag = 0; tag < priceTags.length; tag ++){
+          if (total.toFixed(2) >= 5){ // for now 5, but will be replaced by specific price on tag
+            priceTags[tag].style.background = "#6AE368";
+            priceTags[tag].style.color = "white";
+            
+          }
+          else{
+            priceTags[tag].style.background = "#E8EDF0";
+            priceTags[tag].style.color = "black";
+          }
+        }
 
 
 

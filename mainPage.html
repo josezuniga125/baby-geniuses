@@ -185,6 +185,7 @@ document.addEventListener("drop", function( event ) {
 $(document).on('click', "#undo-btn", function(evt)
 {
   total=previousTotal.toFixed(2);
+  console.log(total)
   previousTotal=0;
   document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);
   document.getElementById("undo-btn").disabled = true;
@@ -227,9 +228,20 @@ $(document).on('click', "#save-btn", function(evt)
     var history_item = "<div class='history-item' id='item_" + historyID + "' style='color: green'><div class='history-text'> + $" + amount.toFixed(2) + " " + notes + "</div><button class='btn btn-default btn-sm undo-history-btn' id='" + historyID + "' type='button'>X</button></div>";
     $('#history-items').prepend(history_item);
 
+    $('#filler-text').hide();
+
     $("#notes").val("");
     $("#dragged-money").remove();
     $(".dropzone").append("<div class='dragged-money' id='dragged-money'></div>");
+
+    // If too many history items increase size of space
+    var num_history_items = $('.history-item').length;
+    if (num_history_items > 8) {
+      document.getElementById("history-items").style.height = "500px";
+    } else if (num_history_items > 6) {
+      document.getElementById("history-items").style.height = "400px";
+    }
+
   }
   
 });
@@ -265,10 +277,19 @@ $(document).on('click', "#spend-btn", function(evt)
     var history_item = "<div class='history-item' id='item_" + historyID + "' style='color: red'><div class='history-text'> - $" + amount.toFixed(2) + " " + notes + "</div><button class='btn btn-default btn-sm undo-history-btn' id='" + historyID + "' type='button'>X</button></div>";
     $('#history-items').prepend(history_item);
 
+    $('#filler-text').hide();
+
     $("#notes").val("");
     $("#dragged-money").remove();
     $(".dropzone").append("<div class='dragged-money' id='dragged-money'></div>");
     
+    // If too many history items increase size of space
+    var num_history_items = $('.history-item').length;
+    if (num_history_items > 8) {
+      document.getElementById("history-items").style.height = "500px";
+    } else if (num_history_items > 6) {
+      document.getElementById("history-items").style.height = "400px";
+    }
   }
 
 });
@@ -288,8 +309,13 @@ $(document).on('click', "#clear-btn", function(evt)
 
 $(document).on('click', "#clear-all-history", function(evt)
 {
+  alert("Are you sure you want to clear all?");
+
   $("#history-items").remove();
-  $("#lastColumn").append("<div id='history-items'></div>");
+  $("<div id='history-items'></div>").insertAfter($("#filler-text"));
+
+  document.getElementById("history-items").style.height = "300px";
+  $('#filler-text').show();
 
 });
 
@@ -297,6 +323,18 @@ $(document).on('click', ".undo-history-btn", function(evt)
 {
   var ID = "#item_" + this.id;
   $(ID).remove();
+
+  // If you delete too many history items decrease size of space
+  var num_history_items = $('.history-item').length;
+  if (num_history_items < 7) {
+    document.getElementById("history-items").style.height = "300px";
+  } else if (num_history_items < 9) {
+    document.getElementById("history-items").style.height = "400px";
+  }
+
+  if (num_history_items == 0) {
+    $('#filler-text').show();
+  }
 
 });
 
@@ -378,11 +416,12 @@ $(document).on('click', ".undo-history-btn", function(evt)
     <div class="col-md-4" id="lastColumn">
 
       <!-- Column 3 Code Here -->
-      <div class="history-title text-center">History
-      <button type="button" class="btn btn-sm" id="clear-all-history">Clear All</button>
-      </div>
+      <div class="text-center history-title">History</div>
+      <div class="text-center" id="filler-text">You have not recorded any transactions. </div>
       <div id="history-items">
-
+      </div>
+      <div class="text-center">
+        <button type="button" class="btn btn-lg" id="clear-all-history">Clear All</button>
       </div>
 
     </div>

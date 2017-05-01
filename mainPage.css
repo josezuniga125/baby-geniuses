@@ -14,6 +14,8 @@
 	padding: 2px;
 	width: 150px;
 	size: absolute;
+	cursor: hand;
+	cursor: pointer;
 }
 
 .coins td{
@@ -21,6 +23,8 @@
 	width: 75px;
 	padding: 2px;
 	size: absolute;
+	cursor: hand;
+	cursor: pointer;
 }
 
 .amount-title {
@@ -38,6 +42,7 @@
 	overflow: scroll; 
 	z-index: 3;
 	border-radius: 15px;
+	cursor: text;
 }
 
 .running-total {
@@ -59,10 +64,14 @@
     z-index: 10000;
     font-weight: bold;
     margin: 5px;
+	cursor: hand;
+	cursor: pointer;
 }
 
 .btn-save-spend {
 	width: 140px !important;
+	cursor: hand;
+	cursor: pointer;
 }
 
 #notes {
@@ -78,6 +87,8 @@
 }
 
 .thought-text {
+	cursor: hand;
+	cursor: pointer;
 	font-size: 24px;
 	position: absolute;
 	right: 62px;
@@ -93,11 +104,20 @@
 	position: absolute;
 	right: 20px;
 	z-index: 2;
+	cursor: hand;
+	cursor: pointer;
 }
 
 #piggy-image {
 	margin-top: 70px;
 	position: relative;
+	cursor: hand;
+	cursor: pointer;
+}
+
+#undo-btn {
+	cursor: hand;
+	cursor: pointer;	
 }
 
 .total-title {
@@ -119,6 +139,8 @@
 
 #clear-all-history {
 	margin-left: 10px;
+	cursor: hand;
+	cursor: pointer;
 }
 
 #history-items {
@@ -145,4 +167,6 @@
     background-color: darkgrey;
     border-radius: 25px;
     background-color: white;
+	cursor: hand;
+	cursor: pointer;
 }

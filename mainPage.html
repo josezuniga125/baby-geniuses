@@ -339,8 +339,13 @@ $(document).on('click', "#spend-btn", function(evt)
 
   }
 
-  previousTotal=total;
-  total-=amount;
+  if (total < amount) {
+    alert("Error: You do not have enough money to spend that much.");
+    text_error = true;
+  } else {
+    previousTotal=total;
+    total-=amount;
+  }
 
   document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);
   document.getElementById("undo-btn").disabled = false;

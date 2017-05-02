@@ -82,7 +82,7 @@ document.addEventListener("dragover", function( event ) {
 
 document.addEventListener("dragenter", function( event ) {
     // highlight potential drop target when the draggable element enters it
-    if ( event.target.className == "dropzone" ) {
+    if ( event.target.className == "dropzone" || event.target.className == "dragged") {
         event.target.style.background = "lightgrey";
     }
 }, false);
@@ -99,8 +99,8 @@ document.addEventListener("drop", function( event ) {
     // prevent default action (open as link for some elements)
     event.preventDefault();
     // move dragged elem to the selected drop target
-    if ( event.target.className == "dropzone" ) {
-        
+    if ( event.target.className == "dropzone" || event.target.className == "dragged") {
+        console.log("LL");
         $('#amount-filler-text').hide();
 
         // correct mode
@@ -204,6 +204,7 @@ document.addEventListener("drop", function( event ) {
 
 $(document).on('click', ".dropzone", function(evt)
 {
+  console.log("Gere");
   if (drag_mode) {
     $('#amount-filler-text').hide();
     $('#type-amount').show();
@@ -396,8 +397,6 @@ $(document).on('click', "#spend-btn", function(evt)
 
 $(document).on('click', "#clear-btn", function(evt)
 {
-  $("#dropzone").remove(".coins");
-
   runningTotal = 0;
   document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
 
@@ -474,14 +473,15 @@ $(document).on('click', ".undo-history-btn", function(evt)
 
       <!-- Clickable box -->
       <div class="amount-title text-center">Amount:</div>
-      <div class="dropzone">
-        <div class="text-center filler-text" id="amount-filler-text">Drag money here or click to type</div>
-        <input type="text" class="text-center form-control" id="type-amount" placeholder="$10.00">
+      <div class="rectangle-drop">
         <div class="running-total" id="running-total">$<script type="text/javascript">document.write(runningTotal.toFixed(2));</script></div>
         <button class="btn btn-default btn-sm" id="clear-btn" type="button">Clear</button>
-        <div class='dragged-money' id='dragged-money'></div>
+        <div class="dropzone">
+          <div class="text-center filler-text" id="amount-filler-text">Drag money here or click to type</div>
+          <input type="text" class="text-center form-control" id="type-amount" placeholder="$10.00">
+          <div class='dragged-money' id='dragged-money'></div>
+        </div>
       </div>
-
       <br>
       <!-- Notes -->
       <form>

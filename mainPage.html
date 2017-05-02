@@ -48,6 +48,10 @@ var historyID = 0;
 var dragged;
 var drag_mode = true;
 
+if (!isNaN($.getUrlVar('total'))) {
+  total = parseFloat($.getUrlVar('total'));
+}
+
 /* events fired on the draggable target */
 document.addEventListener("drag", function( event ) {
 
@@ -218,9 +222,11 @@ $(document).on('click', ".dropzone", function(evt)
 
 $(document).on('click', "#undo-btn", function(evt)
 {
-  total=previousTotal.toFixed(2);
-  console.log(total)
-  previousTotal=0;
+
+  total = Number(previousTotal.toFixed(2));
+
+  previousTotal = 0;
+
   document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);
   document.getElementById("undo-btn").disabled = true;
 
@@ -485,6 +491,7 @@ $(document).on('click', ".undo-history-btn", function(evt)
       <div class="text-center">
         <button type="button" class="btn btn-success btn-lg btn-save-spend" id="save-btn" >Save</button>
         <button type="button" class="btn btn-danger btn-lg btn-save-spend" id="spend-btn" >Spend</button>
+        <button type="button" class="btn btn-default btn-lg" id="undo-btn">Undo</button>
       </div>
 
       </div>
@@ -500,7 +507,6 @@ $(document).on('click', ".undo-history-btn", function(evt)
 
       <div class="text-center">
         <div class="total-title" id="total">Total: $<script type="text/javascript">document.write(total.toFixed(2));</script></div>
-        <button type="button" class="btn btn-default btn-lg" id="undo-btn">Undo</button>
       </div>
 
     </div>

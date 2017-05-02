@@ -8,6 +8,9 @@ For implementing drag-and-drop for wishlist items and money assets:
 
 For implementing the popup:
 - https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_popup
+
+For implementing isNumeric:
+- http://stackoverflow.com/questions/9716468/is-there-any-function-like-isnumeric-in-javascript-to-validate-numbers
 -->
 
 
@@ -63,7 +66,7 @@ For implementing the popup:
 <div class="container">
   <div class="row">
 
-    <div class="col-md-2" id="firstColumn">
+    <div class="col-md-2" id="firstColumn" onclick="hideSelectMenu()">
        <img draggable="false" id="wishListPiggy" src="piggy.jpg" onclick="window.location.href='mainPage.html?total=' + total.toFixed(2)">
        <!-- <img draggable="false" class = "dropZone" id="trashCan" src="trashcan.png" style="height: auto; width: 100%; object-fit: contain"> -->
 
@@ -94,16 +97,38 @@ For implementing the popup:
           <img draggable="true" id="teddyBear" src="wishlist-icons/animated-teddy.png">
           <span class="pricetag" id="rollerSkatesTag">roller skates $5</span>
           <img draggable="true" id="rollerSkates" src="wishlist-icons/animated-skates.png"> -->
-          <img draggable="false" id="wishListThoughtBubble" src = "thought-cloud-2.png" style="width:800px; height:600px; z-index: -1; position:absolute; padding-left:0;">
+          <img draggable="false" id="wishListThoughtBubble" src="thought-cloud-2.png" onclick="hideSelectMenu()">
+          <table id="select-menu-detail">
+            <tr id="select-menu-name">
+              <td class="select-menu-detail-name">
+                <span id="select-menu-close" onclick="hideSelectMenu()">&times;</span>
+                <span>Item</span>
+              </td>
+            </tr>
+            <tr id="select-menu-purchase">
+              <td class="select-menu-detail-button">
+                <input class="btn btn-default" type="button" value="Purchase" id="select-menu-purchase-button">
+              </td>
+            </tr>
+            <tr id="select-menu-edit">
+              <td class="select-menu-detail-button">
+                <input class="btn btn-default" type="button" value="Edit" id="select-menu-edit-button">
+              </td>
+            </tr>
+            <tr id="select-menu-remove">
+              <td class="select-menu-detail-button">
+                <input class="btn btn-default" type="button" value="Remove" id="select-menu-remove-button">
+              </td>
+            </tr>
+          </table>
       </div>
 
       <div class="totalAmount" id="total">Total: $ <script type="text/javascript">document.write(total.toFixed(2));</script></div>
 
     </div>
 
-    <div class="col-md-2" id="lastColumn">
-      <img draggable="false" id="wishListPlusSign" src = "plusSign.gif" style="height: auto; width: 40%; object-fit: contain; 
-                                                                               margin-top: 35px; margin-left: 25px">
+    <div class="col-md-2" id="lastColumn" onclick="hideSelectMenu()">
+      <img draggable="false" id="wishListPlusSign" src = "plusSign.gif">
 
       <!-- Drop down box for adding item -->
       <div id="add-modal" class="modal">
@@ -118,15 +143,21 @@ For implementing the popup:
             <table id="add-modal-body-detail">
               <tr id="add-modal-name">
                   <td class="add-modal-detail-name"> Item: </td>
-                  <td class="add-modal-detail-input"><input type="text" id="add-modal-name-input" placeholder="Name"></td>
+                  <td class="add-modal-detail-input">
+                    <input type="text" id="add-modal-name-input" placeholder="Name" onkeyup="checkValidAddInputs()">
+                  </td>
               </tr>
               <tr id="add-modal-amount">
                   <td class="add-modal-detail-name"> Amount: </td>
-                  <td class="add-modal-detail-input"><input type="text" id="add-modal-amount-input" placeholder="$0.00"></td>
+                  <td class="add-modal-detail-input">
+                    <input type="text" id="add-modal-amount-input" placeholder="$0.00" onkeyup="checkValidAddInputs()">
+                  </td>
               </tr>
               <tr id="add-modal-icon-text">
                   <td class="add-modal-detail-name"> Upload icon: </td>
-                  <td class="add-modal-detail-input"><input type="file" id="add-modal-icon-loader" name="image-loader"></td>
+                  <td class="add-modal-detail-input">
+                    <input type="file" id="add-modal-icon-loader" name="image-loader">
+                  </td>
               </tr>
               <tr>
                   <td></td>
@@ -136,7 +167,7 @@ For implementing the popup:
           </div>
 
           <div class="add-modal-footer">
-            <button type="button" class="btn btn-default" id="add-modal-confirm-button" onclick = "confirmButton()"> Confirm </button>
+            <button type="button" class="btn btn-default" id="add-modal-confirm-button" onclick="confirmButton()" disabled="true"> Confirm </button>
           </div>
 
         </div>
@@ -151,7 +182,7 @@ For implementing the popup:
           <div class="add-modal-body"> Please delete an existing item in order to add a new one!</div>
 
           <div class="add-modal-footer">
-            <button type="button" class="btn btn-default" id="add-modal-confirm-button" onclick = "confirmButton()"> Confirm </button>
+            <button type="button" class="btn btn-default" id="add-modal-confirm-button" onclick="confirmButton()"> Confirm </button>
           </div>
 
         </div>
@@ -171,7 +202,12 @@ For implementing the popup:
         var POSITIONS = [[300,200], [100,400], [500,400], [300,400], [100,200], [100,300], [300,300], [500,200], [500,300],[300,300]];
         var ITEM_SIZE = 100
 
+        /* Globals */
+
+        var isOpen = [true, true, true, true, true, true, true, true, true];
         var open_position = 0;
+        var positionX;
+        var positionY;
 
         //added for coloring of price tags (green when able to buy and gray otherwise)
         var priceTags = document.getElementsByClassName("pricetag");
@@ -188,17 +224,18 @@ For implementing the popup:
           }
         }
 
-        function deductFromTotal() {
-          trashModal.style.display = "none";
-          if ((total - 5.0) >= 0) {
-            total = total - 5.0;
-          }
-          document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);
+        function deductFromTotal(value) {
+          console.log("Total: " + total);
+          console.log("Value: " + value);
+          total -= value;
+          document.getElementById('total').innerHTML = "Total: $ " + total.toFixed(2);
+
+          console.log("After: " + total.toFixed(2));
 
           // Fix URL
           var currentURL = window.location.href;
           var total_index = currentURL.indexOf("total");
-          var url_total =  currentURL.substring(0,total_index) + "total=" + total;
+          var url_total = currentURL.substring(0, total_index) + "total=" + total;
           var stateObj = { foo: "" };
           history.pushState(stateObj, "", url_total);
         }
@@ -218,12 +255,18 @@ For implementing the popup:
 
         // When the user clicks the button, open the modal:
         btn.onclick = function() {
-          if (open_position < ITEM_CAPACITY) {
-            modal.style.display = "block";
-            $('#add-modal-name-input').focus();
-          } else {
-            alert("You have reached the wishlist capacity of 9 items! Please delete an item in order to add.")
+
+          // Linear search to find an open position:
+          for(pos = 0; pos < ITEM_CAPACITY; pos++) {
+            if (isOpen[pos]) {
+              open_position = pos;
+              modal.style.display = "block";
+              $('#add-modal-name-input').focus();
+              return;
+            }
           }
+          // reached the end of the search, no open spots:
+          alert("You have reached the wishlist capacity of 9 items! Please delete an item in order to add.");
         }
 
         // When the user clicks on <span> (x), close the modal:
@@ -259,56 +302,144 @@ For implementing the popup:
         }
 
         //this is just for the listener down below, when you click on the image canvas. Might not be necessary.
-        function clickIcon(){
+        function clickIcon() {
           selectedImage = image;
         }
 
-        //functionality for Confirm Button. Right now it can only position new items in one place.
-        function confirmButton(){
+        // Functionality for Confirm Button:
+        function confirmButton() {
 
-          var nameInput = $("#add-modal-name-input").val(); // getting input from Name and Amount boxes for price tags
+          // Get input from Name and Amount boxes for price tags:
+          var nameInput = $("#add-modal-name-input").val();
           var amountInput = $("#add-modal-amount-input").val();
 
           var parentOffset = $('#wishlistContainer').offset();
 
-          var positionX = POSITIONS[open_position][0];
-          var positionY = POSITIONS[open_position][1];
+          positionX = POSITIONS[open_position][0];
+          positionY = POSITIONS[open_position][1];
           var tagX = positionX + 75;
           var tagY = positionY;
 
-          console.log(positionX);
-          console.log(positionY);
+          isOpen[open_position] = false;
 
-          open_position += 1;
+          // Add item to wishlist bubble:
+          $('#wishlistContainer').append('<img src=" ' + image.src + ' "class="popup" id="image' + open_position + '"style="width:' + 10 + '%; height:auto; position:absolute; ' + 'left:' + positionX + 'px; top:' + positionY + 'px"/>');
 
+          // Add price tag to item in wishlist bubble:
+          $('#wishlistContainer').append('<span class="pricetag" id="giftTag' + open_position + '"style ="left:' + tagX + 'px; top:' + tagY + 'px; background: #E8EDF0">'+ nameInput +' $' + amountInput + '</span>');
 
-          $('#wishlistContainer').append('<img src=" '+ image.src +' " class="popup" id="image '+open_position+'" style="width:'+ 10 +'%;height:auto;position:absolute;'+'left:' + positionX + 'px;top:'+ positionY +'px" onclick="clickDown()"/>');
+          var item_pos = open_position;
 
-          image.addEventListener("mousedown", clickDown, false);
+          // Get the item element:
+          var item = document.getElementById('image' + item_pos);
 
+          // Get the price tag for that item:
+          var priceTag = document.getElementById('giftTag' + item_pos);
 
-          $('#wishlistContainer').append('<span class="pricetag" id="giftTag" style ="left:'+tagX +'px; top:'+tagY+'px; background: #E8EDF0">'+ nameInput +' $'+ amountInput+'</span>');
+          item.addEventListener('click', function() {
+            // Animate select menu:
+            hideSelectMenu();
+            $('#select-menu-detail').css({left: item.offsetLeft - 120, top: item.offsetTop});
+            $('#select-menu-detail').fadeIn(250);
 
-          // $('#wishlistContainer').append('<span class="popuptext" id="myPopup" style="left:' + positionX + 'px;top:'+ positionY +'>A Simple Popup!</span>');
+            // Disable purchase button if user can't afford it:
+            if (parseFloat(amountInput) > total.toFixed(2)) {
+              $('#select-menu-purchase-button').prop('disabled', true);
+              $('#select-menu-purchase-button').css('cursor', 'not-allowed');
+            } else {
+              $('#select-menu-purchase-button').prop('disabled', false);
+              $('#select-menu-purchase-button').css('cursor', 'pointer');
 
+              // If not disabled, update total value when clicked:
+              $('#select-menu-purchase-button').click(function() {
+                hideSelectMenu();
+                $('#image' + item_pos).remove();
+                $('#giftTag' + item_pos).remove();
+                isOpen[item_pos] = true;
+                deductFromTotal(parseFloat(amountInput));
+              });
+            }
 
-          modal.style.display = "none";// get rid of the modal after clickin confirm
+            // Remove this item when clicked:
+            $('#select-menu-remove-button').click(function() {
+              hideSelectMenu();
+              $('#image' + item_pos).remove();
+              $('#giftTag' + item_pos).remove();
+              isOpen[item_pos] = true;
+            });
 
-          $("#add-modal-name-input").val("");//clear input boxes
+            /* TODO: Add click listener for Edit button */
+          });
+
+          modal.style.display = "none"; // get rid of the modal after clickin confirm
+
+          $("#add-modal-name-input").val(""); // clear input boxes
           $("#add-modal-amount-input").val("");
-
+          disableConfirmButton();
         }
 
-        function clickDown(e) {
-          console.log("popup activate");
-          $('#wishlistContainer').append('<span class="popuptext" id="myPopup" style="left:' + positionX + 'px;top:'+ positionY +'>A Simple Popup!</span>');
-        }
         var imageLoader = document.getElementById('add-modal-icon-loader');
         imageLoader.addEventListener('change', handleImage, false);
         imageCanvas.addEventListener('click', clickIcon, false);
 
+        /*
+         * Listener function: this function is called anytime the user clicks on either
+         * the thought bubble, the first column area, the last column area, and the 'x'
+         * button on the select menu.
+         */
+        function hideSelectMenu() {
+          $('#select-menu-detail').hide();
+          // Detach select menu button listeners:
+          $('#select-menu-purchase-button').off('click');
+          $('#select-menu-remove-button').off('click');
+        }
 
+        /*
+         * Helper function: determine whether a given value is numeric or not.
+         * A value is numeric if it is not NaN and if the value is finite.
+         */
+        function isNumeric(value) {
+          return !isNaN(parseFloat(value)) && isFinite(value);
+        }
 
+        /*
+         * Listener function: any time a user changes the name input field or the amount
+         * input field, this funciton is called to toggle the 'disable' attribute for the
+         * confirm button. Ensures that the amount value is numeric and non-negative.
+         */
+        function checkValidAddInputs() {
+
+          // Check name input:
+          var nameValue = document.getElementById('add-modal-name-input').value;
+          if (nameValue == null || nameValue == '') {
+            /* TODO: show error message 'please enter name' */
+            disableConfirmButton();
+            return;
+          }
+
+          // Check amount input:
+          var amountValue = document.getElementById('add-modal-amount-input').value;
+          if (amountValue == null || amountValue == '' || !isNumeric(amountValue) || amountValue < 0.00) {
+            /* TODO: show error message 'please enter valid amount value' */
+            disableConfirmButton();
+            return;
+          }
+
+          // Otherwise, all good:
+          enableConfirmButton();
+        }
+
+        function disableConfirmButton() {
+          $('#add-modal-confirm-button').prop('disabled', true);
+          $('#add-modal-confirm-button').css('cursor', 'not-allowed');
+          $('#add-modal-confirm-button').css('background-color', 'gray');
+        }
+
+        function enableConfirmButton() {
+          $('#add-modal-confirm-button').prop('disabled', false);
+          $('#add-modal-confirm-button').css('cursor', 'pointer');
+          $('#add-modal-confirm-button').css('background-color', 'pink');
+        }
         
     </script>
 

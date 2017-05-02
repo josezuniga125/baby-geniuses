@@ -108,6 +108,22 @@
     cursor: pointer;
 }
 
+#select-menu-close {
+  color: pink;
+  float: left;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 0px 10px;
+}
+
+#select-menu-close:hover {
+  color: gray;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Add Modal */
+
 #add-modal-title {
   margin-top: 5px;
   margin-right: 50px;
@@ -176,22 +192,62 @@
   padding: 5px 15px;
   margin: 15px 5px;
   font-size: 30px;
-  background-color: pink;
+  background-color: gray;
   color: white;
   border-radius: 10px;
+  cursor: not-allowed;
 }
 
 #add-modal-icon-loader {
   font-size: 22px;
 }
 
+#select-menu-detail {
+  position: absolute;
+  display: none;
+  z-index: 10;
+}
+
+/* Select modal */
+.select-menu-detail-button {
+  padding-bottom: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#select-menu-detail {
+  background-color: white;
+}
+
+#select-menu-purchase-button {
+  width: 100%;
+  background-color: pink;
+  color: white;
+}
+
+#select-menu-edit-button {
+  width: 100%;
+  background-color: pink;
+  color: white;
+  cursor: pointer;
+}
+
+#select-menu-remove-button {
+  width: 100%;
+  background-color: pink;
+  color: white;
+  cursor: pointer;
+}
+
 #wishListThoughtBubble {
-  height: 110%;
-  width: 110%;
+  position: absolute;
+  height: 600px;
+  width: 800px;
+  padding-left: 0px;
   margin-top: 20px;
   margin-left: -5%;
   object-fit: contain;
-  z-index: "-1";
+  z-index: -1;
 }
 
 #wishListPiggy {
@@ -199,6 +255,16 @@
   width: 100%;
   margin-top: 10px;
   object-fit: contain;
+  cursor: pointer;
+}
+
+#wishListPlusSign {
+  height: auto;
+  width: 40%;
+  object-fit: contain; 
+  margin-top: 35px;
+  margin-left: 25px;
+  cursor: pointer;
 }
 
 .totalAmount {
@@ -316,4 +382,3 @@
 @keyframes fadeIn {
     from {opacity: 0;}
     to {opacity:1 ;}
-

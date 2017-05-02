@@ -46,6 +46,7 @@ clone_num = 0;
 var historyID = 0;
 
 var dragged;
+var drag_mode = true;
 
 /* events fired on the draggable target */
 document.addEventListener("drag", function( event ) {
@@ -95,7 +96,17 @@ document.addEventListener("drop", function( event ) {
     event.preventDefault();
     // move dragged elem to the selected drop target
     if ( event.target.className == "dropzone" ) {
+        
         $('#amount-filler-text').hide();
+
+        // correct mode
+        if (!drag_mode) {
+          $("#type-amount").hide();
+          $("#running-total").show();
+          $("#clear-btn").show();
+          drag_mode = true;
+        }
+
         event.target.style.background = "";
 
         var element = document.getElementById("dragged-money");
@@ -187,6 +198,23 @@ document.addEventListener("drop", function( event ) {
 
 }, false);
 
+$(document).on('click', ".dropzone", function(evt)
+{
+  if (drag_mode) {
+    $('#amount-filler-text').hide();
+    $('#type-amount').show();
+    $('#type-amount').focus();
+    $('#running-total').hide();
+    $('#clear-btn').hide();
+    $("#dragged-money").remove();
+    $(".dropzone").append("<div class='dragged-money' id='dragged-money'></div>");
+    runningTotal = 0;
+    drag_mode = false;
+  }
+
+
+});
+
 
 $(document).on('click', "#undo-btn", function(evt)
 {
@@ -204,100 +232,153 @@ $(document).on('click', "#undo-btn", function(evt)
 
 $(document).on('click', "#save-btn", function(evt)
 {
-  if (runningTotal > 0) {
+  var text_error = false;
+
+  if (drag_mode && runningTotal > 0) {
     // Update total
     amount = runningTotal;
-    previousTotal=total;
-    total+=amount;
-    document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);
-    document.getElementById("undo-btn").disabled = false;
-
-    // Fix URL
-    var currentURL = window.location.href;
-    var total_index = currentURL.indexOf("total");
-    var url_total = currentURL + "?total=" + 0.00;
-    if (total_index != -1) {
-      url_total =  currentURL.substring(0,total_index) + "total=" + total.toFixed(2);
+  } else if (!drag_mode) {
+    var inputText = $("#type-amount");
+    amount_try = $(inputText).val();
+    if (amount_try.substring(0,1) == "$") {
+      amount = parseFloat(amount_try.substring(1,amount_try.length));
+    } else {
+      amount = parseFloat(amount_try);
     }
-    var stateObj = { foo: "" };
-    history.pushState(stateObj, "", url_total);
 
-    runningTotal = 0;
-    document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
+    if (isNaN(amount)) {
+      alert("Error: Please re-enter amount")
+      amount = 0;
+      text_error = true;
+    }
 
-    // Add item to history
-    historyID += 1;
+    $("#type-amount").val("");
 
-    var inputText = $("#notes");
-    var notes = $(inputText).val();
 
-    var history_item = "<div class='history-item' id='item_" + historyID + "' style='color: green'><div class='history-text'> + $" + amount.toFixed(2) + " " + notes + "</div><button class='btn btn-default btn-sm undo-history-btn' id='" + historyID + "' type='button'>X</button></div>";
+  }
+
+  previousTotal=total;
+  total+=amount;
+
+  document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);
+  document.getElementById("undo-btn").disabled = false;
+
+  // Fix URL
+  var currentURL = window.location.href;
+  var total_index = currentURL.indexOf("total");
+  var url_total = currentURL + "?total=" + 0.00;
+  if (total_index != -1) {
+    url_total =  currentURL.substring(0,total_index) + "total=" + total.toFixed(2);
+  }
+  var stateObj = { foo: "" };
+  history.pushState(stateObj, "", url_total);
+
+  runningTotal = 0;
+  document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
+
+  // Add item to history
+  historyID += 1;
+
+  var inputText = $("#notes");
+  var notes = $(inputText).val();
+
+  var history_item = "<div class='history-item' id='item_" + historyID + "' style='color: green'><div class='history-text'> + $" + amount.toFixed(2) + " " + notes + "</div><button class='btn btn-default btn-sm undo-history-btn' id='" + historyID + "' type='button'>X</button></div>";
+  
+  if (!text_error) {
     $('#history-items').prepend(history_item);
-
-    $('#history-filler-text').hide();
+    $('#type-amount').hide();
+    drag_mode = true;
     $('#amount-filler-text').show();
+  }
 
-    $("#notes").val("");
-    $("#dragged-money").remove();
-    $(".dropzone").append("<div class='dragged-money' id='dragged-money'></div>");
+  $('#history-filler-text').hide();
 
-    // If too many history items increase size of space
-    var num_history_items = $('.history-item').length;
-    if (num_history_items > 8) {
-      document.getElementById("history-items").style.height = "500px";
-    } else if (num_history_items > 6) {
-      document.getElementById("history-items").style.height = "400px";
-    }
+  $("#notes").val("");
+  $("#dragged-money").remove();
+  $(".dropzone").append("<div class='dragged-money' id='dragged-money'></div>");
 
+  // If too many history items increase size of space
+  var num_history_items = $('.history-item').length;
+  if (num_history_items > 8) {
+    document.getElementById("history-items").style.height = "500px";
+  } else if (num_history_items > 6) {
+    document.getElementById("history-items").style.height = "400px";
   }
   
 });
 
 $(document).on('click', "#spend-btn", function(evt)
 {
-  if (runningTotal > 0) {
+  var text_error = false;
+
+  if (drag_mode && runningTotal > 0) {
     // Update total
     amount = runningTotal;
-    previousTotal=total;
-    total-=amount;
-    document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);
-    document.getElementById("undo-btn").disabled = false;
-
-    // Fix URL
-    var currentURL = window.location.href;
-    var total_index = currentURL.indexOf("total");
-    var url_total = currentURL + "?total=" + 0.00;
-    if (total_index != -1) {
-      url_total =  currentURL.substring(0,total_index) + "total=" + total.toFixed(2);
+  } else if (!drag_mode) {
+    var inputText = $("#type-amount");
+    amount_try = $(inputText).val();
+    if (amount_try.substring(0,1) == "$") {
+      amount = parseFloat(amount_try.substring(1,amount_try.length));
+    } else {
+      amount = parseFloat(amount_try);
     }
-    var stateObj = { foo: "" };
-    history.pushState(stateObj, "", url_total);
 
-    runningTotal = 0;
-    document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
+    if (isNaN(amount)) {
+      alert("Error: Please re-enter amount")
+      amount = 0;
+      text_error = true;
+    }
 
-     // Add item to history
-    historyID += 1;
-    var inputText = $("#notes");
-    var notes = $(inputText).val();
+    $("#type-amount").val("");
 
-    var history_item = "<div class='history-item' id='item_" + historyID + "' style='color: red'><div class='history-text'> - $" + amount.toFixed(2) + " " + notes + "</div><button class='btn btn-default btn-sm undo-history-btn' id='" + historyID + "' type='button'>X</button></div>";
+  }
+
+  previousTotal=total;
+  total-=amount;
+
+  document.getElementById('total').innerHTML = "Total: $" + total.toFixed(2);
+  document.getElementById("undo-btn").disabled = false;
+
+  // Fix URL
+  var currentURL = window.location.href;
+  var total_index = currentURL.indexOf("total");
+  var url_total = currentURL + "?total=" + 0.00;
+  if (total_index != -1) {
+    url_total =  currentURL.substring(0,total_index) + "total=" + total.toFixed(2);
+  }
+  var stateObj = { foo: "" };
+  history.pushState(stateObj, "", url_total);
+
+  runningTotal = 0;
+  document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
+
+   // Add item to history
+  historyID += 1;
+  var inputText = $("#notes");
+  var notes = $(inputText).val();
+
+  var history_item = "<div class='history-item' id='item_" + historyID + "' style='color: red'><div class='history-text'> - $" + amount.toFixed(2) + " " + notes + "</div><button class='btn btn-default btn-sm undo-history-btn' id='" + historyID + "' type='button'>X</button></div>";
+  
+  if (!text_error) {
     $('#history-items').prepend(history_item);
-
-    $('#history-filler-text').hide();
+    $('#type-amount').hide();
+    drag_mode = true;
     $('#amount-filler-text').show();
+  }
 
-    $("#notes").val("");
-    $("#dragged-money").remove();
-    $(".dropzone").append("<div class='dragged-money' id='dragged-money'></div>");
-    
-    // If too many history items increase size of space
-    var num_history_items = $('.history-item').length;
-    if (num_history_items > 8) {
-      document.getElementById("history-items").style.height = "500px";
-    } else if (num_history_items > 6) {
-      document.getElementById("history-items").style.height = "400px";
-    }
+  $('#history-filler-text').hide();
+  $('#amount-filler-text').show();
+
+  $("#notes").val("");
+  $("#dragged-money").remove();
+  $(".dropzone").append("<div class='dragged-money' id='dragged-money'></div>");
+  
+  // If too many history items increase size of space
+  var num_history_items = $('.history-item').length;
+  if (num_history_items > 8) {
+    document.getElementById("history-items").style.height = "500px";
+  } else if (num_history_items > 6) {
+    document.getElementById("history-items").style.height = "400px";
   }
 
 });
@@ -305,7 +386,6 @@ $(document).on('click', "#spend-btn", function(evt)
 $(document).on('click', "#clear-btn", function(evt)
 {
   $("#dropzone").remove(".coins");
-  console.log("clear pressed");
 
   runningTotal = 0;
   document.getElementById('running-total').innerHTML = "$" + runningTotal.toFixed(2);
@@ -385,6 +465,7 @@ $(document).on('click', ".undo-history-btn", function(evt)
       <div class="amount-title text-center">Amount:</div>
       <div class="dropzone">
         <div class="text-center filler-text" id="amount-filler-text">Drag money here or click to type</div>
+        <input type="text" class="text-center form-control" id="type-amount" placeholder="$10.00">
         <div class="running-total" id="running-total">$<script type="text/javascript">document.write(runningTotal.toFixed(2));</script></div>
         <button class="btn btn-default btn-sm" id="clear-btn" type="button">Clear</button>
         <div class='dragged-money' id='dragged-money'></div>

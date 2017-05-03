@@ -309,6 +309,11 @@ For implementing isNumeric:
           var nameInput = $("#add-modal-name-input").val();
           var amountInput = $("#add-modal-amount-input").val();
 
+          // Account for '$':
+          if (amountInput.charAt(0) == '$' && amountInput.length > 1) {
+          	amountInput = amountInput.substring(1);
+          }
+
           var parentOffset = $('#wishlistContainer').offset();
 
           positionX = POSITIONS[open_position][0];
@@ -415,6 +420,12 @@ For implementing isNumeric:
 
           // Check amount input:
           var amountValue = document.getElementById('add-modal-amount-input').value;
+
+          // Account for '$':
+          if (amountValue.charAt(0) == '$' && amountValue.length > 1) {
+          	amountValue = amountValue.substring(1);
+          }
+
           if (amountValue == null || amountValue == '' || !isNumeric(amountValue) || amountValue < 0.00) {
             /* TODO: show error message 'please enter valid amount value' */
             disableConfirmButton();

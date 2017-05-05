@@ -206,6 +206,42 @@
   position: absolute;
   display: none;
   z-index: 10;
+  border-radius: 5px;
+}
+
+.safety-modal{
+    display: none; /* Hidden by default **/
+    position: fixed; /* Stay in place */
+    z-index: 11; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+#safety-purchase-menu-detail {
+  position: absolute;
+  display: none;
+  z-index: 12;
+  background: white;
+  width: 550px;
+  height: 100px;
+  border-radius: 5px;
+}
+
+#safety-purchase-purchase-button{
+  background-color: pink;
+  color: white;
+  cursor: pointer;
+}
+
+#safety-purchase-cancel-button{
+  cursor: pointer;
 }
 
 /* Select modal */

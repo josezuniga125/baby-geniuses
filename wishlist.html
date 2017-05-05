@@ -148,20 +148,22 @@ For implementing isNumeric:
                   </td>
               </tr>
               <tr id="add-modal-icon-text">
-                  <td class="add-modal-detail-name"> Upload icon: </td>
+                  <td class="add-modal-detail-name"> Upload icon or select below: </td>
                   <td class="add-modal-detail-input">
-                    <input type="file" id="add-modal-icon-loader" name="image-loader">
+                    <input type="file" id="add-modal-icon-loader" name="image-loader" style = "cursor: pointer">
                   </td>
               </tr>
 
               <tr>
-                  <td></td>
+                  <td id = "selectedImageArea"> 
+                    <img src = "wishlist-icons/giftBox.png" id="wish-list-image" style = "margin-left:45px; margin-right:5px;  width: 100px; height: 100px">
+                  </td>
                   <td>
                     <div class="add-image-table" id="image-table" style = "height: 200px; width: 400px; overflow: scroll; border: 5px solid gray; border-radius: 10px">
-                      <img src = "wishlist-icons/animated-bball.png" id="wish-list-image" style = "margin-left:5px; margin-right:5px; margin-top: 5px; margin-bottom: 5px; width: 50px; height: 50px">
-                      <img src = "wishlist-icons/animated-skates.png" id="wish-list-image" style = " margin-left:5px; margin-right:5px; margin-top: 5px; margin-bottom: 5px; width: 50px; height: 50px">
-                      <img src = "wishlist-icons/animated-teddy.png" id="wish-list-image" style = " margin-left:5px; margin-right:5px; margin-top: 5px; margin-bottom: 5px; width: 50px; height: 50px">
-                      <img src = "wishlist-icons/giftBox.png" id="wish-list-image" style = "margin-left:5px; margin-right:5px; margin-top: 5px; margin-bottom: 5px; width: 50px; height: 50px">
+                      <img src = "wishlist-icons/animated-bball.png" id="wish-list-image" style = "margin-left:5px; margin-right:5px; margin-top: 5px; margin-bottom: 5px; width: 50px; height: 50px; cursor: pointer">
+                      <img src = "wishlist-icons/animated-skates.png" id="wish-list-image" style = " margin-left:5px; margin-right:5px; margin-top: 5px; margin-bottom: 5px; width: 50px; height: 50px; cursor: pointer">
+                      <img src = "wishlist-icons/animated-teddy.png" id="wish-list-image" style = " margin-left:5px; margin-right:5px; margin-top: 5px; margin-bottom: 5px; width: 50px; height: 50px; cursor: pointer">
+                      <img src = "wishlist-icons/giftBox.png" id="wish-list-image" style = "margin-left:5px; margin-right:5px; margin-top: 5px; margin-bottom: 5px; width: 50px; height: 50px; cursor: pointer">
                     </div>
                   </td>
                   <!-- <td><canvas class="add-modal-detail-input" id="image-canvas" width="300px" height="300"></canvas></td> -->
@@ -297,32 +299,23 @@ For implementing isNumeric:
           var reader = new FileReader();
           reader.onload = function(event) {
             image = new Image();
-            // image.className = "wishListItem"; // I gave the images a class, just in case
-            // if (ycount == 3){
-            //   ycoord += 75;
-            //   xcoord = 0;
-            // }
-
-            //console.log(image);
        
             image.onload = function() {
               $("#image-table").append(image);
-              //context.drawImage(image, 0, 0, 50, 50);
-              //   // xcoord += 75;
-              //   // ycount += 1;
             }
+
             image.src = event.target.result;
             var imageName = e.target.files[0].name;
 
-            image.style.width = "50px";
+            image.style.width = "50px"; // these might be redundant code, but currently being used. It could be adde din the img tag or css
             image.style.height = "50px";
             image.style.marginRight = "5px";
             image.style.marginLeft = "5px";
             image.style.marginTop = "5px";
             image.style.marginBottom = "5px";
+            image.style.cursor = "pointer";
 
             image.id = "wish-list-image";
-            console.log(image);
           }
           reader.readAsDataURL(e.target.files[0]);
         }
@@ -331,8 +324,19 @@ For implementing isNumeric:
         //getting the icon that was clicked
         var imgSrc;
         var imageSelected = false;
+        var selectedImage;
         $("#image-table").on('click', "img", function(evt) 
         {
+          $("#selectedImageArea").empty();
+          selectedImage = this;
+          var imageCloneList = $(selectedImage).clone();
+          var imageClone = imageCloneList[0];
+          imageClone.style.marginLeft = "45px";
+          imageClone.style.width = "100px";
+          imageClone.style.height = "100px";
+          imageClone.style.cursor = "not-allowed";
+
+          imageCloneList.appendTo("#selectedImageArea");
           imgSrc = $(this).attr('src');
           imageSelected = true;
         });
@@ -362,7 +366,7 @@ For implementing isNumeric:
 
           // Add item to wishlist bubble:
           if (imageSelected){
-            $('#wishlistContainer').append('<img src=" ' + imgSrc + ' "class="popup" id="image' + open_position + '"style="width:' + 10 + '%; height:auto; position:absolute; ' + 'left:' + positionX + 'px; top:' + positionY + 'px"/>');
+            $('#wishlistContainer').append('<img src=" ' + imgSrc + ' "class="popup" id="wish-list-image' + open_position + '"style="width:' + 10 + '%; height:auto; position:absolute; ' + 'left:' + positionX + 'px; top:' + positionY + 'px"/>');
             imageSelected = false;
             console.log(total.toFixed(2));
             console.log("imageselected");
@@ -386,12 +390,15 @@ For implementing isNumeric:
             console.log(amountInput);
             console.log("nope");
           }
-          
+
+
+          $("#selectedImageArea").empty(); ///// clear last icon selection///////
+      
 
           var item_pos = open_position;
 
           // Get the item element:
-          var item = document.getElementById('image' + item_pos);
+          var item = document.getElementById('wish-list-image' + item_pos);
 
           // Get the price tag for that item:
           var priceTag = document.getElementById('giftTag' + item_pos);
@@ -421,7 +428,7 @@ For implementing isNumeric:
                 $('#safety-purchase-purchase-button').click(function() {
                   hideSelectMenu();
 
-                  $('#image' + item_pos).remove();
+                  $('#wish-list-image' + item_pos).remove();
                   $('#giftTag' + item_pos).remove();
                   isOpen[item_pos] = true;
                   deductFromTotal(parseFloat(amountInput)); // this is recording the amount input everytime the safety prompt is opened... can deduct more than supposed to
@@ -436,7 +443,7 @@ For implementing isNumeric:
             // Remove this item when clicked:
             $('#select-menu-remove-button').click(function() {
               hideSelectMenu();
-              $('#image' + item_pos).remove();
+              $('#wish-list-image' + item_pos).remove();
               $('#giftTag' + item_pos).remove();
               isOpen[item_pos] = true;
             });

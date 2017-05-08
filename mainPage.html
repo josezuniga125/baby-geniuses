@@ -106,6 +106,7 @@ document.addEventListener("drop", function( event ) {
         // correct mode
         if (!drag_mode) {
           $("#type-amount").hide();
+          $("#type-amount-label").hide();
           $("#running-total").show();
           $("#clear-btn").show();
           drag_mode = true;
@@ -208,6 +209,7 @@ $(document).on('click', ".dropzone", function(evt)
   if (drag_mode) {
     $('#amount-filler-text').hide();
     $('#type-amount').show();
+    $('#type-amount-label').show();
     $('#type-amount').focus();
     $('#running-total').hide();
     $('#clear-btn').hide();
@@ -446,7 +448,7 @@ $(document).on('click', ".undo-history-btn", function(evt)
 <body>
 
 <br>
-<div class="container">
+<div class="container" height="auto">
   <div class="row">
     <div class="col-md-4" id="firstColumn">
       <div>
@@ -478,7 +480,10 @@ $(document).on('click', ".undo-history-btn", function(evt)
         <button class="btn btn-default btn-sm" id="clear-btn" type="button">Clear</button>
         <div class="dropzone">
           <div class="text-center filler-text" id="amount-filler-text">Drag money here or click to type</div>
-          <input type="text" class="text-center form-control" id="type-amount" placeholder="$10.00">
+          <div>
+            <label id="type-amount-label">$</label>
+            <input type="text" class="text-center form-control" id="type-amount" placeholder="$10.00">
+          </div>
           <div class='dragged-money' id='dragged-money'></div>
         </div>
       </div>
@@ -505,7 +510,7 @@ $(document).on('click', ".undo-history-btn", function(evt)
     <div class="col-md-4" id="mainColumn">
 
       <!-- Column 2 Code Here -->
-      <img id="thought-cloud" src="ThoughtCloud.png" alt="Thought Cloud" onclick="window.location.href='wishlist.html'">
+      <img id="thought-cloud" src="ThoughtCloud3.png" alt="Thought Cloud" onclick="window.location.href='wishlist.html'">
       <div class="thought-text text-center" onclick="window.location.href='wishlist.html?total=' + total.toFixed(2)">Wishlist</div>
 
       <img id="piggy-image" src="piggy.jpg" alt="Piggy Bank" style="height: auto; width: 100%; object-fit: contain" onclick="window.location.href='wishlist.html?total=' + total.toFixed(2)">

@@ -68,35 +68,10 @@ For implementing isNumeric:
 
     <div class="col-md-2" id="firstColumn" onclick="hideSelectMenu()">
        <img draggable="false" id="wishListPiggy" src="piggy-back.png" onclick="window.location.href='mainPage.html?total=' + total.toFixed(2)">
-       <!-- <img draggable="false" class = "dropZone" id="trashCan" src="trashcan.png" style="height: auto; width: 100%; object-fit: contain"> -->
-
-       <!-- Trashcan modal -->
-       <!-- <div id="myTrashModal" class="modal"> -->
-       <!-- Trashcan modal content -->
-        <!-- <div class="modal-content">
-          <div class="modal-header">
-            <span class="trashClose">&times;</span>
-              <h2>This item costs $5. You currently have . Do you want to buy or trash this item?</h2>
-          </div>
-          <div class="trashModal-body">
-            <button type="button" class = "btn btn-default" id = "yesButton" onclick="deductFromTotal()">Yes </button>
-            <button type="button" class = "btn btn-default" id = "noButton" onclick="hideTrashModal()">No </button>
-          </div>
-       
-        </div>
-      </div> -->
-
     </div>
 
     <div class="col-md-8" id="mainColumn">
-
       <div class="container" id="wishlistContainer">
-          <!-- <span class="pricetag" id="bballTag">basketball $5</span> 
-          <img draggable="true" id="basketball" src="wishlist-icons/animated-bball.png">
-          <span class="pricetag" id="teddyBearTag">teddy bear $5</span>
-          <img draggable="true" id="teddyBear" src="wishlist-icons/animated-teddy.png">
-          <span class="pricetag" id="rollerSkatesTag">roller skates $5</span>
-          <img draggable="true" id="rollerSkates" src="wishlist-icons/animated-skates.png"> -->
           <img draggable="false" id="wishListThoughtBubble" src="thought-cloud-2.png" onclick="hideSelectMenu()">
           <table id="select-menu-detail">
             <tr id="select-menu-name">
@@ -121,6 +96,25 @@ For implementing isNumeric:
               </td>
             </tr>
           </table>
+
+          <!-- safety purchase prompt -->
+          <div class = "safety-modal">
+            <table id="safety-purchase-menu-detail">
+              <tr id="safety-purchase-menu-name">
+                <td class="safety-purchase-detail-name" colspan = "2" id = "top-safety-row">
+                </td>
+              </tr>
+              <tr id="safety-purchase-options">
+                <td class="safety-purchase-purchase-button" align= "center">
+                  <input class="btn btn-default" type="button" value="Cancel" id="safety-purchase-cancel-button">
+                </td>
+                <td class="safety-purchase-cancel-button" align= "center">
+                  <input class="btn btn-default" type="button" value="Purchase" id="safety-purchase-purchase-button">
+                </td>
+              </tr>
+            </table>
+        </div>
+
       </div>
 
       <div class="totalAmount" id="total">Total: $ <script type="text/javascript">document.write(total.toFixed(2));</script></div>
@@ -154,20 +148,31 @@ For implementing isNumeric:
                   </td>
               </tr>
               <tr id="add-modal-icon-text">
-                  <td class="add-modal-detail-name"> Upload icon: </td>
+                  <td class="add-modal-detail-name"> Upload icon or select below: </td>
                   <td class="add-modal-detail-input">
-                    <input type="file" id="add-modal-icon-loader" name="image-loader">
+                    <input type="file" id="add-modal-icon-loader" name="image-loader" style = "cursor: pointer">
                   </td>
               </tr>
+
               <tr>
-                  <td></td>
-                  <td><canvas class="add-modal-detail-input" id="image-canvas" width="300px" height="300"></canvas></td>
+                  <td id = "selectedImageArea"> 
+<!--                     <img src = "wishlist-icons/giftBox.png" id="wish-list-image" style = "margin-left:45px; margin-right:5px;  width: 100px; height: 100px"> -->
+                  </td>
+                  <td>
+                    <div class="add-image-table" id="image-table" style = "height: 200px; width: 400px; overflow: scroll; border: 5px solid gray; border-radius: 10px">
+                      <img src = "wishlist-icons/animated-bball.png" id="wish-list-image" style = "margin-left:5px; margin-right:5px; margin-top: 5px; margin-bottom: 5px; width: 50px; height: 50px; cursor: pointer">
+                      <img src = "wishlist-icons/animated-skates.png" id="wish-list-image" style = " margin-left:5px; margin-right:5px; margin-top: 5px; margin-bottom: 5px; width: 50px; height: 50px; cursor: pointer">
+                      <img src = "wishlist-icons/animated-teddy.png" id="wish-list-image" style = " margin-left:5px; margin-right:5px; margin-top: 5px; margin-bottom: 5px; width: 50px; height: 50px; cursor: pointer">
+                      <img src = "wishlist-icons/giftBox.png" id="wish-list-image" style = "margin-left:5px; margin-right:5px; margin-top: 5px; margin-bottom: 5px; width: 50px; height: 50px; cursor: pointer">
+                    </div>
+                  </td>
+                  <!-- <td><canvas class="add-modal-detail-input" id="image-canvas" width="300px" height="300"></canvas></td> -->
               </tr>
             </table>
           </div>
 
           <div class="add-modal-footer">
-            <button type="button" class="btn btn-default" id="add-modal-confirm-button" onclick="confirmButton()" disabled="true"> Confirm </button>
+            <button type="button" class="btn-lg btn-default" id="add-modal-confirm-button" onclick="confirmButton()" disabled="true"> Confirm </button>
           </div>
 
         </div>
@@ -189,6 +194,9 @@ For implementing isNumeric:
       </div>
 
     </div>
+  </div>
+  </div>
+  </div>
 
 
 </body>
@@ -210,19 +218,19 @@ For implementing isNumeric:
         var positionY;
 
         //added for coloring of price tags (green when able to buy and gray otherwise)
-        var priceTags = document.getElementsByClassName("pricetag");
-        //var priceTagsBefore = document.getElementsByClassName("pricetag:before");
-        for (tag = 0; tag < priceTags.length; tag ++){
-          if (total.toFixed(2) >= 5){ // for now 5, but will be replaced by specific price on tag
-            priceTags[tag].style.background = "#6AE368";
-            priceTags[tag].style.color = "white";
+        // var priceTags = document.getElementsByClassName("pricetag");
+        // //var priceTagsBefore = document.getElementsByClassName("pricetag:before");
+        // for (tag = 0; tag < priceTags.length; tag ++){
+        //   if (total.toFixed(2) >= 5){ // for now 5, but will be replaced by specific price on tag
+        //     priceTags[tag].style.background = "#6AE368";
+        //     priceTags[tag].style.color = "white";
             
-          }
-          else{
-            priceTags[tag].style.background = "#E8EDF0";
-            priceTags[tag].style.color = "black";
-          }
-        }
+        //   }
+        //   else{
+        //     priceTags[tag].style.background = "#E8EDF0";
+        //     priceTags[tag].style.color = "black";
+        //   }
+        // }
 
         function deductFromTotal(value) {
           total -= value;
@@ -257,7 +265,8 @@ For implementing isNumeric:
             if (isOpen[pos]) {
               open_position = pos;
               modal.style.display = "block";
-              $('#add-modal-name-input').focus();
+              $('#add-modal-name-input').text("Hello world!");
+
               return;
             }
           }
@@ -279,35 +288,76 @@ For implementing isNumeric:
 
         /* Add Modal Image Loader */
 
-        var imageCanvas = document.getElementById('image-canvas');
-        var context = imageCanvas.getContext('2d');
+        // var imageCanvas = document.getElementById('image-canvas');
+        // var context = imageCanvas.getContext('2d');
         var image;
-        var selectedImage;
+        var xcoord = 0;
+        var ycoord = 0;
+        var ycount = 0;
+        // var selectedImage;
 
         function handleImage(e) {
           var reader = new FileReader();
           reader.onload = function(event) {
             image = new Image();
-            image.className = "wishListItem"; // I gave the images a class, just in case
+       
             image.onload = function() {
-              context.drawImage(image, 0, 0, 50, 50);
+              $("#image-table").append(image);
             }
+
             image.src = event.target.result;
+            var imageName = e.target.files[0].name;
+
+            image.style.width = "50px"; // these might be redundant code, but currently being used. It could be adde din the img tag or css
+            image.style.height = "50px";
+            image.style.marginRight = "5px";
+            image.style.marginLeft = "5px";
+            image.style.marginTop = "5px";
+            image.style.marginBottom = "5px";
+            image.style.cursor = "pointer";
+
+            image.id = "wish-list-image";
           }
           reader.readAsDataURL(e.target.files[0]);
         }
 
-        //this is just for the listener down below, when you click on the image canvas. Might not be necessary.
-        function clickIcon() {
-          selectedImage = image;
-        }
+
+        //getting the icon that was clicked
+        var imgSrc;
+        var imageSelected = false;
+        var selectedImage;
+        $("#image-table").on('click', "img", function(evt) 
+        {
+          $("#selectedImageArea").empty();
+          selectedImage = this;
+          var imageCloneList = $(selectedImage).clone();
+          var imageClone = imageCloneList[0];
+          imageClone.style.marginLeft = "45px";
+          imageClone.style.width = "100px";
+          imageClone.style.height = "100px";
+          imageClone.style.cursor = "not-allowed";
+
+          imageCloneList.appendTo("#selectedImageArea");
+          imgSrc = $(this).attr('src');
+          imageSelected = true;
+        });
+        
 
         // Functionality for Confirm Button:
         function confirmButton() {
 
+          modal.style.display = "none"; // get rid of the modal after clickin confirm
+
           // Get input from Name and Amount boxes for price tags:
           var nameInput = $("#add-modal-name-input").val();
           var amountInput = $("#add-modal-amount-input").val();
+
+          document.getElementById("top-safety-row").innerHTML = "Are you sure you want to purchase " + nameInput + " for " + "$" + amountInput +"?";
+
+          // Account for '$':
+          if (amountInput.charAt(0) == '$' && amountInput.length > 1) {
+          	amountInput = amountInput.substring(1);
+          }
 
           var parentOffset = $('#wishlistContainer').offset();
 
@@ -319,15 +369,37 @@ For implementing isNumeric:
           isOpen[open_position] = false;
 
           // Add item to wishlist bubble:
-          $('#wishlistContainer').append('<img src=" ' + image.src + ' "class="popup" id="image' + open_position + '"style="width:' + 10 + '%; height:auto; position:absolute; ' + 'left:' + positionX + 'px; top:' + positionY + 'px"/>');
-
+          if (imageSelected){
+            $('#wishlistContainer').append('<img src=" ' + imgSrc + ' "class="popup" id="wish-list-image' + open_position + '"style="width:' + 10 + '%; height:auto; position:absolute; ' + 'left:' + positionX + 'px; top:' + positionY + 'px"/>');
+            imageSelected = false;
+            console.log(total.toFixed(2));
+            console.log("imageselected");
+          }
+          else{
+            $('#wishlistContainer').append('<img src="wishlist-icons/giftBox.png" class="popup" id="image' + open_position + '"style="width:' + 10 + '%; height:auto; position:absolute; ' + 'left:' + positionX + 'px; top:' + positionY + 'px"/>');
+            console.log(total.toFixed(2));
+            console.log("default");
+          }
+         
           // Add price tag to item in wishlist bubble:
-          $('#wishlistContainer').append('<span class="pricetag" id="giftTag' + open_position + '"style ="left:' + tagX + 'px; top:' + tagY + 'px; background: #E8EDF0">'+ nameInput +' $' + amountInput + '</span>');
+          if (total.toFixed(2) >= amountInput){
+            $('#wishlistContainer').append('<span class="pricetag" id="giftTag' + open_position + '"style ="left:' + tagX + 'px; top:' + tagY + 'px; background: #6AE368; color: white">'+ nameInput +' $' + amountInput + '</span>');
+            console.log(amountInput);
+            console.log("affordable");
+          }
+          else{
+            $('#wishlistContainer').append('<span class="pricetag" id="giftTag' + open_position + '"style ="left:' + tagX + 'px; top:' + tagY + 'px; background: #E8EDF0; color: black">'+ nameInput +' $' + amountInput + '</span>');
+            
+          }
+
+
+          $("#selectedImageArea").empty(); ///// clear last icon selection///////
+      
 
           var item_pos = open_position;
 
           // Get the item element:
-          var item = document.getElementById('image' + item_pos);
+          var item = document.getElementById('wish-list-image' + item_pos);
 
           // Get the price tag for that item:
           var priceTag = document.getElementById('giftTag' + item_pos);
@@ -348,26 +420,66 @@ For implementing isNumeric:
 
               // If not disabled, update total value when clicked:
               $('#select-menu-purchase-button').click(function() {
-                hideSelectMenu();
-                $('#image' + item_pos).remove();
-                $('#giftTag' + item_pos).remove();
-                isOpen[item_pos] = true;
-                deductFromTotal(parseFloat(amountInput));
+                // hideSelectMenu();
+                $('#safety-purchase-menu-detail').css({left: item.offsetLeft + 150, top: item.offsetTop - 140});
+                $('.safety-modal').css('display', 'block');
+                $('#safety-purchase-menu-detail').fadeIn(250);
+                
+
+                $('#safety-purchase-purchase-button').click(function() {
+                  hideSelectMenu();
+
+                  $('#wish-list-image' + item_pos).remove();
+                  $('#giftTag' + item_pos).remove();
+                  isOpen[item_pos] = true;
+                  deductFromTotal(parseFloat(amountInput)); // this is recording the amount input everytime the safety prompt is opened... can deduct more than supposed to
+                });
+
+                $('#safety-purchase-cancel-button').click(function() {
+                  hideSelectMenu();
+                });
               });
             }
 
             // Remove this item when clicked:
             $('#select-menu-remove-button').click(function() {
               hideSelectMenu();
-              $('#image' + item_pos).remove();
+              $('#wish-list-image' + item_pos).remove();
               $('#giftTag' + item_pos).remove();
               isOpen[item_pos] = true;
             });
 
             /* TODO: Add click listener for Edit button */
+            // Edit this item when clicked:
+            $('#select-menu-edit-button').click(function() {
+              
+              hideSelectMenu();
+              $('#wish-list-image' + item_pos).remove();
+              $('#giftTag' + item_pos).remove();
+
+              modal.style.display = "block";
+              enableConfirmButton();
+              $('#add-modal-name-input').val(nameInput);
+              $("#add-modal-amount-input").val(amountInput);
+
+              var orig_positionX = POSITIONS[item_pos][0];
+              var orig_positionY = POSITIONS[item_pos][1];
+
+              var orig_tagX = orig_positionX + 75;
+              var orig_tagY = orig_positionY;
+
+              imageCloneList.appendTo("#selectedImageArea");
+              imgSrc = $(this).attr('src');
+              imageSelected = true;
+
+              $('#wishlistContainer').append('<img src=" ' + imgSrc + ' "class="popup" id="wish-list-image' + item_pos + '"style="width:' + 10 + '%; height:auto; position:absolute; ' + 'left:' + orig_positionX + 'px; top:' + orig_positionY + 'px"/>');
+              $('#wishlistContainer').append('<span class="pricetag" id="giftTag' + item_pos + '"style ="left:' + orig_tagX + 'px; top:' + orig_tagY + 'px; background: #6AE368; color: white">'+ nameInput +' $' + amountInput + '</span>');
+              
+            });
           });
 
-          modal.style.display = "none"; // get rid of the modal after clickin confirm
+          //modal.style.display = "none"; // get rid of the modal after clickin confirm
+
 
           $("#add-modal-name-input").val(""); // clear input boxes
           $("#add-modal-amount-input").val("");
@@ -376,7 +488,7 @@ For implementing isNumeric:
 
         var imageLoader = document.getElementById('add-modal-icon-loader');
         imageLoader.addEventListener('change', handleImage, false);
-        imageCanvas.addEventListener('click', clickIcon, false);
+        //imageCanvas.addEventListener('click', clickIcon, false);
 
         /*
          * Listener function: this function is called anytime the user clicks on either
@@ -384,7 +496,9 @@ For implementing isNumeric:
          * button on the select menu.
          */
         function hideSelectMenu() {
-          $('#select-menu-detail').hide();
+          $('#select-menu-detail').fadeOut(150);
+          $('#safety-purchase-menu-detail').fadeOut(150);
+          $('.safety-modal').fadeOut(250);
           // Detach select menu button listeners:
           $('#select-menu-purchase-button').off('click');
           $('#select-menu-remove-button').off('click');
@@ -415,6 +529,12 @@ For implementing isNumeric:
 
           // Check amount input:
           var amountValue = document.getElementById('add-modal-amount-input').value;
+
+          // Account for '$':
+          if (amountValue.charAt(0) == '$' && amountValue.length > 1) {
+          	amountValue = amountValue.substring(1);
+          }
+
           if (amountValue == null || amountValue == '' || !isNumeric(amountValue) || amountValue < 0.00) {
             /* TODO: show error message 'please enter valid amount value' */
             disableConfirmButton();
@@ -428,13 +548,13 @@ For implementing isNumeric:
         function disableConfirmButton() {
           $('#add-modal-confirm-button').prop('disabled', true);
           $('#add-modal-confirm-button').css('cursor', 'not-allowed');
-          $('#add-modal-confirm-button').css('background-color', 'gray');
+          //$('#add-modal-confirm-button').css('background-color', 'gray');
         }
 
         function enableConfirmButton() {
           $('#add-modal-confirm-button').prop('disabled', false);
           $('#add-modal-confirm-button').css('cursor', 'pointer');
-          $('#add-modal-confirm-button').css('background-color', 'pink');
+          //$('#add-modal-confirm-button').css('background-color', 'pink');
         }
         
     </script>

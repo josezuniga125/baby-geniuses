@@ -39,17 +39,18 @@
 	border: 2px solid #000;
 	position: relative;
 	z-index: 3;
-	border-radius: 15px;
+	border-radius: 10px;
 	cursor: text;
 }
 
 .dropzone {
 	margin: auto;
 	height: 200px;
-	width: 300px;
+	width: 295px;
 	overflow: scroll; 
 	z-index: 5;
 	cursor: text;
+	border-radius: 10px;
 }
 
 #type-amount {
@@ -61,27 +62,39 @@
 	display: none;
 }
 
+#type-amount-label {
+	position: absolute;
+	top: 20px;
+	left: 50px;
+	font-size: 40px;
+	display: none;
+}
+
 .running-total {
 	position: absolute;
 	bottom: 0;
     left: 0;
     z-index: 100;
-    font-size: 20px;
+    font-size: 25px;
     font-weight: bold;
-    margin: 5px;
+    margin: 10px;
+    margin-left: 15px;
 }
 
 #clear-btn {
     position: absolute;
     bottom: 0;
     right: 0;
-    background-color: darkgrey;
     z-index: 100;
-    font-weight: bold;
+    font-size: 20px;
+    font-weight: normal;
     margin: 5px;
 	cursor: hand;
 	cursor: pointer;
 	overflow: scroll;
+	width: 80px;
+	height: 40px;
+	vertical-align: middle;
 }
 
 .btn-save-spend {
@@ -110,7 +123,7 @@
 	right: 62px;
 	top: 45px;
 	z-index: 3;
-	font-weight: bold;
+	font-weight: normal;
 }
 
 
@@ -188,3 +201,4 @@
 	cursor: hand;
 	cursor: pointer;
 }
+

@@ -93,7 +93,7 @@
 
 /* The Close Button */
 .close {
-    color: white;
+    color: black;
     float: left;
     font-size: 40px;
     font-weight: bold;
@@ -109,9 +109,9 @@
 }
 
 #select-menu-close {
-  color: pink;
+  color: black;
   float: left;
-  font-size: 15px;
+  font-size: 20px;
   font-weight: bold;
   padding: 0px 10px;
 }
@@ -133,7 +133,7 @@
     padding-top: 10px;
     padding-bottom: 10px;
     background-color: pink;
-    color: white;
+    color: black;
     text-align: center;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -141,7 +141,6 @@
 
 #add-modal-body-detail {
   margin-top: 10px;
-  margin-left: 10px;
 }
 
 .add-modal-detail-name {
@@ -169,10 +168,7 @@
 }
 
 .add-modal-body {
-	padding: 2px 16px;
 	font-size:30px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
 }
 
 .add-modal-footer {
@@ -192,8 +188,6 @@
   padding: 5px 15px;
   margin: 15px 5px;
   font-size: 30px;
-  background-color: gray;
-  color: white;
   border-radius: 10px;
   cursor: not-allowed;
 }
@@ -206,6 +200,48 @@
   position: absolute;
   display: none;
   z-index: 10;
+  border-radius: 5px;
+}
+
+.safety-modal{
+    display: none; /* Hidden by default **/
+    position: fixed; /* Stay in place */
+    z-index: 11; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+#safety-purchase-menu-detail {
+  position: absolute;
+  display: none;
+  z-index: 12;
+  background: white;
+  width: 400px;
+  height: 100px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+#safety-purchase-purchase-button{
+  background-color: pink;
+  color: black;
+  cursor: pointer;
+  bottom: 0;
+  right: 0;
+
+}
+
+#safety-purchase-cancel-button{
+  cursor: pointer;
+  bottom: 0;
+  left: 0;
 }
 
 /* Select modal */
@@ -222,20 +258,20 @@
 #select-menu-purchase-button {
   width: 100%;
   background-color: pink;
-  color: white;
+  color: black;
 }
 
 #select-menu-edit-button {
   width: 100%;
   background-color: pink;
-  color: white;
+  color: black;
   cursor: pointer;
 }
 
 #select-menu-remove-button {
   width: 100%;
   background-color: pink;
-  color: white;
+  color: black;
   cursor: pointer;
 }
 
@@ -372,6 +408,7 @@
     -webkit-animation: fadeIn 1s;
     animation: fadeIn 1s;
 }
+
 
 /* Add animation (fade in the popup) */
 @-webkit-keyframes fadeIn {

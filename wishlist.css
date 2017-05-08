@@ -57,8 +57,6 @@
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
 }
 
 /* Modal Content */
@@ -73,7 +71,7 @@
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
     animation-name: animatetop;
-    animation-duration: 0.4s
+    animation-duration: 0.4s;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     border-bottom-left-radius: 10px;
@@ -99,6 +97,7 @@
     font-weight: bold;
     padding-left: 15px;
     padding-right: 15px;
+    border-radius: 10px;
   }
 
 .close:hover,
@@ -106,14 +105,14 @@
     color: gray;
     text-decoration: none;
     cursor: pointer;
+    border-radius: 10px;
 }
 
 #select-menu-close {
   color: black;
-  float: left;
   font-size: 20px;
   font-weight: bold;
-  padding: 0px 10px;
+  border-radius: 10px;
 }
 
 #select-menu-close:hover {
@@ -144,21 +143,19 @@
 }
 
 .add-modal-detail-name {
-  font-size: 25px;
+  font-size: 20px;
   padding: 5px 10px;
 }
 
 .add-modal-detail-input {
-  font-size: 25px;
+  font-size: 20px;
   padding: 5px 10px;
 }
 
 #add-modal-name-input{
-  border-radius: 8px;
 }
 
 #add-modal-amount-input{
-  border-radius: 8px;
 }
 
 .trashModal-body {
@@ -168,7 +165,9 @@
 }
 
 .add-modal-body {
-	font-size:30px;
+	font-size:20px;
+  border-radius:10px;
+  margin-left: 30px;
 }
 
 .add-modal-footer {
@@ -193,7 +192,7 @@
 }
 
 #add-modal-icon-loader {
-  font-size: 22px;
+  font-size: 20px;
 }
 
 #select-menu-detail {

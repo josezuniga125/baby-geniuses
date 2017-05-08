@@ -49,7 +49,7 @@
 .dropzone {
 	margin: auto;
 	height: 200px;
-	width: 90%;
+	width: 100%;
 	overflow: scroll; 
 	z-index: 5;
 	cursor: text;

@@ -82,7 +82,7 @@ document.addEventListener("dragover", function( event ) {
 
 document.addEventListener("dragenter", function( event ) {
     // highlight potential drop target when the draggable element enters it
-    if ( event.target.className == "dropzone" || event.target.className == "dragged") {
+    if ( event.target.className == "dropzone") {
         event.target.style.background = "lightgrey";
     }
 }, false);
@@ -256,7 +256,7 @@ $(document).on('click', "#save-btn", function(evt)
     }
 
     if (isNaN(amount)) {
-      alert("Error: Please re-enter amount")
+      alert("Uhoh, we don't understand the amount you entered! Please try again.")
       amount = 0;
       text_error = true;
     }
@@ -333,7 +333,7 @@ $(document).on('click', "#spend-btn", function(evt)
     }
 
     if (isNaN(amount)) {
-      alert("Error: Please re-enter amount")
+      alert("Uhoh, we don't understand the amount you entered! Please try again.")
       amount = 0;
       text_error = true;
     }
@@ -343,7 +343,7 @@ $(document).on('click', "#spend-btn", function(evt)
   }
 
   if (total < amount) {
-    alert("Error: You do not have enough money to spend that much.");
+    alert("Uhoh! Your total is not high enough to spend that much.");
     text_error = true;
   } else {
     previousTotal=total;
@@ -411,15 +411,16 @@ $(document).on('click', "#clear-btn", function(evt)
 
 $(document).on('click', "#clear-all-history", function(evt)
 {
-  alert("Are you sure you want to clear all?");
 
-  $("#history-items").remove();
-  $("<div id='history-items'></div>").insertAfter($("#history-filler-text"));
+  if (confirm("Are you sure you want to clear all?") == true) {
+    $("#history-items").remove();
+    $("<div id='history-items'></div>").insertAfter($("#history-filler-text"));
 
-  document.getElementById("history-items").style.height = "300px";
-  $('#history-filler-text').show();
+    document.getElementById("history-items").style.height = "300px";
+    $('#history-filler-text').show();
 
-  document.getElementById("undo-btn").disabled = true;
+    document.getElementById("undo-btn").disabled = true;
+  }
 
 
 });
@@ -484,8 +485,7 @@ $(document).on('click', ".undo-history-btn", function(evt)
         <div class="dropzone">
           <div class="text-center filler-text" id="amount-filler-text">Drag money here or click to type</div>
           <div>
-            <label id="type-amount-label">$</label>
-            <input type="text" class="text-center form-control" id="type-amount" placeholder="$10.00">
+            <input type="text" class="text-center form-control" id="type-amount" placeholder="$10.00"></input>
           </div>
           <div class='dragged-money' id='dragged-money'></div>
         </div>

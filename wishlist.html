@@ -73,11 +73,6 @@ For implementing isNumeric:
       <div class="container" id="wishlistContainer">
           <img draggable="false" id="wishListThoughtBubble" src="thought-cloud-2.png" onclick="hideSelectMenu()">
           <table id="select-menu-detail">
-            <!-- <tr id="select-menu-name">
-              <td class="select-menu-detail-name">
-                <span id="select-menu-close" onclick="hideSelectMenu()">&times;</span>
-              </td>
-            </tr> -->
             <tr id="select-menu-purchase">
               <td class="select-menu-detail-button">
                 <input class="btn btn-default" type="button" value="Purchase" id="select-menu-purchase-button">
@@ -115,7 +110,7 @@ For implementing isNumeric:
 
       </div>
 
-      <div class="totalAmount text-center" id="total">Total: $ <script type="text/javascript">document.write(total.toFixed(2));</script></div>
+      <div class="totalAmount" id="total">Total: $ <script type="text/javascript">document.write(total.toFixed(2));</script></div>
 
     </div>
 
@@ -212,8 +207,10 @@ For implementing isNumeric:
         /* Constants */
         
         var ITEM_CAPACITY = 9;
-        var POSITIONS = [[300,200], [100,400], [500,400], [300,400], [100,200], [100,300], [300,300], [500,200], [500,300],[300,300]];
+        var POSITIONS = [[150,150], [150,250], [150,350], [350,150], [350,250], [350,350], [550,150], [550,250], [550,350]];
         var ITEM_SIZE = 100
+
+        var POSITIONS_PERCENTS = [[15,30], [15,50], [15,70], [45,30], [45,50], [45,70], [70,30], [70,50], [70,70]];
 
         /* Globals */
 
@@ -366,11 +363,11 @@ For implementing isNumeric:
 
           var parentOffset = $('#wishlistContainer').offset();
 
-          positionX = POSITIONS[open_position][0];
-          positionY = POSITIONS[open_position][1];
-          var tagX = positionX + 60;
+          positionX = POSITIONS_PERCENTS[open_position][0];
+          positionY = POSITIONS_PERCENTS[open_position][1];
+          var tagX = positionX + 7;
           var tagY = positionY;
-          var newtagX = tagX+4;
+          var newtagX = tagX+0.5;
 
           var showAmount = parseFloat(Math.round(amountInput * 100) / 100).toFixed(2);
 
@@ -378,21 +375,21 @@ For implementing isNumeric:
 
           // Add item to wishlist bubble:
           if (imageSelected){
-            $('#wishlistContainer').append('<img src=" ' + imgSrc + ' "class="popup" id="wish-list-image' + open_position + '"style="width:' + 10 + '%; height:auto; position:absolute; ' + 'left:' + positionX + 'px; top:' + positionY + 'px"/>');
+            $('#wishlistContainer').append('<img src=" ' + imgSrc + ' "class="popup" id="wish-list-image' + open_position + '"style="width:' + 10 + '%; height:auto; position:absolute; ' + 'left:' + positionX + '%; top:' + positionY + '%"/>');
             imageSelected = false;
           }
           else{
-            $('#wishlistContainer').append('<img src="wishlist-icons/giftBox.png" class="popup" id="image' + open_position + '"style="width:' + 10 + '%; height:auto; position:absolute; ' + 'left:' + positionX + 'px; top:' + positionY + 'px"/>');
+            $('#wishlistContainer').append('<img src="wishlist-icons/giftBox.png" class="popup" id="image' + open_position + '"style="width:' + 10 + '%; height:auto; position:absolute; ' + 'left:' + positionX + '%; top:' + positionY + '%"/>');
           }
          
           // Add price tag to item in wishlist bubble:
           if (parseFloat(total.toFixed(2)) >= parseFloat(amountInput)){
-            $('#wishlistContainer').append('<span class="pricetag-triangle" id="giftTag' + open_position + '"style ="left:' + tagX + 'px; top:' + tagY + 'px; border-right:14px solid #6AE368;" </span>');
-            $('#wishlistContainer').append('<span class="pricetag" id="giftTag' + open_position + '"style ="left:' + newtagX + 'px; top:' + tagY + 'px; background-color: #6AE368; color: white">'+ nameInput +' $' + showAmount + '</span>');
+            $('#wishlistContainer').append('<span class="pricetag-triangle" id="giftTag' + open_position + '"style ="left:' + tagX + '%; top:' + tagY + '%; border-right:14px solid #6AE368; position: absolute;" </span>');
+            $('#wishlistContainer').append('<span class="pricetag" id="giftTag' + open_position + '"style ="left:' + newtagX + '%; top:' + tagY + '%; background-color: #6AE368; color: white; position: absolute;">'+ nameInput +' $' + showAmount + '</span>');
           }
           else{
-            $('#wishlistContainer').append('<span class="pricetag-triangle" id="giftTag' + open_position + '"style ="left:' + tagX + 'px; top:' + tagY + 'px; border-right:14px solid white;" </span>');
-            $('#wishlistContainer').append('<span class="pricetag" id="giftTag' + open_position + '"style ="left:' + newtagX + 'px; top:' + tagY + 'px; background-color: white; color: black">'+ nameInput +' $' + showAmount + '</span>');
+            $('#wishlistContainer').append('<span class="pricetag-triangle" id="giftTag' + open_position + '"style ="left:' + tagX + '%; top:' + tagY + 'px; border-right:14px solid white; position: absolute;" </span>');
+            $('#wishlistContainer').append('<span class="pricetag" id="giftTag' + open_position + '"style ="left:' + newtagX + '%; top:' + tagY + '%; background-color: white; color: black; position: absolute;">'+ nameInput +' $' + showAmount + '</span>');
             
           }
 

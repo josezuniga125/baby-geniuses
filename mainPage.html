@@ -419,6 +419,9 @@ $(document).on('click', "#clear-all-history", function(evt)
   document.getElementById("history-items").style.height = "300px";
   $('#history-filler-text').show();
 
+  document.getElementById("undo-btn").disabled = true;
+
+
 });
 
 $(document).on('click', ".undo-history-btn", function(evt)
@@ -499,7 +502,7 @@ $(document).on('click', ".undo-history-btn", function(evt)
       <div class="text-center">
         <button type="button" class="btn btn-success btn-lg btn-save-spend" id="save-btn" >Save</button>
         <button type="button" class="btn btn-danger btn-lg btn-save-spend" id="spend-btn" >Spend</button>
-        <button type="button" class="btn btn-default btn-lg" id="undo-btn">Undo</button>
+        <button type="button" class="btn btn-default btn-lg" id="undo-btn" disabled>Undo</button>
       </div>
 
       </div>

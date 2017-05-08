@@ -5,7 +5,9 @@
 	table-layout: auto;
 	margin-left: auto;
 	margin-right: auto;
-	margin-bottom: 10px;
+	margin-top: 0px;
+	margin-bottom: 5px;
+	width: 80%;
 }
 
 .dollars td{
@@ -27,14 +29,15 @@
 }
 
 .amount-title {
-	font-size: 24px;
+	font-size: 20px;
 	font-weight: bold;
+	margin-top: -10px;
 }
 
 .rectangle-drop {
 	margin: auto;
 	height: 250px;
-	width: 300px;
+	width: 90%;
 	border: 2px;
 	border: 2px solid #000;
 	position: relative;
@@ -46,11 +49,16 @@
 .dropzone {
 	margin: auto;
 	height: 200px;
-	width: 295px;
+	width: 90%;
 	overflow: scroll; 
 	z-index: 5;
 	cursor: text;
 	border-radius: 10px;
+}
+
+.notes-space {
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
 #type-amount {
@@ -101,10 +109,11 @@
 	width: 140px !important;
 	cursor: hand;
 	cursor: pointer;
+	margin-bottom: 10px;
 }
 
 #notes {
-	width: 220px;
+	width: 50%;
 	margin-left: 10px;
 }
 
@@ -145,7 +154,7 @@
 }
 
 #undo-btn {
-	margin-top: 10px;
+	margin-bottom: 10px;
 	width: 140px;
 	cursor: hand;
 	cursor: pointer;	

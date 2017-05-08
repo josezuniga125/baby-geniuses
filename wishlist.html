@@ -377,7 +377,7 @@ For implementing isNumeric:
           }
          
           // Add price tag to item in wishlist bubble:
-          if (parseInt(total.toFixed(2)) >= parseInt(amountInput)){
+          if (parseFloat(total.toFixed(2)) >= parseFloat(amountInput)){
             $('#wishlistContainer').append('<span class="pricetag" id="giftTag' + open_position + '"style ="left:' + tagX + 'px; top:' + tagY + 'px; background: #6AE368; color: white">'+ nameInput +' $' + amountInput + '</span>');
           }
           else{

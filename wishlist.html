@@ -262,7 +262,7 @@ For implementing isNumeric:
         // Get the <span> element that closes the modal:
         var span = document.getElementsByClassName("close")[0];
 
-        // When the user clicks the button, open the modal:
+        // When the user clicks add item button, open the modal:
         btn.onclick = function() {
 
           // Linear search to find an open position:
@@ -270,7 +270,7 @@ For implementing isNumeric:
             if (isOpen[pos]) {
               open_position = pos;
               modal.style.display = "block";
-              $('#add-modal-name-input').text("Hello world!");
+              $('#add-modal-name-input').focus();
 
               return;
             }

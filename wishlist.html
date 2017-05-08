@@ -24,15 +24,11 @@ For implementing isNumeric:
     <link rel="stylesheet" href="wishlist.css">
     
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="emoji-picker/lib/css/emoji.css" rel="stylesheet">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
    
     <script src="wishlist.js"></script>
-    <script src="emoji-picker/lib/js/config.js"></script>
-    <script src="emoji-picker/lib/js/util.js"></script>
-    <script src="emoji-picker/lib/js/jquery.emojiarea.js"></script>
-    <script src="emoji-picker/lib/js/emoji-picker.js"></script>
+
 
     <script>
 
@@ -377,20 +373,14 @@ For implementing isNumeric:
           if (imageSelected){
             $('#wishlistContainer').append('<img src=" ' + imgSrc + ' "class="popup" id="wish-list-image' + open_position + '"style="width:' + 10 + '%; height:auto; position:absolute; ' + 'left:' + positionX + 'px; top:' + positionY + 'px"/>');
             imageSelected = false;
-            console.log(total.toFixed(2));
-            console.log("imageselected");
           }
           else{
             $('#wishlistContainer').append('<img src="wishlist-icons/giftBox.png" class="popup" id="image' + open_position + '"style="width:' + 10 + '%; height:auto; position:absolute; ' + 'left:' + positionX + 'px; top:' + positionY + 'px"/>');
-            console.log(total.toFixed(2));
-            console.log("default");
           }
          
           // Add price tag to item in wishlist bubble:
-          if (total.toFixed(2) >= amountInput){
+          if (parseFloat(total.toFixed(2)) >= parseFloat(amountInput)){
             $('#wishlistContainer').append('<span class="pricetag" id="giftTag' + open_position + '"style ="left:' + tagX + 'px; top:' + tagY + 'px; background: #6AE368; color: white">'+ nameInput +' $' + amountInput + '</span>');
-            console.log(amountInput);
-            console.log("affordable");
           }
           else{
             $('#wishlistContainer').append('<span class="pricetag" id="giftTag' + open_position + '"style ="left:' + tagX + 'px; top:' + tagY + 'px; background: #E8EDF0; color: black">'+ nameInput +' $' + amountInput + '</span>');

@@ -164,7 +164,7 @@ For implementing isNumeric:
 <!--                     <img src = "wishlist-icons/giftBox.png" id="wish-list-image" style = "margin-left:45px; margin-right:5px;  width: 100px; height: 100px"> -->
                   </td>
                   <td>
-                    <div class="add-image-table" id="image-table" style = "height: 200px; width: 350px; overflow: scroll; border: 5px solid gray; border-radius: 10px;">
+                    <div class="add-image-table" id="image-table" style = "height: 200px; width: 350px; margin-left: 7px; overflow: scroll; border: 2px solid gray; border-radius: 10px;">
                       <img src = "wishlist-icons/animated-bball.png" id="wish-list-image" style = "margin-left:5px; margin-right:5px; margin-top: 5px; margin-bottom: 5px; width: 50px; height: 50px; cursor: pointer">
                       <img src = "wishlist-icons/animated-skates.png" id="wish-list-image" style = " margin-left:5px; margin-right:5px; margin-top: 5px; margin-bottom: 5px; width: 50px; height: 50px; cursor: pointer">
                       <img src = "wishlist-icons/animated-teddy.png" id="wish-list-image" style = " margin-left:5px; margin-right:5px; margin-top: 5px; margin-bottom: 5px; width: 50px; height: 50px; cursor: pointer">
@@ -368,8 +368,11 @@ For implementing isNumeric:
 
           positionX = POSITIONS[open_position][0];
           positionY = POSITIONS[open_position][1];
-          var tagX = positionX + 75;
+          var tagX = positionX + 60;
           var tagY = positionY;
+          var newtagX = tagX+4;
+
+          var showAmount = parseFloat(Math.round(amountInput * 100) / 100).toFixed(2);
 
           isOpen[open_position] = false;
 
@@ -384,10 +387,12 @@ For implementing isNumeric:
          
           // Add price tag to item in wishlist bubble:
           if (parseFloat(total.toFixed(2)) >= parseFloat(amountInput)){
-            $('#wishlistContainer').append('<span class="pricetag" id="giftTag' + open_position + '"style ="left:' + tagX + 'px; top:' + tagY + 'px; background-color: #6AE368; color: white">'+ nameInput +' $' + amountInput + '</span>');
+            $('#wishlistContainer').append('<span class="pricetag-triangle" id="giftTag' + open_position + '"style ="left:' + tagX + 'px; top:' + tagY + 'px; border-right:14px solid #6AE368;" </span>');
+            $('#wishlistContainer').append('<span class="pricetag" id="giftTag' + open_position + '"style ="left:' + newtagX + 'px; top:' + tagY + 'px; background-color: #6AE368; color: white">'+ nameInput +' $' + showAmount + '</span>');
           }
           else{
-            $('#wishlistContainer').append('<span class="pricetag" id="giftTag' + open_position + '"style ="left:' + tagX + 'px; top:' + tagY + 'px; background-color: #E8EDF0; color: black">'+ nameInput +' $' + amountInput + '</span>');
+            $('#wishlistContainer').append('<span class="pricetag-triangle" id="giftTag' + open_position + '"style ="left:' + tagX + 'px; top:' + tagY + 'px; border-right:14px solid white;" </span>');
+            $('#wishlistContainer').append('<span class="pricetag" id="giftTag' + open_position + '"style ="left:' + newtagX + 'px; top:' + tagY + 'px; background-color: white; color: black">'+ nameInput +' $' + showAmount + '</span>');
             
           }
 

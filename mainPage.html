@@ -256,7 +256,7 @@ $(document).on('click', "#save-btn", function(evt)
     }
 
     if (isNaN(amount)) {
-      alert("Uhoh, we don't understand the amount you entered! Please try again.")
+      alert("Uh-oh, we don't understand the amount you entered! Please try again.")
       amount = 0;
       text_error = true;
     }
@@ -298,9 +298,10 @@ $(document).on('click', "#save-btn", function(evt)
     $('#type-amount').hide();
     drag_mode = true;
     $('#amount-filler-text').show();
+    $('#history-filler-text').hide();
+  } else {
+    document.getElementById("undo-btn").disabled = true;
   }
-
-  $('#history-filler-text').hide();
 
   $("#notes").val("");
   $("#dragged-money").remove();
@@ -319,6 +320,7 @@ $(document).on('click', "#save-btn", function(evt)
 $(document).on('click', "#spend-btn", function(evt)
 {
   var text_error = false;
+  var spend_error = false;
 
   if (drag_mode && runningTotal > 0) {
     // Update total
@@ -333,7 +335,7 @@ $(document).on('click', "#spend-btn", function(evt)
     }
 
     if (isNaN(amount)) {
-      alert("Uhoh, we don't understand the amount you entered! Please try again.")
+      alert("Uh-oh, we don't understand the amount you entered! Please try again.")
       amount = 0;
       text_error = true;
     }
@@ -343,8 +345,8 @@ $(document).on('click', "#spend-btn", function(evt)
   }
 
   if (total < amount) {
-    alert("Uhoh! Your total is not high enough to spend that much.");
-    text_error = true;
+    alert("Uh-oh, Your total is not high enough to spend that much.");
+    spend_error = true;
   } else {
     previousTotal=total;
     total-=amount;
@@ -373,15 +375,26 @@ $(document).on('click', "#spend-btn", function(evt)
 
   var history_item = "<div class='history-item' id='item_" + historyID + "' style='color: red'><div class='history-text'> - $" + amount.toFixed(2) + " " + notes + "</div><button class='btn btn-default btn-sm undo-history-btn' id='" + historyID + "' type='button'>X</button></div>";
   
-  if (!text_error) {
+  
+  if (!text_error && !spend_error) {
     $('#history-items').prepend(history_item);
     $('#type-amount').hide();
     drag_mode = true;
     $('#amount-filler-text').show();
+    $('#history-filler-text').hide();
   }
 
-  $('#history-filler-text').hide();
-  $('#amount-filler-text').show();
+  if (text_error) {
+    document.getElementById("undo-btn").disabled = true;
+  }
+
+  if (spend_error && drag_mode) {
+    $('#amount-filler-text').show();
+  }
+
+  if (spend_error) {
+    document.getElementById("undo-btn").disabled = true;
+  }
 
   $("#notes").val("");
   $("#dragged-money").remove();

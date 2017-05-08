@@ -278,6 +278,8 @@ $(document).on('click', "#save-btn", function(evt)
   var url_total = currentURL + "?total=" + 0.00;
   if (total_index != -1) {
     url_total =  currentURL.substring(0,total_index) + "total=" + total.toFixed(2);
+  } else {
+    url_total = currentURL + "total=" + total.toFixed(2);
   }
   var stateObj = { foo: "" };
   history.pushState(stateObj, "", url_total);
@@ -359,6 +361,8 @@ $(document).on('click', "#spend-btn", function(evt)
   var url_total = currentURL + "?total=" + 0.00;
   if (total_index != -1) {
     url_total =  currentURL.substring(0,total_index) + "total=" + total.toFixed(2);
+  } else{
+    url_total = currentURL + "total=" + total.toFixed(2);
   }
   var stateObj = { foo: "" };
   history.pushState(stateObj, "", url_total);

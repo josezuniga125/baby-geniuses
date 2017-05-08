@@ -54,7 +54,10 @@ For implementing isNumeric:
         }
       });
 
-      var total = parseFloat($.getUrlVar('total'));
+      var total = 0
+      if (!isNaN($.getUrlVar('total'))) {
+        total = parseFloat($.getUrlVar('total'));
+      }
 
     </script>
 

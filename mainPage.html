@@ -237,6 +237,11 @@ $(document).on('click', "#undo-btn", function(evt)
   var ID = "#item_" + historyID;
   $(ID).remove();
 
+  var num_history_items = $('.history-item').length;
+  if (num_history_items == 0) {
+    $('#history-filler-text').show();
+  }
+
 });
 
 $(document).on('click', "#save-btn", function(evt)

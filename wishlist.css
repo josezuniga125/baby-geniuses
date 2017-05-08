@@ -107,17 +107,6 @@
     border-radius: 10px;
 }
 
-.add-button{
-  background: url(https://image.freepik.com/free-icon/plus-sign_318-40643.jpg) no-repeat;
-  background-size: 60%;
-  background-position:center;
-  height: 32%;
-  text-align: center;
-  padding:10px 10px 10px 10px;
-  border-radius: 10px;
-  margin-top: 20px;
-  margin-right: 20px;
-}
 
 #select-menu-close {
   color: black;
@@ -202,9 +191,10 @@
   cursor: not-allowed;
 }
 
-#add-modal-icon-loader {
+/*#add-modal-icon-loader {
   font-size: 20px;
-}
+
+}*/
 
 #select-menu-detail {
   position: absolute;
@@ -305,10 +295,11 @@
 
 #wishListPlusSign {
   height: auto;
-  width: 40%;
+  width: 70%;
   object-fit: contain; 
   margin-top: 35px;
-  margin-left: 25px;
+  margin-left: -20px;
+  align: left;
   cursor: pointer;
 }
 
@@ -328,12 +319,12 @@
   white-space:nowrap;
   position:absolute;
   margin:0 5px 0 10px;
-  displaY:inline-block;
+  display:inline-block;
   height:30px;
   border-radius: 0 5px 5px 0;
   padding: 0 15px 0 15px;
-  /*background: lightgray;*/
   border: 0 solid #C7D2D4;
+  background-color: #C7D2D4;
   border-top-width:1px;
   border-bottom-width:1px;
   border-right-width:1px;
@@ -344,7 +335,6 @@
 .pricetag:before{
   position:absolute;
   content:"\25CF";
-  color: white;
   text-shadow: 0 0 1px #333;
   font-size:11px;
   line-height:0px;
@@ -352,11 +342,10 @@
   left:-15px;
   width: 2px;
   height:2px;
-  border-right:14px solid #E8EDF0;
+  border-right:14px solid #6AE368;
   border-top:  13px solid transparent;
   border-bottom:  13px solid transparent;
 }
-
 
 #teddyBearTag{
   position: absolute;
@@ -417,6 +406,37 @@
     -webkit-animation: fadeIn 1s;
     animation: fadeIn 1s;
 }
+
+label.myLabel input[type="file"] {
+    position: fixed;
+    top: -1000px;
+}
+
+/***** Example custom styling *****/
+.myLabel {
+    border-radius: 10px;
+    padding: 2px 5px;
+    margin: 2px;
+    background: lightgray;
+    display: inline-block;
+    color: black;
+    font-size: 20px;
+    width: 150px;
+    height: 40px;
+    text-align: center;
+}
+.myLabel:hover {
+    background: #CCC;
+}
+/*.myLabel:active {
+    background: #CCF;
+}
+.myLabel :invalid + span {
+    color: #A44;
+}
+.myLabel :valid + span {
+    color: #4A4;
+}*/
 
 
 /* Add animation (fade in the popup) */

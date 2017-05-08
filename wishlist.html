@@ -66,7 +66,7 @@ For implementing isNumeric:
   <div class="row">
 
     <div class="col-md-2" id="firstColumn" onclick="hideSelectMenu()">
-       <img draggable="false" id="wishListPiggy" src="piggy-back.png" onclick="window.location.href='mainPage.html?total=' + total.toFixed(2)" style="margin: 20px;">
+       <img draggable="false" id="wishListPiggy" src="piggy-back.png" onclick="window.location.href='mainPage.html?total=' + total.toFixed(2)" style="margin-left: 40px; margin-top: 30px;">
     </div>
 
     <div class="col-md-8" id="mainColumn">
@@ -121,17 +121,18 @@ For implementing isNumeric:
     </div>
 
     <div class="col-md-2" id="lastColumn" onclick="hideSelectMenu()">
-      <!-- <img draggable="false" id="wishListPlusSign" src = "plusSign.gif"> -->
+      <img draggable="false" id="wishListPlusSign" src = "plusSign.png">
 
-      <button class="btn btn-default btn-lg add-button"> Add item </button>
-
+<!--       <div style="height:20%">
+        <button class="btn btn-default btn-lg add-button" id="wishListPlusSign"> Add item </button>
+      </div> -->
       <!-- Drop down box for adding item -->
       <div id="add-modal" class="modal">
       <!-- Add modal content -->
         <div class="add-modal-content">
           <div class="add-modal-header">
             <span id="add-modal-close" class="close">&times;</span>
-            <h2 id="add-modal-title"> Add Item to Wishlist </h2>
+            <h2 id="add-modal-title"> Add item to wishlist </h2>
           </div>
           <div class="add-modal-body">
             
@@ -151,7 +152,11 @@ For implementing isNumeric:
               <tr id="add-modal-icon-text">
                   <td class="add-modal-detail-name"> Upload or select icon: </td>
                   <td class="add-modal-detail-input">
-                    <input type="file" id="add-modal-icon-loader" name="image-loader" style = "cursor: pointer">
+<!--                     <input type="file" id="add-modal-icon-loader" name="image-loader" style = "cursor: pointer"> -->
+                    <label class="myLabel">
+                      <input type="file" id="add-modal-icon-loader" name="image-loader" style = "cursor: pointer" required/>
+                      <span>Choose file</span>
+                    </label>
                   </td>
               </tr>
 
@@ -380,10 +385,10 @@ For implementing isNumeric:
          
           // Add price tag to item in wishlist bubble:
           if (parseFloat(total.toFixed(2)) >= parseFloat(amountInput)){
-            $('#wishlistContainer').append('<span class="pricetag" id="giftTag' + open_position + '"style ="left:' + tagX + 'px; top:' + tagY + 'px; background: #6AE368; color: white">'+ nameInput +' $' + amountInput + '</span>');
+            $('#wishlistContainer').append('<span class="pricetag" id="giftTag' + open_position + '"style ="left:' + tagX + 'px; top:' + tagY + 'px; background-color: #6AE368; color: white">'+ nameInput +' $' + amountInput + '</span>');
           }
           else{
-            $('#wishlistContainer').append('<span class="pricetag" id="giftTag' + open_position + '"style ="left:' + tagX + 'px; top:' + tagY + 'px; background: #E8EDF0; color: black">'+ nameInput +' $' + amountInput + '</span>');
+            $('#wishlistContainer').append('<span class="pricetag" id="giftTag' + open_position + '"style ="left:' + tagX + 'px; top:' + tagY + 'px; background-color: #E8EDF0; color: black">'+ nameInput +' $' + amountInput + '</span>');
             
           }
 

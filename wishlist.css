@@ -249,6 +249,7 @@
   padding-bottom: 4px;
   padding-left: 4px;
   padding-right: 4px;
+  padding-top: 4px;
 }
 
 #select-menu-detail {
@@ -424,6 +425,7 @@ label.myLabel input[type="file"] {
     width: 150px;
     height: 40px;
     text-align: center;
+    cursor: pointer;
 }
 .myLabel:hover {
     background: #CCC;

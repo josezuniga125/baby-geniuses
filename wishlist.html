@@ -387,11 +387,11 @@ For implementing isNumeric:
          
           // Add price tag to item in wishlist bubble:
           if (parseFloat(total.toFixed(2)) >= parseFloat(amountInput)){
-            $('#wishlistContainer').append('<span class="pricetag-triangle" id="giftTag' + open_position + '"style ="left:' + tagX + 'px; top:' + tagY + 'px; border-right:14px solid #6AE368;" </span>');
+            $('#wishlistContainer').append('<span class="pricetag-triangle" id="triangleGiftTag' + open_position + '"style ="left:' + tagX + 'px; top:' + tagY + 'px; border-right:14px solid #6AE368;" </span>');
             $('#wishlistContainer').append('<span class="pricetag" id="giftTag' + open_position + '"style ="left:' + newtagX + 'px; top:' + tagY + 'px; background-color: #6AE368; color: white">'+ nameInput +' $' + showAmount + '</span>');
           }
           else{
-            $('#wishlistContainer').append('<span class="pricetag-triangle" id="giftTag' + open_position + '"style ="left:' + tagX + 'px; top:' + tagY + 'px; border-right:14px solid white;" </span>');
+            $('#wishlistContainer').append('<span class="pricetag-triangle" id="triangleGiftTag' + open_position + '"style ="left:' + tagX + 'px; top:' + tagY + 'px; border-right:14px solid white;" </span>');
             $('#wishlistContainer').append('<span class="pricetag" id="giftTag' + open_position + '"style ="left:' + newtagX + 'px; top:' + tagY + 'px; background-color: white; color: black">'+ nameInput +' $' + showAmount + '</span>');
             
           }
@@ -435,6 +435,7 @@ For implementing isNumeric:
 
                   $('#wish-list-image' + item_pos).remove();
                   $('#giftTag' + item_pos).remove();
+                  $('#triangleGiftTag' + item_pos).remove();  
                   isOpen[item_pos] = true;
                   deductFromTotal(parseFloat(amountInput)); // this is recording the amount input everytime the safety prompt is opened... can deduct more than supposed to
                 });
@@ -450,6 +451,7 @@ For implementing isNumeric:
               hideSelectMenu();
               $('#wish-list-image' + item_pos).remove();
               $('#giftTag' + item_pos).remove();
+              $('#triangleGiftTag' + item_pos).remove();
               isOpen[item_pos] = true;
             });
 
@@ -460,6 +462,7 @@ For implementing isNumeric:
               hideSelectMenu();
               $('#wish-list-image' + item_pos).remove();
               $('#giftTag' + item_pos).remove();
+              $('#triangleGiftTag' + item_pos).remove();              
 
               modal.style.display = "block";
               enableConfirmButton();

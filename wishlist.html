@@ -385,11 +385,11 @@ For implementing isNumeric:
           // Add price tag to item in wishlist bubble:
           if (parseFloat(total.toFixed(2)) >= parseFloat(amountInput)){
 
-            $('#wishlistContainer').append('<span class="pricetag-triangle" id="giftTag' + open_position + '"style ="left:' + tagX + '%; top:' + tagY + '%; border-right:14px solid #6AE368; position: absolute;" </span>');
+            $('#wishlistContainer').append('<span class="pricetag-triangle" id="triangleGiftTag' + open_position + '"style ="left:' + tagX + '%; top:' + tagY + '%; border-right:14px solid #6AE368; position: absolute;" </span>');
             $('#wishlistContainer').append('<span class="pricetag" id="giftTag' + open_position + '"style ="left:' + newtagX + '%; top:' + tagY + '%; background-color: #6AE368; color: white; position: absolute;">'+ nameInput +' $' + showAmount + '</span>');
           }
           else{
-            $('#wishlistContainer').append('<span class="pricetag-triangle" id="giftTag' + open_position + '"style ="left:' + tagX + '%; top:' + tagY + 'px; border-right:14px solid white; position: absolute;" </span>');
+            $('#wishlistContainer').append('<span class="pricetag-triangle" id="triangleGiftTag' + open_position + '"style ="left:' + tagX + '%; top:' + tagY + 'px; border-right:14px solid white; position: absolute;" </span>');
             $('#wishlistContainer').append('<span class="pricetag" id="giftTag' + open_position + '"style ="left:' + newtagX + '%; top:' + tagY + '%; background-color: white; color: black; position: absolute;">'+ nameInput +' $' + showAmount + '</span>');
             
           }

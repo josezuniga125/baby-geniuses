@@ -100,7 +100,6 @@ document.addEventListener("drop", function( event ) {
     event.preventDefault();
     // move dragged elem to the selected drop target
     if ( event.target.className == "dropzone" || event.target.className == "dragged") {
-        console.log("LL");
         $('#amount-filler-text').hide();
 
         // correct mode
@@ -205,7 +204,6 @@ document.addEventListener("drop", function( event ) {
 
 $(document).on('click', ".dropzone", function(evt)
 {
-  console.log("Gere");
   if (drag_mode) {
     $('#amount-filler-text').hide();
     $('#type-amount').show();

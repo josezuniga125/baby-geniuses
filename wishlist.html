@@ -78,11 +78,11 @@ For implementing isNumeric:
                 <input class="btn btn-default" type="button" value="Purchase" id="select-menu-purchase-button">
               </td>
             </tr>
-            <tr id="select-menu-edit">
+<!--             <tr id="select-menu-edit">
               <td class="select-menu-detail-button">
                 <input class="btn btn-default" type="button" value="Edit" id="select-menu-edit-button">
               </td>
-            </tr>
+            </tr> -->
             <tr id="select-menu-remove">
               <td class="select-menu-detail-button">
                 <input class="btn btn-default" type="button" value="Remove" id="select-menu-remove-button">
@@ -210,7 +210,8 @@ For implementing isNumeric:
         var POSITIONS = [[150,150], [150,250], [150,350], [350,150], [350,250], [350,350], [550,150], [550,250], [550,350]];
         var ITEM_SIZE = 100
 
-        var POSITIONS_PERCENTS = [[15,30], [15,50], [15,70], [45,30], [45,50], [45,70], [70,30], [70,50], [70,70]];
+        //var POSITIONS_PERCENTS = [[15,30], [15,50], [15,70], [45,30], [45,50], [45,70], [70,30], [70,50], [70,70]];
+        var POSITIONS_PERCENTS = [[15,30], [70,70], [15,50], [45,50], [70,50], [45,30], [15,70], [70,30], [45,70]];
 
         /* Globals */
 
@@ -354,7 +355,7 @@ For implementing isNumeric:
           var nameInput = $("#add-modal-name-input").val();
           var amountInput = $("#add-modal-amount-input").val();
 
-          document.getElementById("top-safety-row").innerHTML = "Are you sure you want to purchase " + nameInput + " for " + "$" + amountInput +"?";
+          document.getElementById("top-safety-row").innerHTML = "Are you sure you want to purchase " + nameInput + "?";
 
           // Account for '$':
           if (amountInput.charAt(0) == '$' && amountInput.length > 1) {
@@ -389,7 +390,7 @@ For implementing isNumeric:
             $('#wishlistContainer').append('<span class="pricetag" id="giftTag' + open_position + '"style ="left:' + newtagX + '%; top:' + tagY + '%; background-color: #6AE368; color: white; position: absolute;">'+ nameInput +' $' + showAmount + '</span>');
           }
           else{
-            $('#wishlistContainer').append('<span class="pricetag-triangle" id="triangleGiftTag' + open_position + '"style ="left:' + tagX + '%; top:' + tagY + 'px; border-right:14px solid white; position: absolute;" </span>');
+            $('#wishlistContainer').append('<span class="pricetag-triangle" id="triangleGiftTag' + open_position + '"style ="left:' + tagX + '%; top:' + tagY + '%; border-right:14px solid white; position: absolute;" </span>');
             $('#wishlistContainer').append('<span class="pricetag" id="giftTag' + open_position + '"style ="left:' + newtagX + '%; top:' + tagY + '%; background-color: white; color: black; position: absolute;">'+ nameInput +' $' + showAmount + '</span>');
             
           }
@@ -455,32 +456,32 @@ For implementing isNumeric:
 
             /* TODO: Add click listener for Edit button */
             // Edit this item when clicked:
-            $('#select-menu-edit-button').click(function() {
+            // $('#select-menu-edit-button').click(function() {
               
-              hideSelectMenu();
-              $('#wish-list-image' + item_pos).remove();
-              $('#giftTag' + item_pos).remove();
-              $('#triangleGiftTag' + item_pos).remove();              
+            //   hideSelectMenu();
+            //   $('#wish-list-image' + item_pos).remove();
+            //   $('#giftTag' + item_pos).remove();
+            //   $('#triangleGiftTag' + item_pos).remove();              
 
-              modal.style.display = "block";
-              enableConfirmButton();
-              $('#add-modal-name-input').val(nameInput);
-              $("#add-modal-amount-input").val(amountInput);
+            //   modal.style.display = "block";
+            //   enableConfirmButton();
+            //   $('#add-modal-name-input').val(nameInput);
+            //   $("#add-modal-amount-input").val(amountInput);
 
-              var orig_positionX = POSITIONS[item_pos][0];
-              var orig_positionY = POSITIONS[item_pos][1];
+            //   var orig_positionX = POSITIONS[item_pos][0];
+            //   var orig_positionY = POSITIONS[item_pos][1];
 
-              var orig_tagX = orig_positionX + 75;
-              var orig_tagY = orig_positionY;
+            //   var orig_tagX = orig_positionX + 75;
+            //   var orig_tagY = orig_positionY;
 
-              imageCloneList.appendTo("#selectedImageArea");
-              imgSrc = $(this).attr('src');
-              imageSelected = true;
+            //   imageCloneList.appendTo("#selectedImageArea");
+            //   imgSrc = $(this).attr('src');
+            //   imageSelected = true;
 
-              $('#wishlistContainer').append('<img src=" ' + imgSrc + ' "class="popup" id="wish-list-image' + item_pos + '"style="width:' + 10 + '%; height:auto; position:absolute; ' + 'left:' + orig_positionX + 'px; top:' + orig_positionY + 'px"/>');
-              $('#wishlistContainer').append('<span class="pricetag" id="giftTag' + item_pos + '"style ="left:' + orig_tagX + 'px; top:' + orig_tagY + 'px; background: #6AE368; color: white">'+ nameInput +' $' + amountInput + '</span>');
+            //   $('#wishlistContainer').append('<img src=" ' + imgSrc + ' "class="popup" id="wish-list-image' + item_pos + '"style="width:' + 10 + '%; height:auto; position:absolute; ' + 'left:' + orig_positionX + 'px; top:' + orig_positionY + 'px"/>');
+            //   $('#wishlistContainer').append('<span class="pricetag" id="giftTag' + item_pos + '"style ="left:' + orig_tagX + 'px; top:' + orig_tagY + 'px; background: #6AE368; color: white">'+ nameInput +' $' + amountInput + '</span>');
               
-            });
+            // });
           });
 
           //modal.style.display = "none"; // get rid of the modal after clickin confirm

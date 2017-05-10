@@ -213,6 +213,8 @@ For implementing isNumeric:
         //var POSITIONS_PERCENTS = [[15,30], [15,50], [15,70], [45,30], [45,50], [45,70], [70,30], [70,50], [70,70]];
         var POSITIONS_PERCENTS = [[15,30], [70,70], [15,50], [45,50], [70,50], [45,30], [15,70], [70,30], [45,70]];
 
+        var IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'bmp', 'gif', 'png'];
+
         /* Globals */
 
         var isOpen = [true, true, true, true, true, true, true, true, true];
@@ -300,6 +302,19 @@ For implementing isNumeric:
         // var selectedImage;
 
         function handleImage(e) {
+
+          // Handle image extension:
+          var fileExtension = e.target.files[0].name.split('.').pop();
+          for (i = 0; i < IMAGE_EXTENSIONS.length; i++) {
+            if (fileExtension == IMAGE_EXTENSIONS[i]) {
+              break;
+            }
+            // Just return if it's not an image
+            if (i == IMAGE_EXTENSIONS.length - 1) {
+              return;
+            }
+          }
+
           var reader = new FileReader();
           reader.onload = function(event) {
             image = new Image();

@@ -84,6 +84,9 @@ document.addEventListener("dragenter", function( event ) {
     // highlight potential drop target when the draggable element enters it
     if ( event.target.className == "dropzone") {
         event.target.style.background = "lightgrey";
+    } else if ( event.target.className == "dragged"){
+      event.target.style.background = "lightgrey";
+      $(".dropzone").css('background-color', 'lightgrey');
     }
 }, false);
 
@@ -91,6 +94,9 @@ document.addEventListener("dragleave", function( event ) {
     // reset background of potential drop target when the draggable element leaves it
     if ( event.target.className == "dropzone" ) {
         event.target.style.background = "";
+    } else if ( event.target.className == "dragged"){
+      event.target.style.background = "";
+      $(".dropzone").css('background-color', "");
     }
 
 }, false);
@@ -111,7 +117,8 @@ document.addEventListener("drop", function( event ) {
           drag_mode = true;
         }
 
-        event.target.style.background = "";
+        //event.target.style.background = "";
+        $(".dropzone").css('background-color', "");
 
         var element = document.getElementById("dragged-money");
         element.appendChild(clone);
